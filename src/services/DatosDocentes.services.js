@@ -1,0 +1,14 @@
+export function TraerDocentes(){
+    return(
+        [
+            
+
+            
+            
+            
+            {},{},{},{},{},
+
+
+        ]
+    )
+}

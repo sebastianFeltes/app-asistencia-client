@@ -1,12 +1,30 @@
+import { Link } from "react-router-dom";
+
 export function DatosDocentes() {
+  
+  
+  
+  
+  
+  
+  
   return (
     <>
-      <button className="btn btn-active bg-[#0184F5] text-white">
-        Nuevo Docente
-      </button>
-      <button className="btn btn-active bg-[#0184F5] text-white">
-        Historial Docente
-      </button>
+      <form>
+        <div className="flex justify-between">
+          <Link to={"/alta-docente"}>
+            <button className="btn btn-active bg-[#0184F5] text-white">
+              alta Docente
+            </button>
+          </Link>
+
+          <Link to={"/historial-docente"}>
+            <button className="btn btn-active bg-[#0184F5] text-white">
+              Historial Docente
+            </button>
+          </Link>
+        </div>
+      </form>
 
       <div className="overflow-x-auto">
         <table className="table table-zebra">
@@ -34,23 +52,23 @@ export function DatosDocentes() {
               <td>juancarlos95@gmail.com</td>
               <td>
                 <select className="select  w-full max-w-xs">
-                  
                   <option disabled>
                     <span>Telofono: </span>
                     <span>221-487-4871</span>
-                    </option>
+                  </option>
                   <option disabled>
                     <span>Documentacion:</span>
                     <span>Completa</span>
-
                   </option>
                   <option disabled>
                     <span>Telefono Medico:</span>
-                    <span>221-345-6259  </span>
-                    </option>
+                    <span>221-345-6259 </span>
+                  </option>
                 </select>
               </td>
-                <button className="btn btn-lg bg-[#0184F5] text-white">EDITAR</button>
+              <button className="btn btn-lg bg-[#0184F5] text-white">
+                EDITAR
+              </button>
             </tr>
           </tbody>
         </table>
