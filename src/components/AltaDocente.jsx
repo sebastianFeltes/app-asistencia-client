@@ -7,6 +7,27 @@ function AltaDocente() {
                         <h1 className="text-5xl text-black font-bold m-2">Alta Docente</h1>
 
                         <div className="flex flex-row columns-3xl">
+                            <div className="form-control w-full max-w-full  border border-black p-4 m-5">
+                                <label className="label">
+                                    <span className="label-text  text-black">Documento</span>
+                                </label>
+
+                                <input type="text" placeholder="Dni" className="input input-bordered  bg-white w-full max-w-3xl" />
+                                <span className="label-text  text-black">Tipo De Doc</span>
+                                <label className="label cursor-pointer">
+                                    <span className="label-text  text-black">DU</span>
+                                    <input type="radio" name="radio-10" className="radio checked:bg-red-00" checked />
+                                </label>
+                                <label className="label cursor-pointer">
+                                    <span className="label-text text-black">LC</span>
+                                    <input type="radio" name="radio-10" className="radio checked:bg-blue-00" checked />
+                                </label>                            <label className="label cursor-pointer">
+                                    <span className="label-text  text-black">LE</span>
+                                    <input type="radio" name="radio-10" className="radio checked:bg-blue-00" checked />
+                                </label>
+
+
+                            </div>
 
                             <div className="form-control w-full max-w-full border border-black p-4 m-5">
                                 <label className="label">
@@ -62,32 +83,18 @@ function AltaDocente() {
                                 <input type="text" placeholder="Type here" className="input input-bordered  bg-white w-full max-w-3xl" />
 
                             </div>
-                            <div className="form-control w-full max-w-full  border border-black p-4 m-5">
-                                <label className="label">
-                                    <span className="label-text  text-black">Documento</span>
-                                </label>
-
-                                <input type="text" placeholder="Dni" className="input input-bordered  bg-white w-full max-w-3xl" />
-                                <span className="label-text  text-black">Tipo De Doc</span>
-                                <label className="label cursor-pointer">
-                                    <span className="label-text  text-black">DU</span>
-                                    <input type="radio" name="radio-10" className="radio checked:bg-red-00" checked />
-                                </label>
-                                <label className="label cursor-pointer">
-                                    <span className="label-text text-black">LC</span>
-                                    <input type="radio" name="radio-10" className="radio checked:bg-blue-00" checked />
-                                </label>                            <label className="label cursor-pointer">
-                                    <span className="label-text  text-black">LE</span>
-                                    <input type="radio" name="radio-10" className="radio checked:bg-blue-00" checked />
-                                </label>
 
 
-                            </div>
 
 
                         </div>
 
-
+                        <div className="flex 
+                        ">
+                            <form> <button className="btn btn-outline">Default</button></form>
+                            <form> <button className="btn btn-outline">Default</button></form>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
