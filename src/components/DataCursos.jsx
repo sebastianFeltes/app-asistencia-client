@@ -1,13 +1,14 @@
+import { Link } from "react-router-dom";
+
 function DataCursos() {
   return (
     <div className="hero min-h-screen bg-slate-50 text-black">
       <div className="hero-content text-center">
         <div className="overflow-x-auto">
           <div className=" flex justify-between">
-            <button className="btn btn-active btn-neutral ">Nuevo Curso</button>
-            <button className="btn btn-active btn-neutral  ">
-              Historial Cursos
-            </button>
+            
+          <Link to={"/"}> <button className="btn btn-active btn-neutral ">Nuevo Curso</button></Link>
+          <Link to={"/"}> <button className="btn btn-active btn-neutral">Historial Cursos</button></Link>
           </div>
         
           <table className="table  text-center">
