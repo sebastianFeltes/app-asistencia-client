@@ -1,58 +1,21 @@
 
 function AsistenciaAlumnos() {
     return (
-        <div>
-
-            <div >
-                <div className="hero-content ">
-                    <div className="max-w-md flex flex-row">
-                        <h1 className="text-xl ">NOMBRE DEL CURSO:     </h1>
-
-                        <h2 className="text-xl ">NOMBRE DEL PROFESOR:     </h2>
-
-                    </div>
-
+        <div className="card w-96 glass card card-side bg-base-100 shadow-xl ">
+            <div className="flex flex-row">
+                <div className="card-actions justify-end">
+                    <button className="btn btn-primary">Learn now!</button>
                 </div>
-
-            </div>
-            <div className="overflow-x-auto">
-                <table className="table table-zebra">
-                    {/* head */}
-                    <thead>
-                        <tr>
-                            
-                            <th>Nombre</th>
-                            <th>Fecha </th>
-                            <th>total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {/* row 1 */}
-                        <tr>
-                         
-                        
-                            <td>Cy Ganderton</td>
-                            <td>Quality Control Specialist</td>
-                            <td>2</td>
-                        </tr>
-                        {/* row 2 */}
-                        <tr>
-                            
-                            <td>Hart Hagerty</td>
-                            <td>Desktop Support Technician</td>
-                            <td>Purple</td>
-                        </tr>
-                        {/* row 3 */}
-                        <tr>
-                            <th></th>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div className="card-actions justify-end">
+                    <button className="btn btn-primary">Learn now!</button>
+                </div>
             </div>
 
+
+            <div className="card-body">
+                
+
+            </div>
         </div>
 
 
@@ -60,4 +23,4 @@ function AsistenciaAlumnos() {
     )
 }
 
-export default AsistenciaAlumnos;
+export default AsistenciaAlumnos;   
