@@ -1,12 +1,16 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import './App.css'
+import './App.scss'
 import Login from './components/Login'
 import { Layout } from './components/Layout'
 import HomeAdmin from './components/HomeAdmin'
 
 function App() {
+//TODO: LOS CAMPOS SE TIENE QUE AUTOCOMPLETAR SI EXISTE EL DOCENTE
+//AL HACERLE "BLUR"
+
 
   return (
+    
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Layout/>} >
@@ -15,6 +19,7 @@ function App() {
         </Route>
       </Routes>
     </BrowserRouter>
+
   )
 }
 
