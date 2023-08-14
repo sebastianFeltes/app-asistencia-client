@@ -1,15 +1,14 @@
 import { Link } from "react-router-dom";
+import { getDataDocentes } from "../services/DatosDocentes.services";
+import { useQuery } from "@tanstack/react-query";
+import { BtnEditarDocente } from "./EditarDocentes";
 
 export function DatosDocentes() {
-  
-  
-  
-  
-  
-  
-  
+  const { data, isLoading, error } = useQuery(["docentes"], getDataDocentes);
+
+  data ? console.log(data) : false;
   return (
-    <>
+    <div className="bg-black min-h-screen">
       <form>
         <div className="flex justify-between">
           <Link to={"/alta-docente"}>
@@ -27,49 +26,72 @@ export function DatosDocentes() {
       </form>
 
       <div className="overflow-x-auto">
-        <table className="table table-zebra">
+        <table className="table text-center text-white bg-transparent">
           {/* head */}
           <thead>
-            <tr>
-              <th></th>
-              <th>NOMBRE APELLIDO</th>
+            <tr className="text-white">
+              <th>ACTIVO</th>
+              <th>NOMBRE </th>
+              <th>APELLIDO</th>
+              <th>TIPO DNI</th>
+
               <th>DNI</th>
+              <th>COD AREA TEL</th>
               <th>TELEFONO</th>
               <th>DIRECCION</th>
               <th>EMAIL</th>
-              <th>DATOS EXTRAS</th>
-              <th>EDITAR</th>
+              <th>FEC NAC</th>
+              <th>LEGAJO</th>
+              <th>LOCALIDAD</th>
+              <th>ROL</th>
+              {/* <th>DATOS EXTRAS</th> */}
+              <th>Editar</th>
             </tr>
           </thead>
           <tbody>
-            {/* row 1 */}
-            <tr>
-              <th>1</th>
-              <td>JUAN CARLOS</td>
-              <td>48.989.574</td>
-              <td>221-357-7845</td>
-              <td>18 157 158</td>
-              <td>juancarlos95@gmail.com</td>
-              <td>
-                <select className="select  w-full max-w-xs">
-                  <option disabled>
-                    <span>Telofono: </span>
-                    <span>221-487-4871</span>
-                  </option>
-                  <option disabled>
-                    <span>Documentacion:</span>
-                    <span>Completa</span>
-                  </option>
-                  <option disabled>
-                    <span>Telefono Medico:</span>
-                    <span>221-345-6259 </span>
-                  </option>
-                </select>
-              </td>
-              <button className="btn btn-lg bg-[#0184F5] text-white">
-                EDITAR
-              </button>
-            </tr>
+            {!data ? (
+              <tr>
+                <td>Cargando</td>
+              </tr>
+            ) : (
+              data.map((e) => (
+                <tr key={e}>
+                  <td>{e.activo}</td>
+                  <td>{e.nombre}</td>
+                  <td>{e.apellido}</td>
+                  <td>{e.tipoDNI}</td>
+
+                  <td>{e.dni}</td>
+                  <td>{e.codAreaTel}</td>
+                  <td>{e.telefono}</td>
+                  <td>{e.direccion}</td>
+                  <td>{e.email}</td>
+                  <td>{e.fecNac}</td>
+                  <td>{e.legajo}</td>
+                  <td>{e.localidad}</td>
+                  <td>{e.rol}</td>
+
+                  {/* <td>
+                    {e.datosExtras}
+                    <select className="select select-bordered w-full max-w-xs">
+                      <option disabled>
+                        <span>Telofono: </span>
+                        <span>221-487-4871</span>
+                      </option>
+                      <option disabled>
+                        <span>Documentacion:</span>
+                        <span>Completa</span>
+                      </option>
+                      <option disabled>
+                        <span>Telefono Medico:</span>
+                        <span>221-345-6259 </span>
+                      </option>
+                    </select>
+                  </td> */}
+                  <BtnEditarDocente/>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
@@ -122,6 +144,6 @@ export function DatosDocentes() {
           <p>hello</p>
         </div>
       </div> */}
-    </>
+    </div>
   );
 }
