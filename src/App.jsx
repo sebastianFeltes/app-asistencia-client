@@ -8,7 +8,6 @@ function App() {
 //TODO: LOS CAMPOS SE TIENE QUE AUTOCOMPLETAR SI EXISTE EL DOCENTE
 //AL HACERLE "BLUR"
 
-
   return (
     
     <BrowserRouter>
