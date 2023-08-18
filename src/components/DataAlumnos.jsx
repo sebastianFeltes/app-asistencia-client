@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getAlumnos } from "../services/DataAlumnos.services";
+import { Link } from "react-router-dom";
 
 function DatosAlumnos() {
   const { data, isLoading, error } = useQuery(["getAlumnos"], getAlumnos);
@@ -11,8 +12,12 @@ function DatosAlumnos() {
         <div className="max-w-screen">
           <h1 className="text-5xl font-bold">Datos Alumnos</h1>
           <div className="flex justify-between">
+            <Link to="/nuevo-alumno">
             <button className="btn">Nuevo Alumno</button>
-            <button className="btn">Historial Alumno</button>
+            </Link>
+            <Link to="/historial-alumno">
+            <button className="btn">historial Alumno</button>
+            </Link>
           </div>
 
           <div className="overflow-x-auto">
@@ -52,56 +57,12 @@ function DatosAlumnos() {
                         <td>{e.telefono}</td>
                         <td>{e.email}</td>
                         <td></td>
-                        <td></td>
+                        {/* boton Editar del HISTORIAL ALUMNO */}
+                        <td>
+                          <button className="btn">Editar</button>
+                        </td>
                       </tr>
                     ))}
-                {/* {/* row 1 */}
-                {/* <tr>
-                  <th>1</th>
-                  <td>11111</td>
-                  <td>Alumno</td>
-                  <td>Alumno</td>
-                  <td>11111111</td>
-                  <td>Calle 111 N°111</td>
-                  <td>1111111111</td>
-                  <td>ejemplo@ejemplo</td>
-                  <td>
-                    <select className="select select-bordered w-full max-w-xs">
-                      <option disabled selected>
-                        
-                      </option>
-                      <option>Telefono Extra: 22222222222</option>
-                      <option>Documentación Completa</option>
-                    </select>
-                  </td>
-                  <td>
-                    <button className="btn">Edit</button>
-                  </td>
-                </tr> */}
-                {/* row 2 */}
-                {/*                 <tr>
-                  <th>2</th>
-                  <td>11111</td>
-                  <td>Alumno</td>
-                  <td>Alumno</td>
-                  <td>11111111</td>
-                  <td>Calle 111 N°111</td>
-                  <td>1111111111</td>
-                  <td>ejemplo@ejemplo</td>
-                  <td>
-                  <select className="select select-bordered w-full max-w-xs">
-                      <option disabled selected>
-                        
-                      </option>
-                      <option>Telefono Extra: 22222222222</option>
-                      <option>Documentación Completa</option>
-                    </select>
-                  </td>
-                  <td>
-                    <button className="btn">Edit</button>
-                  </td>
-                </tr> }
- */}{" "}
               </tbody>
             </table>
           </div>
