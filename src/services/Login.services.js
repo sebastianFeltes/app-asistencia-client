@@ -1,10 +1,16 @@
 export async function postLogin(dni, pass) {
   const url = "http://192.168.33.31:8080/login";
+  if (dni.length < 7) {
+    return alert("DNI Inválido")
+  }
+  if (pass.length <4){
+    return alert("Pass inválida")
+  }
   let data = {
     dni: dni,
     password: pass,
   };
- 
+
   const response = await fetch(url, {
     method: "POST", // *GET, POST, PUT, DELETE, etc.
     mode: "cors", // no-cors, *cors, same-origin
@@ -18,8 +24,7 @@ export async function postLogin(dni, pass) {
     referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
     body: JSON.stringify(data), // body data type must match "Content-Type" header
   });
-  let res = await response.status;
+  let res = await response;
 
-  
   return res;
 }

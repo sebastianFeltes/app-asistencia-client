@@ -10,7 +10,10 @@ function Login() {
     let usuario = ev.target.dni.value;
     let pass = ev.target.password.value;
     let res = await postLogin(usuario, pass);
-    console.log(res);
+    console.log(res.status);
+    if (res.status == 200){
+      return navigate("/home-admin")
+    }
   }
 
   return (

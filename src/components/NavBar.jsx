@@ -6,7 +6,6 @@ export default function NavBar() {
     <div className="flex flex-row justify-around navbar  bg-[#093F7C] rounded-b-3xl">
       <div className="">
         <img src={Logo} className="w-16 rounded-full" />
-        {/* <a className="btn btn-ghost normal-case text-xl">daisyUI</a> */}
       </div>
       <div className="flex-1 gap-2">
         <form className="w-full flex flex-row justify-evenly my-2">
