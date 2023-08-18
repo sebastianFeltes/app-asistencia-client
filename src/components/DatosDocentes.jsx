@@ -1,12 +1,16 @@
 import { Link } from "react-router-dom";
 import { getDataDocentes } from "../services/DatosDocentes.services";
 import { useQuery } from "@tanstack/react-query";
-import { BtnEditarDocente } from "./EditarDocentes";
+/* import { BtnEditarDocente } from "./EditarDocentes"; */
 
 export function DatosDocentes() {
-  const { data, isLoading, error } = useQuery(["docentes"], getDataDocentes);
+  const { data /*  isLoading, error */ } = useQuery(
+    ["docentes"],
+    getDataDocentes
+  );
 
   data ? console.log(data) : false;
+
   return (
     <div className="bg-black min-h-screen">
       <form>
@@ -45,7 +49,7 @@ export function DatosDocentes() {
               <th>LOCALIDAD</th>
               <th>ROL</th>
               {/* <th>DATOS EXTRAS</th> */}
-              <th>Editar</th>
+              <th>EDITAR</th>
             </tr>
           </thead>
           <tbody>
@@ -56,7 +60,14 @@ export function DatosDocentes() {
             ) : (
               data.map((e) => (
                 <tr key={e}>
-                  <td>{e.activo}</td>
+                  <td>
+                    {e.activo ? "si" : "no"}{" "}
+                    {/*  <input
+                      type="checkbox"
+                      className="toggle toggle-info"
+                      checked={e.activo}
+                    />{" "} */}
+                  </td>
                   <td>{e.nombre}</td>
                   <td>{e.apellido}</td>
                   <td>{e.tipoDNI}</td>
@@ -70,7 +81,109 @@ export function DatosDocentes() {
                   <td>{e.legajo}</td>
                   <td>{e.localidad}</td>
                   <td>{e.rol}</td>
+                  <td>
+                    <button className="btn">Editar</button>
+                  </td>
+                  <div
+                    id="modal form-control"
+                    className="fixed w-1/2 h-1/2 m-0 p-0 top-1/4 left-1/4 h-3xl flex flex-row justify-center bg-gray-400 border border-cyan-400"
+                  >
+                    <div className="flex flex-col justify-center border w-full border-blue-400">
 
+                    <span className="label-text text-black">Activo</span>
+                      <input
+                        type="checkbox"
+                        className="toggle toggle-info flex flex-row   bg-white text-black border border-blue-400 "
+                        defaultChecked={e.activo?true:false} />{" "}
+                      
+
+
+
+                      <span className="label-text text-black">Nombre</span>
+                      <input
+                        type="text"
+                        placeholder={e.nombre}
+                        className="input input-bordered w-full max-w-xs bg-white text-black border border-blue-400"
+                      />
+                      <span className="label-text text-black">Apellido</span>
+                      <input
+                        type="text"
+                        placeholder={e.apellido}
+                        className="input input-bordered w-full max-w-xs bg-white text-black border border-blue-400"
+                      />
+                      <span className="label-text text-black">Tipo DNI</span>
+                      <input
+                        type="text"
+                        placeholder={e.tipoDNI}
+                        className="input input-bordered w-full max-w-xs bg-white text-black border border-blue-400"
+                      />
+                      <span className="label-text text-black">DNI</span>
+                      <input
+                        type="text"
+                        placeholder={e.dni}
+                        className="input input-bordered w-full max-w-xs bg-white text-black border border-blue-400"
+                      />
+                      <span className="label-text text-black">
+                        Cod area Tel
+                      </span>
+                      <input
+                        type="text"
+                        placeholder={e.codAreaTel}
+                        className="input input-bordered w-full max-w-xs bg-white text-black border border-blue-400"
+                      />
+
+                      <button className="btn btn-small bg-[#0184F5] text-white">Aceptar</button>
+                    </div>
+
+
+                    <div className="flex flex-col justify-center w-full border-blue-400">
+                      <span className="label-text text-black">Telefono</span>
+                      <input
+                        type="text"
+                        placeholder={e.telefono}
+                        className="input input-bordered w-full max-w-xs bg-white text-black border border-blue-400"
+                      />
+                      <span className="label-text text-black">Direccion</span>
+                      <input
+                        type="text"
+                        placeholder={e.direccion}
+                        className="input input-bordered w-full max-w-xs bg-white text-black border border-blue-400"
+                      />
+                      <span className="label-text text-black">Email</span>
+                      <input
+                        type="text"
+                        placeholder={e.email}
+                        className="input input-bordered w-full max-w-xs bg-white text-black border border-blue-400"
+                      />
+                      <span className="label-text text-black">Fec Nac</span>
+                      <input
+                        type="text"
+                        placeholder={e.fecNac}
+                        className="input input-bordered w-full max-w-xs bg-white text-black border border-blue-400"
+                      />
+                      <span className="label-text text-black">Legajo</span>
+                      <input
+                        type="text"
+                        placeholder={e.legajo}
+                        className="input input-bordered w-full max-w-xs bg-white text-black border border-blue-400"
+                      />
+                      <span className="label-text text-black">Localidad</span>
+                      <input
+                        type="text"
+                        placeholder={e.localidad}
+                        className="input input-bordered w-full max-w-xs bg-white text-black border border-blue-400"
+                      />
+                      <span className="label-text text-black">Rol</span>
+                      <input
+                        type="text"
+                        placeholder={e.rol}
+                        className="input input-bordered w-full max-w-xs bg-white text-black border border-blue-400"
+                      />
+                      <button className="btn btn-small bg-[#0184F5] text-white">Cancelar</button>
+
+
+                    </div>
+                  </div>
                   {/* <td>
                     {e.datosExtras}
                     <select className="select select-bordered w-full max-w-xs">
@@ -88,7 +201,7 @@ export function DatosDocentes() {
                       </option>
                     </select>
                   </td> */}
-                  <BtnEditarDocente/>
+                  {/* <BtnEditarDocente /> */}
                 </tr>
               ))
             )}
