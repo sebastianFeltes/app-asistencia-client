@@ -1,4 +1,50 @@
+import postAltaAlumno from "../services/altaAlumnos.services";
 export default function AltaAlumno() {
+    //función para enviar datos
+    async function post(e) {
+        e.preventDefault();
+         const nombreAlumno = e.target.nombreAlumno.value;
+        const apellidoAlumno = e.target.apellidoAlumno.value;
+        const tipoDocumento = e.target.tipoDocumento.value;
+        const dniAlumno = e.target.dniAlumno.value;
+        const direccionAlumno = e.target.direccionAlumno.value;
+        const localidadAlumno = e.target.localidadAlumno.value;
+        const emailAlumno = e.target.emailAlumno.value;
+        const telAlumno = e.target.telAlumno.value;
+        const telCaracteristica = e.target.telCaracteristica.value;
+        const telExtra = e.target.telExtra.value;
+        const nroLegajoAlumno = e.target.nroLegajoAlumno.value;
+        const docDni = e.target.docDni.checked;
+        const docPlanilla = e.target.docPlanilla.checked;
+        const docAnalitico = e.target.docAnalitico.checked;
+        const cursoAlumno = e.target.cursoAlumno.value;
+
+
+
+
+        const data = {
+            nombre: nombreAlumno,
+            apellido: apellidoAlumno,
+            tipoDoc :tipoDocumento,
+            dni: dniAlumno,
+            direccion: direccionAlumno,
+            localidad: localidadAlumno,
+            email: emailAlumno,
+            tel: telAlumno,
+            telCar: telCaracteristica,
+            telExt: telExtra,
+            numLegajo: nroLegajoAlumno,
+            documentacionDni: docDni,
+            documentacionPlanilla: docPlanilla,
+            documentacionAnalitico: docAnalitico,
+            curso: cursoAlumno
+        }
+         const res = await postAltaAlumno(data);
+       /*   console.log(data) */
+         return res;
+        
+    }
+
     return (
         <div className="hero min-h-screen bg-slate-50">
             <div className="hero-content text-center w-full">
@@ -7,10 +53,10 @@ export default function AltaAlumno() {
 
                         <h2 className="text-black text-3xl">ALTA NUEVO ALUMNO</h2>
 
-                        <form className="grid grid-cols-2 gap-4">
+                        <form onSubmit={e=>post(e)} className="grid grid-cols-2 gap-4">
 
                             {/* AGREGAR BOTON DE BUSCAR */}
-                            <div className=" border-black flex flex-col m-2">
+                            <div id="contenedor1" className=" border-black flex flex-col m-2">
                                 <label className="label">
                                     <span className="label-text text-black">NOMBRE ALUMNO:</span>
                                 </label>
@@ -26,20 +72,12 @@ export default function AltaAlumno() {
                                     <span className="label-text text-black">TIPO DE DOCUMENTO:</span>
                                 </label>
                                 <div className="form-control flex flex-row m-2">
-                                    <label className="label cursor-pointer">
-                                        <span className="label-text">DU</span>
-                                        <input type="radio" name="radio-1" className="radio" checked />
-                                    </label>
-
-                                    <label className="label cursor-pointer">
-                                        <span className="label-text">LC</span>
-                                        <input type="radio" name="radio-1" className="radio" checked />
-                                    </label>
-
-                                    <label className="label cursor-pointer">
-                                        <span className="label-text">LE</span>
-                                        <input type="radio" name="radio-1" className="radio" checked />
-                                    </label>
+                                    <select id="tipoDocumento" className="select w-full max-w-xs bg-transparent">
+                                    {<option disabled selected>Tipo DNI</option>}
+                                    <option>DU</option>
+                                    <option>LC</option>
+                                    <option>LE</option>
+                                </select>
                                 </div>
 
 
@@ -91,7 +129,7 @@ export default function AltaAlumno() {
                                     <span className="label-text text-black">NRO DE LEGAJO:</span>
                                 </label>
                                 <input id="nroLegajoAlumno" type="text" placeholder="[Nro de legajo]" className="input input-bordered input-info w-full max-w-xs bg-white border-black" />
-                                
+
                                 <label className="label">
                                     <span className="label-text text-black">DOCUMENTACION:</span>
                                 </label>
@@ -99,28 +137,28 @@ export default function AltaAlumno() {
 
                                     <label className="label cursor-pointer">
                                         <span className="label-text">DNI</span>
-                                        <input type="radio" name="radio-1" className="radio" checked />
+                                        <input id="docDni" type="checkbox"  className="checkbox  " />
                                     </label>
 
                                     <label className="label cursor-pointer">
                                         <span className="label-text">Planilla</span>
-                                        <input type="radio" name="radio-1" className="radio" checked />
+                                        <input id="docPlanilla" type="checkbox"  className="checkbox" />
                                     </label>
 
                                     <label className="label cursor-pointer">
                                         <span className="label-text">Analitico</span>
-                                        <input type="radio" name="radio-1" className="radio" checked />
+                                        <input id="docAnalitico" type="checkbox" className="checkbox" />
                                     </label>
 
                                 </div>
-                               
+
                                 <label className="label">
                                     <span className="label-text text-black">CURSO:</span>
                                 </label>
 
                                 {/* BOTON PARA AGREGAR MAS DE UN CURSO */}
 
-                                <select className="select w-full max-w-xs bg-transparent">
+                                <select id="cursoAlumno" className="select w-full max-w-xs bg-transparent">
                                     <option disabled selected>CURSO AL QUE ASISTIRA</option>
                                     <option>0</option>
                                     <option>1</option>

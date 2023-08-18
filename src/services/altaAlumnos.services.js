@@ -1,35 +1,33 @@
-export default async function altaAlumno(
-  nombre,
-  apellido,
-  dni,
-  tipoDocumento,
-  direccion,
-  localidad,
-  email,
-  tel,
-  telCar,
-  telExt,
-  numLegajo,
-  documentacion,
-  curso
-) 
+export default async function postAltaAlumno(
+ data
+) {
 
-{
-  const data = {
-    nombre : nombre,
-    apellido : apellido,
-    dni : dni,
-    tipoDocumento : tipoDocumento,
-    direccion : direccion,
-    localidad : localidad,
-    email : email,
-    tel : tel,
-    telCar : telCar,
-    telExt : telExt,
-    numLegajo : numLegajo,
-    documentacion : documentacion,
-    curso : curso,
-  };
+  if(data.nombre.length<3 ){
+    alert("nombre invalido") 
+  } 
+  if(data.apellido)
+/*   const data = {
+    nombre: nombre,
+    apellido: apellido,
+    tipoDoc : tipoDoc,
+    dni: dni,
+    direccion: direccion,
+    localidad: localidad,
+    email: email,
+    tel: tel,
+    telCar: telCar,
+    telExt: telExt,
+    numLegajo: numLegajo,
+    documentacionDni: documentacionDni,
+    documentacionPlanilla: documentacionPlanilla,
+    documentacionAnalitico: documentacionAnalitico,
+    curso: curso,
+
+  }; */
+
+
+
+
   const response = await fetch("http://192.168.33.31:8080/alta-alumno", {
     method: "POST", // *GET, POST, PUT, DELETE, etc.
     mode: "cors", // no-cors, *cors, same-origin
