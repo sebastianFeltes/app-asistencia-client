@@ -1,4 +1,39 @@
+//import { tryAltaDocente } from "../services/AltaDocente.services"
+import "./AltaDocente.scss"
+
 function AltaDocente() {
+  async function post(e) {
+    e.preventDefault();
+    const dni = e.target.dni.value;
+    const tipoDoc = e.target.tipoDoc.value;
+    const nombreDoc = e.target.nombreDoc.value;
+    const apellidoDoc = e.target.apellidoDoc.value;
+    const direc = e.target.direc.value;
+    const local = e.target.local.value;
+    const tele = e.target.telex.value;
+    const rol = e.target.rol.value;
+    const telex = e.target.tele.value;
+    const correo = e.target.correo.value;
+
+    const data = {
+      dni: dni,
+      tipo:tipoDoc,
+      nombre: nombreDoc,
+      apellido: apellidoDoc,
+      direccion: direc,
+      localidad: local,
+      telefono: tele,
+      rol: rol,
+      telExt: telex,
+      email: correo
+
+    };
+    /* const res = await tryAltaDocente(data);
+    return res;  */
+    console.log(data)
+
+
+  }
   return (
     <>
       <div className="hero min-h-screen bg-gray-100">
@@ -6,56 +41,40 @@ function AltaDocente() {
           <div className="w-full">
             <h2 className="text-3xl text-black font-bold mb-8">Alta Docente</h2>
 
-            <form className="grid grid-cols-2 gap-4 ">
-              <div className="flex flex-col m-2">
+            <form onSubmit={e => post(e)} className="grid grid-cols-2 gap-4 ">
+              <div id="contenedor1" className="flex flex-col m-2 ">
+                <label className="label">
+                  <span className="label-text  text-black">Tipo De Doc</span>
+                </label>
+                <div id="" className="from-control  flex flex-row m-1  ">
+                  <select id="tipoDoc" className="select bg-white text-black border border-black select-ghost w-full max-w-xs">
+                     <option defaultValue={"tipo"} >elegi gato</option>
+                    <option>DU</option>
+                    <option>LC</option>
+                    <option>LE</option>
+                  </select>
+                 
+                </div>
+
                 <label className="label">
                   <span className="label-text  text-black">Documento</span>
                 </label>
                 <input
+                  id="dni"
                   type="text"
-                  placeholder="Type here"
-                  className="input input-bordered w-full max-w-xs bg-white border-black"
+                  placeholder="N°"
+                  className="input input-bordered w-full text-black max-w-xs bg-white border-black"
                 />
-                <label className="label">
-                  <span className="label-text  text-black">Tipo De Doc</span>
-                </label>
-                <div className="from-control flex flex-row m-2">
-                  <label className="label cursor-pointer">
-                    <span className="label-text  text-black">DU</span>
-                    <input
-                      type="radio"
-                      name="radio-10"
-                      className="radio checked:bg-red-00"
-                      checked
-                    />
-                  </label>
-                  <label className="label  cursor-pointer">
-                    <span className="label-text text-black">LC</span>
-                    <input
-                      type="radio"
-                      name="radio-10"
-                      className="radio checked:bg-blue-00"
-                      checked
-                    />
-                  </label>{" "}
-                  <label className="label cursor-pointer">
-                    <span className="label-text  text-black">LE</span>
-                    <input
-                      type="radio"
-                      name="radio-10"
-                      className="radio checked:bg-blue-00"
-                      checked
-                    />
-                  </label>
-                </div>
+
 
                 <label className="label">
                   <span className="label-text  text-black">Nombre Docente</span>
                 </label>
                 <input
+                  id="nombreDoc"
                   type="text"
-                  placeholder="Type here"
-                  className="input input-bordered w-full max-w-xs bg-white border-black"
+                  placeholder="Nombre"
+                  className="input input-bordered w-full text-black max-w-xs bg-white border-black"
                 />
 
                 <label className="label">
@@ -64,65 +83,75 @@ function AltaDocente() {
                   </span>
                 </label>
                 <input
+                  id="apellidoDoc"
                   type="text"
-                  placeholder="Type here"
-                  className="input input-bordered w-full max-w-xs bg-white border-black"
+                  placeholder="Apellido"
+                  className="input input-bordered text-black w-full max-w-xs bg-white border-black"
                 />
 
                 <label className="label">
                   <span className="label-text text-black">Direccion</span>
                 </label>
                 <input
+                  id="direc"
                   type="text"
-                  placeholder="Type here"
-                  className="input input-bordered w-full max-w-xs bg-white border-black"
+                  placeholder="Direccion"
+                  className="input input-bordered w-full text-black max-w-xs bg-white border-black"
                 />
 
-                <label className="label">
-                  <span className="label-text text-black">Localidad</span>
-                </label>
-                <input
-                  type="text"
-                  placeholder="Type here"
-                  className="input input-bordered w-full max-w-xs bg-white border-black"
-                />
+
               </div>
 
-              <div className="grid grid-cols-2 gap-4 ">
+              <div id="contenedor2" className="grid grid-cols-2 gap-4  m-3 ">
                 <div className=" ">
+                  <label className="label">
+                    <span className="label-text text-black">Localidad</span>
+                  </label>
+                  <input
+                    id="local"
+                    type="text"
+                    placeholder="Localidad"
+                    className="input input-bordered w-full text-black max-w-xs bg-white border-black"
+                  />
+
+                  <label className="label">
+                    <span className="label-text  text-black">Telefono</span>
+                  </label>
+                  <input
+                    id="tele"
+                    type="number" name="numero"
+                    placeholder="Telefono"
+                    className="input input-bordered text-black w-full max-w-xs bg-white border-black"
+                  />
                   <label className="label">
                     <span className="label-text  text-black">Tel Extra</span>
                   </label>
                   <input
-                    type="text"
-                    placeholder="Type here"
-                    className="input input-bordered w-full max-w-xs bg-white border-black"
+                    id="telex"
+                    type="number"
+                    placeholder="Extra"
+                    className="input input-bordered text-black w-full max-w-xs bg-white border-black"
                   />
 
                   <label className="label">
                     <span className="label-text  text-black">Rol</span>
                   </label>
                   <input
+                    id="rol"
                     type="text"
-                    placeholder="Type here"
-                    className="input input-bordered w-full max-w-xs bg-white border-black"
+                    placeholder="Rol"
+                    className="input input-bordered text-black w-full max-w-xs bg-white border-black"
                   />
-                  <label className="label">
-                    <span className="label-text  text-black">Telefono</span>
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Type here"
-                    className="input input-bordered w-full max-w-xs bg-white border-black"
-                  />
+
 
                   <label className="label">
                     <span className="label-text  text-black">Email</span>
                   </label>
                   <input
+                    id="correo"
                     type="text"
-                    placeholder="Type here"
-                    className="input input-bordered w-full max-w-xs bg-white border-black"
+                    placeholder="Email"
+                    className="input input-bordered text-black w-full max-w-xs bg-white border-black"
                   />
                 </div>
               </div>

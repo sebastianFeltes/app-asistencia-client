@@ -1,4 +1,5 @@
 export async function tryAltaDocente(
+  tipo,
   dni,
   nombre,
   apellido,
@@ -10,6 +11,7 @@ export async function tryAltaDocente(
   rol
 ) {
   const data = {
+    tipo:tipo,
     dni:dni,
     nombre:nombre,
     apellido:apellido,
