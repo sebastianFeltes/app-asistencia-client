@@ -1,28 +1,42 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAsistencia } from "../services/Login.services";
+import { getAsistencia } from "../services/AsistenciaAlumnos.services";
 
 function AsistenciaAlumnos() {
     const { data, isLoading, error } = useQuery(["getAsistencia"], getAsistencia)
-    console.log(data)
     return (
         <div className="overflow-x-auto">
 
             <div className="hero ">
                 <div className="hero-content ">
                     <h1>
-                        NOMBRE DEL CURSO : .....
+                        Nombre del curso:
+                        <span>
+                        {data.curso}
+                        </span>
                     </h1>
                     <h2>
-                        NOMBRE DEL PROFESOR : .....
+                        Nombre del profesor:
+                        <span>
+                            {data.profesor}
+                        </span>
                     </h2>
                     <h2>
-                        DIAS:.....
+                       <span>
+                        Dias:
+                        {data.dias}
+                       </span>
                     </h2>
                     <h2>
-                        HORARIOS:....
+                        Horarios:
+                        <span>
+                            {data.horarios}
+                        </span>
                     </h2>
                     <h2>
-                        CANTIDAD DE ALUMNOS:....
+                        Cantidad de alumnos:
+                        <span>
+                            {data.cantAlumnos}
+                        </span>
                     </h2>
 
                 </div>
@@ -38,323 +52,38 @@ function AsistenciaAlumnos() {
                         </th>
                         <th className=" w-0">Apellidos Alumno</th>
                         <th className=" w-0">Nombres Alumnno</th>
-                        <th className=" w-0">FECHA</th>
-                        <th className=" w-0">FECHA</th>
-                        <th className=" w-0">FECHA</th>
-                        <th className=" w-0">FECHA</th>
-                        <th className=" w-0">FECHA</th>
+                        {data.fecha.map(e=>(
+                            <td>{e}</td>
+                        ))}
                         <th>TOTALES</th>
 
                     </tr>
                 </thead>
                 <tbody>
                     {/* row 1 */}
-                    <tr>
-                        <th>
-                            <label>
-                            </label>
-                        </th>
-                        <td>
-                            <div className="flex items-center space-x-3">
+                    {
+                        data.alumnos.map(e => (
+                            <tr>
+                                <td>
 
-                                <div>
-                                    <div className="font-bold">Bossi Kees</div>
+                                </td>
+                                <td>
+                                    {e.apellido}
+                                </td>
+                                <td>
+                                    {e.nombre}
+                                </td>
 
-                                </div>
-                            </div>
-                        </td><td>
-                            <div className="flex items-center space-x-3">
-
-                                <div>
-                                    <div className="font-bold"> Juan</div>
-
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <p>07/08</p>
-                            <select className="select select-ghost w-full max-w-xs">
-                                <option disabled selected></option>
-                                <option className=" font-bold  text-red-600">A</option>
-                                <option className=" font-bold text-orange-500">J</option>
-                            </select>
-                        </td>
-                        <td>
-                            <p>08/08</p>
-                            <select className="select select-ghost w-full max-w-xs">
-                                <option disabled selected></option>
-                                <option className=" font-bold  text-red-600">A</option>
-                                <option className=" font-bold text-orange-500">J</option>
-                            </select>
-                        </td>
-                        <td>
-                            <p>09/08</p>
-                            <select className="select select-ghost w-full max-w-xs">
-                                <option disabled selected></option>
-                                <option className=" font-bold  text-red-600">A</option>
-                                <option className=" font-bold text-orange-500">J</option>
-                            </select>
-                        </td>
-                        <td>
-                            <p>10/08</p>
-                            <select className="select select-ghost w-full max-w-xs">
-                                <option disabled selected></option>
-                                <option className=" font-bold  text-red-600">A</option>
-                                <option className=" font-bold text-orange-500">J</option>
-                            </select>
-                        </td>
-                        <td>
-                            <p>11/08</p>
-                            <select className="select select-ghost w-full max-w-xs">
-                                <option disabled selected></option>
-                                <option className=" font-bold  text-red-600">A</option>
-                                <option className=" font-bold text-orange-500">J</option>
-                            </select>
-                        </td>
-
-
-                    </tr>
-                    {/* row 2 */}
-                    <tr>
-                        <th>
-                            <label>
-                            </label>
-                        </th>
-                        <td>
-                            <div className="flex items-center space-x-3">
-
-                                <div>
-                                    <div className="font-bold">Lucchesi</div>
-
-                                </div>
-                            </div>
-                        </td><td>
-                            <div className="flex items-center space-x-3">
-
-                                <div>
-                                    <div className="font-bold"> Ivan Antonio</div>
-
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <select className="select select-ghost w-full max-w-xs">
-                                <option disabled selected></option>
-                                <option className=" font-bold  text-red-600">A</option>
-                                <option className=" font-bold text-orange-500">J</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select className="select select-ghost w-full max-w-xs">
-                                <option disabled selected></option>
-                                <option className=" font-bold  text-red-600">A</option>
-                                <option className=" font-bold text-orange-500">J</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select className="select select-ghost w-full max-w-xs">
-                                <option disabled selected></option>
-                                <option className=" font-bold  text-red-600">A</option>
-                                <option className=" font-bold text-orange-500">J</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select className="select select-ghost w-full max-w-xs">
-                                <option disabled selected></option>
-                                <option className=" font-bold  text-red-600">A</option>
-                                <option className=" font-bold text-orange-500">J</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select className="select select-ghost w-full max-w-xs">
-                                <option disabled selected></option>
-                                <option className=" font-bold  text-red-600">A</option>
-                                <option className=" font-bold text-orange-500">J</option>
-                            </select>
-                        </td>
-
-
-                    </tr>{/* row 3 */}
-                    <tr>
-                        <th>
-                            <label>
-                            </label>
-                        </th>
-                        <td>
-                            <div className="flex items-center space-x-3">
-
-                                <div>
-                                    <div className="font-bold">Diaz</div>
-
-                                </div>
-                            </div>
-                        </td><td>
-                            <div className="flex items-center space-x-3">
-
-                                <div>
-                                    <div className="font-bold"> Luis Maria</div>
-
-                                </div>
-                            </div>
-                        </td>  
-                        <td>
-                            <select className="select select-ghost w-full max-w-xs">
-                                <option disabled selected></option>
-                                <option className=" font-bold  text-red-600">A</option>
-                                <option className=" font-bold text-orange-500">J</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select className="select select-ghost w-full max-w-xs">
-                                <option disabled selected></option>
-                                <option className=" font-bold  text-red-600">A</option>
-                                <option className=" font-bold text-orange-500">J</option>
-                            </select>
-                        </td>
-                        <td>
-
-                            <select className="select select-ghost w-full max-w-xs">
-                                <option disabled selected></option>
-                                <option className=" font-bold  text-red-600">A</option>
-                                <option className=" font-bold text-orange-500">J</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select className="select select-ghost w-full max-w-xs">
-                                <option disabled selected></option>
-                                <option className=" font-bold  text-red-600">A</option>
-                                <option className=" font-bold text-orange-500">J</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select className="select select-ghost w-full max-w-xs">
-                                <option disabled selected></option>
-                                <option className=" font-bold  text-red-600">A</option>
-                                <option className=" font-bold text-orange-500">J</option>
-                            </select>
-                        </td>
-
-
-                    </tr>{/* row 4 */}
-                    <tr>
-                        <th>
-                            <label>
-                            </label>
-                        </th>
-                        <td>
-                            <div className="flex items-center space-x-3">
-
-                                <div>
-                                    <div className="font-bold">Kuczkho </div>
-
-                                </div>
-                            </div>
-                        </td><td>
-                            <div className="flex items-center space-x-3">
-
-                                <div>
-                                    <div className="font-bold"> Natalia Soledad</div>
-
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <select className="select select-ghost w-full max-w-xs">
-                                <option disabled selected></option>
-                                <option className=" font-bold  text-red-600">A</option>
-                                <option className=" font-bold text-orange-500">J</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select className="select select-ghost w-full max-w-xs">
-                                <option disabled selected></option>
-                                <option className=" font-bold  text-red-600">A</option>
-                                <option className=" font-bold text-orange-500">J</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select className="select select-ghost w-full max-w-xs">
-                                <option disabled selected></option>
-                                <option className=" font-bold  text-red-600">A</option>
-                                <option className=" font-bold text-orange-500">J</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select className="select select-ghost w-full max-w-xs">
-                                <option disabled selected></option>
-                                <option className=" font-bold  text-red-600">A</option>
-                                <option className=" font-bold text-orange-500">J</option>
-                            </select>
-                        </td><td>
-                            <select className="select select-ghost w-full max-w-xs">
-                                <option disabled selected></option>
-                                <option className=" font-bold  text-red-600">A</option>
-                                <option className=" font-bold text-orange-500">J</option>
-                            </select>
-                        </td>
-
-
-                    </tr>{/* row 5 */}
-                    <tr>
-                        <th>
-                            <label>
-                            </label>
-                        </th>
-                        <td>
-                            <div className="flex items-center space-x-3">
-
-                                <div>
-                                    <div className="font-bold">Pichi</div>
-
-                                </div>
-                            </div>
-                        </td><td>
-                            <div className="flex items-center space-x-3">
-
-                                <div>
-                                    <div className="font-bold"> Lautaro</div>
-
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <select className="select select-ghost w-full max-w-xs">
-                                <option disabled selected></option>
-                                <option className=" font-bold  text-red-600">A</option>
-                                <option className=" font-bold text-orange-500">J</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select className="select select-ghost w-full max-w-xs">
-                                <option disabled selected></option>
-                                <option className=" font-bold  text-red-600">A</option>
-                                <option className=" font-bold text-orange-500">J</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select className="select select-ghost w-full max-w-xs">
-                                <option disabled selected></option>
-                                <option className=" font-bold  text-red-600">A</option>
-                                <option className=" font-bold text-orange-500">J</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select className="select select-ghost w-full max-w-xs">
-                                <option disabled selected></option>
-                                <option className=" font-bold  text-red-600">A</option>
-                                <option className=" font-bold text-orange-500">J</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select className="select select-ghost w-full max-w-xs">
-                                <option disabled selected></option>
-                                <option className=" font-bold  text-red-600">A</option>
-                                <option className=" font-bold text-orange-500">J</option>
-                            </select>
-                        </td>
-
-
-                    </tr>
+                                {
+                                    e.registros.map(e=>(
+                                        <td className={e=="P"?"text-blue-600": e=="A"?"text-red-600": e=="1/2"? "text-green-600":e=="J"?"text-orange-600":false} >
+                                            {e}
+                                        </td>
+                                    ))
+                                }
+                            </tr>
+                        ))
+                    }
 
 
                 </tbody>
