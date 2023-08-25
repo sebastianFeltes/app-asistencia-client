@@ -3,67 +3,74 @@ import { getAsistencia } from "../services/AsistenciaAlumnos.services";
 
 function AsistenciaAlumnos() {
     const { data, isLoading, error } = useQuery(["getAsistencia"], getAsistencia)
+    
+    
+    
     return (
+
+
         <div className="overflow-x-auto">
 
-            <div className="hero ">
-                <div className="hero-content ">
-                    <h1>
+            <div className="hero   ">
+                <div className="hero-content  p-2 bg">
+                    <h1 className="  p-3  font-normal  border-b border-blue-600 rounded-lg ">
                         Nombre del curso:
                         <span>
-                        {data.curso}
+                            {data ? data.curso : false}
                         </span>
                     </h1>
-                    <h2>
+                    <h2 className=" p-3 font-normal  border-b border-blue-600 rounded-lg">
                         Nombre del profesor:
                         <span>
-                            {data.profesor}
+                            {data ? data.profesor : false}
                         </span>
                     </h2>
-                    <h2>
-                       <span>
-                        Dias:
-                        {data.dias}
-                       </span>
+                    <h2 className=" border-solid p-3 font-normal  border-b border-blue-600 rounded-lg  ">
+                        <span>
+                            Dias:
+                            {data ? data.dias : false}
+                        </span>
                     </h2>
-                    <h2>
+                    <h2 className=" border-solid p-3 font-normal  border-b border-blue-600 rounded-lg ">
                         Horarios:
                         <span>
-                            {data.horarios}
+                            {data ? data.horarios : false}
                         </span>
                     </h2>
-                    <h2>
+                    <h2 className=" p-3 font-normal   border-b border-blue-600 rounded-lg">
                         Cantidad de alumnos:
                         <span>
-                            {data.cantAlumnos}
+                            {data ? data.cantAlumnos : false}
                         </span>
                     </h2>
 
                 </div>
             </div>
-            <table className="table table-zebra">
+            <table className="table   ">
 
                 {/* head */}
-                <thead>
-                    <tr>
-                        <th>
-                            <label></label>
+
+                <thead className="  ">
+                    <tr className="">
+                        <th >
+                            <label ></label>
 
                         </th>
-                        <th className=" w-0">Apellidos Alumno</th>
-                        <th className=" w-0">Nombres Alumnno</th>
-                        {data.fecha.map(e=>(
+
+                        <th className=" w-0  "><strong>Apellidos Alumno</strong></th>
+                        <th className=" w-0   "> <strong>Nombres Alumnno</strong></th>
+                        {data ? data.fecha.map(e => (
                             <td>{e}</td>
-                        ))}
+                        )) : false}
                         <th>TOTALES</th>
 
                     </tr>
                 </thead>
                 <tbody>
                     {/* row 1 */}
-                    {
+                    {data ?
                         data.alumnos.map(e => (
-                            <tr>
+                            <tr className="hover:bg-slate-200">
                                 <td>
 
                                 </td>
@@ -75,15 +82,15 @@ function AsistenciaAlumnos() {
                                 </td>
 
                                 {
-                                    e.registros.map(e=>(
-                                        <td className={e=="P"?"text-blue-600": e=="A"?"text-red-600": e=="1/2"? "text-green-600":e=="J"?"text-orange-600":false} >
-                                            {e}
+                                    e.registros.map(e => (
+                                        <td className={e == "P" ? "text-blue-600 font-bold" : e == "A" ? "text-red-600 font-bold" : e == "1/2" ? "text-green-600 font-bold" : e == "J" ? "text-orange-600 font-bold" : false} >
+                                            {e != "A" ? e : <select id="justificar"  className="bg-transparent"><option value="A">A</option><option value="J">J</option></select>}
                                         </td>
                                     ))
                                 }
                             </tr>
                         ))
-                    }
+                        : false}
 
 
                 </tbody>
