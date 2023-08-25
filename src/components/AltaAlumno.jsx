@@ -1,9 +1,10 @@
 import postAltaAlumno from "../services/altaAlumnos.services";
+import "./altaAlumno.scss";
 export default function AltaAlumno() {
     //función para enviar datos
     async function post(e) {
         e.preventDefault();
-         const nombreAlumno = e.target.nombreAlumno.value;
+        const nombreAlumno = e.target.nombreAlumno.value;
         const apellidoAlumno = e.target.apellidoAlumno.value;
         const tipoDocumento = e.target.tipoDocumento.value;
         const dniAlumno = e.target.dniAlumno.value;
@@ -25,7 +26,7 @@ export default function AltaAlumno() {
         const data = {
             nombre: nombreAlumno,
             apellido: apellidoAlumno,
-            tipoDoc :tipoDocumento,
+            tipoDoc: tipoDocumento,
             dni: dniAlumno,
             direccion: direccionAlumno,
             localidad: localidadAlumno,
@@ -39,10 +40,10 @@ export default function AltaAlumno() {
             documentacionAnalitico: docAnalitico,
             curso: cursoAlumno
         }
-         const res = await postAltaAlumno(data);
-       /*   console.log(data) */
-         return res;
-        
+        const res = await postAltaAlumno(data);
+        /*   console.log(data) */
+        return res;
+
     }
 
     return (
@@ -53,101 +54,95 @@ export default function AltaAlumno() {
 
                         <h2 className="text-black text-3xl">ALTA NUEVO ALUMNO</h2>
 
-                        <form onSubmit={e=>post(e)} className="grid grid-cols-2 gap-4">
+                        <form onSubmit={e => post(e)} className="grid grid-cols-2 gap-4">
 
                             {/* AGREGAR BOTON DE BUSCAR */}
+                            {/* DIV IZQUIERDO */}
                             <div id="contenedor1" className=" border-black flex flex-col m-2">
                                 <label className="label">
                                     <span className="label-text text-black">NOMBRE ALUMNO:</span>
                                 </label>
-                                <input id="nombreAlumno" type="text" placeholder="[nombre]" className="input input-bordered input-info w-full max-w-xs bg-white border-black" />
+                                <input id="nombreAlumno" type="text" placeholder="[nombre]" className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black" />
 
                                 <label className="label">
                                     <span className="label-text text-black">APELLIDO DEL ALUMNO:</span>
                                 </label>
-                                <input id="apellidoAlumno" type="text" placeholder="[apellido]" className="input input-bordered input-info w-full max-w-xs bg-white border-black" />
+                                <input id="apellidoAlumno" type="text" placeholder="[apellido]" className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black" />
 
 
                                 <label className="label">
                                     <span className="label-text text-black">TIPO DE DOCUMENTO:</span>
                                 </label>
-                                <div className="form-control flex flex-row m-2">
-                                    <select id="tipoDocumento" className="select w-full max-w-xs bg-transparent">
-                                    {<option disabled selected>Tipo DNI</option>}
-                                    <option>DU</option>
-                                    <option>LC</option>
-                                    <option>LE</option>
-                                </select>
+                                <div className="form-control flex flex-row ">
+                                    <select id="tipoDocumento" className="select w-full max-w-xs bg-transparent rounded-full border-black">
+                                        {<option disabled selected>Tipo DNI</option>}
+                                        <option>DU</option>
+                                        <option>LC</option>
+                                        <option>LE</option>
+                                    </select>
                                 </div>
 
 
                                 {/* DEPENDIENDO CUAL SELECCIONE EN LA OPCION ANTERIOR,SE AUTOCOMPLETE CON F O M O NADA  */}
                                 <label className="label">
-                                    <span className="label-text text-black">DNI DEL ALUMNO:</span>
+                                    <p className="label-text text-black">DNI DEL ALUMNO:<span className="label-text-alt m-2">*sin puntos ni letras</span></p>
                                 </label>
-                                <input id="dniAlumno" type="text" placeholder="[DNI]" className="input input-bordered input-info w-full max-w-xs  bg-white border-black" />
+                                <input id="dniAlumno" type="text" placeholder="[DNI]" className=" rounded-full input input-bordered input-info w-full max-w-xs  bg-white border-black" />
 
                                 <label className="label">
                                     <span className="label-text text-black">DIRECCION:</span>
                                 </label>
-                                <input id="direccionAlumno" type="text" placeholder="[direccion]" className="input input-bordered input-info w-full max-w-xs bg-white border-black" />
+                                <input id="direccionAlumno" type="text" placeholder="[direccion]" className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black" />
 
                                 <label className="label">
                                     <span className="label-text text-black">LOCALIDAD:</span>
                                 </label>
-                                <input id="localidadAlumno" type="text" placeholder="[localidad]" className="input input-bordered input-info w-full max-w-xs bg-white border-black" />
+                                <input id="localidadAlumno" type="text" placeholder="[localidad]" className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black" />
 
                             </div>
-
-
+                            {/* DIV DERECHO */}
                             <div className=" border-black flex flex-col m-2 justify-center ">
-
                                 <label className="label ">
                                     <span className="label-text text-black">EMAIL DEL ALUMNO:</span>
                                 </label>
-                                <input id="emailAlumno" type="email" placeholder="[email]" className="input input-info w-full max-w-xs  bg-white border-black" />
-
+                                <input id="emailAlumno" type="email" placeholder="[email]" className="rounded-full input input-info w-full max-w-xs  bg-white border-black" />
                                 <label className="label">
-                                    <span className="label-text text-black">TELEFONO DEL ALUMNO:</span>
+                                    <p className="label-text text-black">TELEFONO DEL ALUMNO:<span className="label-text-alt m-2">*sin 15</span></p>
                                 </label>
                                 {/* ACLARAR SIN 15 */}
-                                <input id="telAlumno" type="num" placeholder="[telefono]" className="input input-bordered input-info w-full max-w-xs  bg-white border-black" />
-
+                                <input id="telAlumno" type="number" placeholder="[telefono]" className="rounded-full input input-bordered input-info w-full max-w-xs  bg-white border-black" />
                                 <label className="label">
-                                    <span className="label-text text-black">TELEFONO CARACTERISTICA:</span>
+                                    <p className="label-text text-black">TELEFONO CARACTERISTICA: <span className="label-text-alt m-2">*sin 0</span></p>
                                 </label>
                                 {/* ACLARAR SIN 0 O PONER EL 0 NOSOTROS */}
-                                <input id="telCaracteristica" type="num" placeholder="[telefono]" className="input input-bordered input-info w-full max-w-xs  bg-white border-black" />
-
+                                <input id="telCaracteristica" type="number" placeholder="[telefono]" className="rounded-full input input-bordered input-info w-full max-w-xs  bg-white border-black" />
                                 <label className="label">
-                                    <span className="label-text text-black">TELEFONO EXTRA:</span>
+                                    <p className="label-text text-black">TELEFONO EXTRA:<span className="label-text-alt m-2">*sin 15</span></p>
                                 </label>
                                 {/* MISMA LOGICA */}
-                                <input id="telExtra" type="num" placeholder="[telefono]" className="input input-bordered input-info w-full max-w-xs  bg-white border-black" />
-
+                                <input id="telExtra" type="number" placeholder="[telefono]" className="rounded-full input input-bordered input-info w-full max-w-xs  bg-white border-black" />
                                 <label className="label">
                                     <span className="label-text text-black">NRO DE LEGAJO:</span>
                                 </label>
-                                <input id="nroLegajoAlumno" type="text" placeholder="[Nro de legajo]" className="input input-bordered input-info w-full max-w-xs bg-white border-black" />
-
+                                <input id="nroLegajoAlumno" type="number" placeholder="[Nro de legajo]" className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black" />
                                 <label className="label">
                                     <span className="label-text text-black">DOCUMENTACION:</span>
                                 </label>
                                 <div className="form-control flex flex-row">
 
                                     <label className="label cursor-pointer">
-                                        <span className="label-text">DNI</span>
-                                        <input id="docDni" type="checkbox"  className="checkbox  " />
+                                        <span className=" text-black label-text">DNI</span>
+                                        <input id="docDni" type="checkbox" className="checkbox border-black m-2 " />
                                     </label>
 
                                     <label className="label cursor-pointer">
-                                        <span className="label-text">Planilla</span>
-                                        <input id="docPlanilla" type="checkbox"  className="checkbox" />
+                                        <span className=" text-black label-text">Planilla</span>
+                                        <input id="docPlanilla" type="checkbox" className="checkbox  border-black m-2" />
                                     </label>
 
                                     <label className="label cursor-pointer">
-                                        <span className="label-text">Analitico</span>
-                                        <input id="docAnalitico" type="checkbox" className="checkbox" />
+                                        <span className="label-text text-black">Analitico</span>
+                                        <input id="docAnalitico" type="checkbox" className="checkbox  border-black m-2" />
                                     </label>
 
                                 </div>
@@ -158,7 +153,7 @@ export default function AltaAlumno() {
 
                                 {/* BOTON PARA AGREGAR MAS DE UN CURSO */}
 
-                                <select id="cursoAlumno" className="select w-full max-w-xs bg-transparent">
+                                <select id="cursoAlumno" className="select w-full max-w-xs bg-transparent rounded-full border-black">
                                     <option disabled selected>CURSO AL QUE ASISTIRA</option>
                                     <option>0</option>
                                     <option>1</option>
@@ -169,11 +164,11 @@ export default function AltaAlumno() {
                             </div>
 
                             <div className="content-center m-2">
-                                <button className="btn">Cancelar</button>
+                                <button className="btn  bg-blue-600 text-black rounded-full w-48 ">Cancelar</button>
                             </div>
 
                             <div className="content-center m-2">
-                                <button type="submit" className="btn">Aceptar</button>
+                                <button type="submit" className="btn bg-blue-600 text-black rounded-full w-48 ">Aceptar</button>
                             </div>
 
                         </form>

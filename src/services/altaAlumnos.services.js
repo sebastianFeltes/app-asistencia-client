@@ -1,12 +1,41 @@
-export default async function postAltaAlumno(
- data
-) {
-
-  if(data.nombre.length<3 ){
-    alert("nombre invalido") 
-  } 
-  if(data.apellido)
-/*   const data = {
+export default async function postAltaAlumno(data) {
+  if (data.nombre.length < 3) { //VALIDACION NOMBRE
+    alert("nombre invalido");
+  }
+  if (data.apellido.length < 4) { //VALIDACION APELLIDO
+    alert("apellido invalido");
+  }
+  if (!data.tipoDoc) { //VALIDACION TIPO DNI
+    alert("tipo de DNI invalido");
+  }
+  if (data.dni.length < 6) { //VALIDACION DNI
+    alert("documento invalido");
+  }
+  if (!data.direccion) { //VALIDACION DIRECCION
+    alert("direccion invalida");
+  }
+  if (!data.localidad) { //VALIDACION LOCALIDAD
+    alert("localidad invalida");
+  }
+  if (data.email) { //VALIDACION EMAIL
+    alert("email invalido");
+  }
+  if (data.tel) { //VALIDACION TEL
+    alert("telefono invalido");
+  }
+  if (data.telCar) { //VALIDACION TEL CAR
+    alert("telefono invalido");
+  }
+  if (data.telExt) { //VALIDACION TEL EXTRA
+    alert("telefono invalido");
+  }
+  if (!data.numLegajo) { //VALIDACION NUM LEGAJO
+    alert("numero de legajo invalido");
+  }
+  if (!data.curso) { //VALIDACION CURSO
+    alert("curso invalido");
+  }
+  /*   const data = {
     nombre: nombre,
     apellido: apellido,
     tipoDoc : tipoDoc,
@@ -22,11 +51,7 @@ export default async function postAltaAlumno(
     documentacionPlanilla: documentacionPlanilla,
     documentacionAnalitico: documentacionAnalitico,
     curso: curso,
-
   }; */
-
-
-
 
   const response = await fetch("http://192.168.33.31:8080/alta-alumno", {
     method: "POST", // *GET, POST, PUT, DELETE, etc.
