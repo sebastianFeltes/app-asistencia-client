@@ -1,41 +1,46 @@
-export async function tryAltaDocente(
-  tipo,
+export  async function tryAltaDocente(
+  data
+  /*  tipo,
   dni,
   nombre,
   apellido,
+  contraseña,
   direccion,
   telefono,
   localidad,
   email,
   telExt,
-  rol
-) {
-  const data = {
-    tipo:tipo,
-    dni:dni,
-    nombre:nombre,
-    apellido:apellido,
-    direccion:direccion,
-    telefono:telefono,
-    localidad:localidad,
-    email:email,
-    telExt:telExt,
-    rol:rol,
-  };
-  const response = await fetch("http://192.168.33.31:8080/alta-docente");
-  ({
-    method: "POST", // *GET, POST, PUT, DELETE, etc.
-    mode: "cors", // no-cors, *cors, same-origin
-    cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-    credentials: "same-origin", // include, *same-origin, omit
-    headers: {
-      "Content-Type": "application/json",
-      // 'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    redirect: "follow", // manual, *follow, error
-    referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-    body: JSON.stringify(data), // body data type must match "Content-Type" header
-  });
-  const res = await response.json();
-  return res;
-}
+  rol  */
+  )
+  {
+    /* const data = {
+      tipo:tipo,
+      dni:dni,
+      nombre:nombre,
+      apellido:apellido,
+      contraseña:contraseña,
+      direccion:direccion,
+      localidad:localidad,
+      telefono:telefono,
+      email:email,
+      telExt:telExt,
+      rol:rol,
+    };  */
+    /* console.log(data)   */
+    
+    if(!data.tipo){alert("seleccione un campo dni")} 
+    if(data.dni.length < 6){alert("Dni incompleto")} 
+    if(data.nombre.length < 4){alert("nombre invalido")} 
+     if(data.apellido.length < 4){alert("apellido invalido")} 
+    if(data.contraseña.length < 8){alert("contraseña minimo 8 caracteres")}  
+    if(data.direccion.length < 1){alert(" complete el campo")}
+    if(data.localidad.length < 1){alert("complete el campo")} 
+    if(data.telefono.length < 10){alert(" telefono incompleto")}  
+    if(data.telExt.length < 10){alert("telEtx incompleto")}  
+    if(data.email){alert("complete el campo email")}
+    if(data.rol){alert("seleccione un campo rol")}  
+
+
+
+  }
+  

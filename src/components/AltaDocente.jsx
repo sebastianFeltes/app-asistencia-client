@@ -1,13 +1,16 @@
-//import { tryAltaDocente } from "../services/AltaDocente.services"
+import { tryAltaDocente } from "../services/AltaDocente.services"
+//import { tryAltaDocente } from "../services/AltaDocente.services";
 import "./AltaDocente.scss"
 
-function AltaDocente() {
+
+export default function AltaDocente() {
   async function post(e) {
     e.preventDefault();
     const dni = e.target.dni.value;
     const tipoDoc = e.target.tipoDoc.value;
     const nombreDoc = e.target.nombreDoc.value;
     const apellidoDoc = e.target.apellidoDoc.value;
+    const contra = e.target.contra.value;
     const direc = e.target.direc.value;
     const local = e.target.local.value;
     const tele = e.target.telex.value;
@@ -17,9 +20,10 @@ function AltaDocente() {
 
     const data = {
       dni: dni,
-      tipo:tipoDoc,
+      tipo: tipoDoc,
       nombre: nombreDoc,
       apellido: apellidoDoc,
+      contraseña: contra,
       direccion: direc,
       localidad: local,
       telefono: tele,
@@ -28,15 +32,15 @@ function AltaDocente() {
       email: correo
 
     };
-    /* const res = await tryAltaDocente(data);
-    return res;  */
-    console.log(data)
+    const res = await tryAltaDocente(data);
+    return res;
+    /* console.log(data) */
 
 
   }
   return (
     <>
-      <div className="hero min-h-screen bg-gray-100">
+      <div className="hero min-h-screen bg-white">
         <div className="hero-content text-center w-full border border-black">
           <div className="w-full">
             <h2 className="text-3xl text-black font-bold mb-8">Alta Docente</h2>
@@ -46,15 +50,21 @@ function AltaDocente() {
                 <label className="label">
                   <span className="label-text  text-black">Tipo De Doc</span>
                 </label>
-                <div id="" className="from-control  flex flex-row m-1  ">
+                <div id="" className="from-control  flex flex-row   ">
                   <select id="tipoDoc" className="select bg-white text-black border border-black select-ghost w-full max-w-xs">
-                     <option defaultValue={"tipo"} >elegi gato</option>
+                    {/*  <option defaultValue={"tipo"} >Elegi el tipo</option> */}
                     <option>DU</option>
                     <option>LC</option>
                     <option>LE</option>
                   </select>
-                 
+
                 </div>
+
+                <label className="label">
+                  <span className="label-text  text-black">Buscar docente</span>
+                </label>
+                <input type="text" placeholder="Search" className="input input-bordered w-full text-black max-w-xs bg-white border-black" />
+
 
                 <label className="label">
                   <span className="label-text  text-black">Documento</span>
@@ -88,16 +98,17 @@ function AltaDocente() {
                   placeholder="Apellido"
                   className="input input-bordered text-black w-full max-w-xs bg-white border-black"
                 />
-
                 <label className="label">
-                  <span className="label-text text-black">Direccion</span>
+                  <span className="label-text text-black">Crea tu contraseña</span>
                 </label>
                 <input
-                  id="direc"
-                  type="text"
-                  placeholder="Direccion"
+                  id="contra"
+                  type="password"
+                  placeholder="**********"
                   className="input input-bordered w-full text-black max-w-xs bg-white border-black"
                 />
+
+
 
 
               </div>
@@ -115,7 +126,18 @@ function AltaDocente() {
                   />
 
                   <label className="label">
+                    <span className="label-text text-black">Direccion</span>
+                  </label>
+                  <input
+                    id="direc"
+                    type="text"
+                    placeholder="Direccion"
+                    className="input input-bordered w-full text-black max-w-xs bg-white border-black"
+                  />
+
+                  <label className="label">
                     <span className="label-text  text-black">Telefono</span>
+                    <span className="label-text text-xs  text-black">(Sin guines ni puntos)</span>
                   </label>
                   <input
                     id="tele"
@@ -125,6 +147,8 @@ function AltaDocente() {
                   />
                   <label className="label">
                     <span className="label-text  text-black">Tel Extra</span>
+                    <span className="label-text text-xs  text-black">(Sin guines ni puntos)</span>
+
                   </label>
                   <input
                     id="telex"
@@ -135,13 +159,14 @@ function AltaDocente() {
 
                   <label className="label">
                     <span className="label-text  text-black">Rol</span>
+                    <span className="label-text text-xs  text-black">Seleccione un rol</span>
                   </label>
-                  <input
-                    id="rol"
-                    type="text"
-                    placeholder="Rol"
-                    className="input input-bordered text-black w-full max-w-xs bg-white border-black"
-                  />
+                  <select id="rol" className="select bg-white text-black border border-black select-ghost w-full max-w-xs">
+                    {/*  <option defaultValue={"tipo"} >Elegi el tipo</option> */}
+                    <option>Admin</option>
+                    <option>Docente</option>
+
+                  </select>
 
 
                   <label className="label">
@@ -156,10 +181,10 @@ function AltaDocente() {
                 </div>
               </div>
               <div className="content-center m-2">
-                <button className="btn bg-blue-900 text-black">Cancelar</button>
+                <button className="btn bg-sky-400 text-black">Cancelar</button>
               </div>
               <div className="content-center m-2">
-                <button type="submit" className="btn bg-blue-900 text-black">
+                <button type="submit" className="btn bg-sky-400 text-black">
                   Aceptar
                 </button>
               </div>
@@ -170,4 +195,4 @@ function AltaDocente() {
     </>
   );
 }
-export default AltaDocente;
+
