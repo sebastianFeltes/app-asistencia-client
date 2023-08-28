@@ -6,8 +6,8 @@ import "./AltaDocente.scss"
 export default function AltaDocente() {
   async function post(e) {
     e.preventDefault();
-    const dni = e.target.dni.value;
     const tipoDoc = e.target.tipoDoc.value;
+    const dni = e.target.dni.value;
     const nombreDoc = e.target.nombreDoc.value;
     const apellidoDoc = e.target.apellidoDoc.value;
     const contra = e.target.contra.value;
@@ -19,11 +19,11 @@ export default function AltaDocente() {
     const correo = e.target.correo.value;
 
     const data = {
-      dni: dni,
       tipo: tipoDoc,
+      dni: dni,
       nombre: nombreDoc,
       apellido: apellidoDoc,
-      contraseña: contra,
+      contrasena: contra,
       direccion: direc,
       localidad: local,
       telefono: tele,
@@ -32,12 +32,21 @@ export default function AltaDocente() {
       email: correo
 
     };
+
+   
     const res = await tryAltaDocente(data);
+
     return res;
-    /* console.log(data) */
+
+  
 
 
   }
+
+  function limpiarFormulario (e) {
+    e.target.reset();
+  }
+
   return (
     <>
       <div className="hero min-h-screen bg-white">
@@ -51,8 +60,8 @@ export default function AltaDocente() {
                   <span className="label-text  text-black">Tipo De Doc</span>
                 </label>
                 <div id="" className="from-control  flex flex-row   ">
-                  <select id="tipoDoc" className="select bg-white text-black border border-black select-ghost w-full max-w-xs">
-                    {/*  <option defaultValue={"tipo"} >Elegi el tipo</option> */}
+                  <select id="tipoDoc" defaultValue={"Tipo de Documento"} className="select bg-white text-black border border-black select-ghost w-full max-w-xs">
+                    <option  >Tipo de Documento</option>
                     <option>DU</option>
                     <option>LC</option>
                     <option>LE</option>
@@ -60,11 +69,7 @@ export default function AltaDocente() {
 
                 </div>
 
-                <label className="label">
-                  <span className="label-text  text-black">Buscar docente</span>
-                </label>
-                <input type="text" placeholder="Search" className="input input-bordered w-full text-black max-w-xs bg-white border-black" />
-
+               
 
                 <label className="label">
                   <span className="label-text  text-black">Documento</span>
@@ -74,7 +79,13 @@ export default function AltaDocente() {
                   type="text"
                   placeholder="N°"
                   className="input input-bordered w-full text-black max-w-xs bg-white border-black"
-                />
+                  />
+                  <div className="content-center m-2 w-30 ">
+                <button  className="btn btn-sm bg-sky-400 text-black">
+                  Buscar
+                </button>
+              </div>
+                  
 
 
                 <label className="label">
@@ -100,6 +111,7 @@ export default function AltaDocente() {
                 />
                 <label className="label">
                   <span className="label-text text-black">Crea tu contraseña</span>
+                  <span className="label-text text-xs  text-black pr-72">(Minimo 8 caracteres)</span>
                 </label>
                 <input
                   id="contra"
@@ -161,8 +173,8 @@ export default function AltaDocente() {
                     <span className="label-text  text-black">Rol</span>
                     <span className="label-text text-xs  text-black">Seleccione un rol</span>
                   </label>
-                  <select id="rol" className="select bg-white text-black border border-black select-ghost w-full max-w-xs">
-                    {/*  <option defaultValue={"tipo"} >Elegi el tipo</option> */}
+                  <select id="rol" defaultValue={"Tipo de Rol"} className="select bg-white text-black border border-black select-ghost w-full max-w-xs">
+                    <option  >Tipo de Rol</option>
                     <option>Admin</option>
                     <option>Docente</option>
 
@@ -181,10 +193,10 @@ export default function AltaDocente() {
                 </div>
               </div>
               <div className="content-center m-2">
-                <button className="btn bg-sky-400 text-black">Cancelar</button>
+                <button  onClick={(e) => limpiarFormulario(e)} type="reset" className="btn bg-sky-400 text-black">Cancelar</button>
               </div>
               <div className="content-center m-2">
-                <button type="submit" className="btn bg-sky-400 text-black">
+                <button className="btn bg-sky-400 text-black">
                   Aceptar
                 </button>
               </div>
