@@ -1,11 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAsistencia } from "../services/AsistenciaAlumnos.services";
+import { getAsistencia, postJustificada } from "../services/AsistenciaAlumnos.services";
 
 function AsistenciaAlumnos() {
     const { data, isLoading, error } = useQuery(["getAsistencia"], getAsistencia)
-    
-    
-    
+
+    function justificarFalta(e) {
+        e.preventDefault();
+        let dni = e.target.id;
+        postJustificada(dni)
+    }
+
     return (
 
 
@@ -69,22 +73,22 @@ function AsistenciaAlumnos() {
                 <tbody>
                     {/* row 1 */}
                     {data ?
-                        data.alumnos.map(e => (
+                        data.alumnos.map(el => (
                             <tr className="hover:bg-slate-200">
                                 <td>
 
                                 </td>
                                 <td>
-                                    {e.apellido}
+                                    {el.apellido}
                                 </td>
                                 <td>
-                                    {e.nombre}
+                                    {el.nombre}
                                 </td>
 
                                 {
-                                    e.registros.map(e => (
+                                    el.registros.map(e => (
                                         <td className={e == "P" ? "text-blue-600 font-bold" : e == "A" ? "text-red-600 font-bold" : e == "1/2" ? "text-green-600 font-bold" : e == "J" ? "text-orange-600 font-bold" : false} >
-                                            {e != "A" ? e : <select id="justificar"  className="bg-transparent"><option value="A">A</option><option value="J">J</option></select>}
+                                            {e != "A" ? e : <select onChange={(e) => justificarFalta(e)} id={el.dni} className="bg-transparent"><option value="A">A</option><option value="J">J</option></select>}
                                         </td>
                                     ))
                                 }
