@@ -1,59 +1,67 @@
 export default async function postAltaAlumno(data) {
-  if (data.nombre.length < 3) { //VALIDACION NOMBRE
+  if (data.nombre.length < 3) {
+    //VALIDACION NOMBRE
     alert("nombre invalido");
   }
-  if (data.apellido.length < 4) { //VALIDACION APELLIDO
+  if (data.apellido.length < 4) {
+    //VALIDACION APELLIDO
     alert("apellido invalido");
   }
-  if (!data.tipoDoc) { //VALIDACION TIPO DNI
+  if (!data.tipoDoc) {
+    //VALIDACION TIPO DNI
     alert("tipo de DNI invalido");
   }
-  if (data.dni.length < 6) { //VALIDACION DNI
+  if (data.dni.length < 6) {
+    //VALIDACION DNI
     alert("documento invalido");
   }
-  if (!data.direccion) { //VALIDACION DIRECCION
+  if (!data.direccion) {
+    //VALIDACION DIRECCION
     alert("direccion invalida");
   }
-  if (!data.localidad) { //VALIDACION LOCALIDAD
+  if (!data.localidad) {
+    //VALIDACION LOCALIDAD
     alert("localidad invalida");
   }
-  if (data.email) { //VALIDACION EMAIL
+  if (!data.email) {
+    //VALIDACION EMAIL
     alert("email invalido");
   }
-  if (data.tel) { //VALIDACION TEL
+  if (data.tel.length < 10) {
+    //VALIDACION TEL
     alert("telefono invalido");
   }
-  if (data.telCar) { //VALIDACION TEL CAR
-    alert("telefono invalido");
+  if (data.tel.length > 10) {
+    //VALIDACION TEL
+    alert("Muchos numeros");
   }
-  if (data.telExt) { //VALIDACION TEL EXTRA
-    alert("telefono invalido");
+  if (data.telCar.length < 10) {
+    //VALIDACION TEL CAR
+    alert("telefono Caracteristica invalido");
   }
-  if (!data.numLegajo) { //VALIDACION NUM LEGAJO
+  if (data.telCar.length > 10) {
+    //VALIDACION TEL CAR
+    alert("muchos numeros");
+  }
+  if (data.telExt.length < 10) {
+    //VALIDACION TEL EXTRA
+    alert("telefono extra invalido");
+  }
+  if (data.telExt.length > 10) {
+    //VALIDACION TEL EXTRA
+    alert("muchos numeros");
+  }
+  if (!data.numLegajo) {
+    //VALIDACION NUM LEGAJO
     alert("numero de legajo invalido");
   }
-  if (!data.curso) { //VALIDACION CURSO
+  if (!data.curso) {
+    //VALIDACION CURSO
     alert("curso invalido");
   }
-  /*   const data = {
-    nombre: nombre,
-    apellido: apellido,
-    tipoDoc : tipoDoc,
-    dni: dni,
-    direccion: direccion,
-    localidad: localidad,
-    email: email,
-    tel: tel,
-    telCar: telCar,
-    telExt: telExt,
-    numLegajo: numLegajo,
-    documentacionDni: documentacionDni,
-    documentacionPlanilla: documentacionPlanilla,
-    documentacionAnalitico: documentacionAnalitico,
-    curso: curso,
-  }; */
 
-  const response = await fetch("http://192.168.33.31:8080/alta-alumno", {
+  const url = "http://192.168.33.31:8080/alta-alumno";
+  const response = await fetch(url, {
     method: "POST", // *GET, POST, PUT, DELETE, etc.
     mode: "cors", // no-cors, *cors, same-origin
     cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
