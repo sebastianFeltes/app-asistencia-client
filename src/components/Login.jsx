@@ -1,6 +1,8 @@
 import Logo from "../assets/logocfl.png";
 import { Link, useNavigate } from "react-router-dom";
 import { postLogin } from "../services/Login.services";
+import check from "../assets/round check mark.png";
+import { useState } from "react";
 
 function Login() {
   const navigate = useNavigate();
@@ -10,10 +12,32 @@ function Login() {
     let usuario = ev.target.dni.value;
     let pass = ev.target.password.value;
     let res = await postLogin(usuario, pass);
-    console.log(res.status);
-    if (res.status == 200){
-      return navigate("/home-admin")
+    if (res.status == 200) {
+      return navigate("/home-admin");
     }
+  }
+
+  const [dniOk, setDniOk] = useState(false);
+  function dniChecker(e) {
+    e.preventDefault();
+    const dni = e.target.value;
+    if (dni.length >= 7) {
+      setDniOk(true);
+    } else {
+      setDniOk(false);
+    }
+    console.log(dni);
+  }
+  const [passOk, setPassOk] = useState(false);
+  function passChecker(e) {
+    e.preventDefault();
+    const dni = e.target.value;
+    if (dni.length >= 7) {
+      setPassOk(true);
+    } else {
+      setPassOk(false);
+    }
+    console.log(dni);
   }
 
   return (
@@ -31,21 +55,45 @@ function Login() {
                 </div>
                 <div className="form-control">
                   <label className="label"></label>
-                  <input
-                    id="dni"
-                    type="number"
-                    placeholder="Ingrese su DNI"
-                    className="input input-bordered rounded-full bg-white"
-                  />
+                  <span className="">
+                    <input
+                      onChange={(e) => dniChecker(e)}
+                      id="dni"
+                      type="number"
+                      placeholder="Ingrese su DNI"
+                      className="input input-bordered rounded-full bg-white w-64"
+                    />{" "}
+                    {dniOk ? (
+                      <img
+                        className={`w-12 inline absolute `}
+                        src={check}
+                        alt=""
+                      />
+                    ) : (
+                      false
+                    )}
+                  </span>
                 </div>
                 <div className="form-control">
                   <label className="label"></label>
-                  <input
-                    id="password"
-                    type="password"
-                    placeholder="Ingrese su contraseña"
-                    className="input input-bordered rounded-full bg-white"
-                  />
+                  <span>
+                    <input
+                      onChange={(e) => passChecker(e)}
+                      id="password"
+                      type="password"
+                      placeholder="Ingrese su contraseña"
+                      className="input input-bordered rounded-full bg-white w-64"
+                    />{" "}
+                    {passOk ? (
+                      <img
+                        className={`w-12 inline absolute `}
+                        src={check}
+                        alt=""
+                      />
+                    ) : (
+                      false
+                    )}
+                  </span>
                   <label className="label">
                     <span className="label-text-alt"></span>
                     <span className="label-text-alt">
