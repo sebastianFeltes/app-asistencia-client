@@ -8,8 +8,27 @@ function DatosAlumnos() {
 
   function modificarDataAlumnos(e) {
     e.preventDefaul()
+    !modal ? e.target.reset():true;
+    
     const legajo = e.target.nvoLegajo.value;
-    console.log(legajo);
+    const nombre = e.target.nvoNombre.value;
+    const apellido = e.target.nvoApellido.value;
+    const TipoDNI = e.target.nvoTipoDNI.value;
+    const DNI = e.target.nvoDNI.value;
+    const Email = e.target.nvoEmail.value;
+    const CodAreaTel = e.target.nvoCodAreaTel.value;
+    const Telefono = e.target.nvoTelefono.value;
+    const Direccion = e.target.nvoDireccion.value;
+    const Localidad = e.target.nvoLocalidad.value;
+    const Telefono = e.target.nvoTelefono.value;
+    
+
+    
+
+
+
+
+    
 
   }
 
