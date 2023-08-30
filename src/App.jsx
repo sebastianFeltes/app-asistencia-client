@@ -2,11 +2,11 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.scss";
 import Login from "./components/Login";
 import { Layout } from "./components/Layout";
-import HomeAdmin from "./components/HomeAdmin";
 import DataCursos from "./components/DataCursos";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 function App() {
+
   const queryClient =new QueryClient();
 //TODO: LOS CAMPOS SE TIENE QUE AUTOCOMPLETAR SI EXISTE EL DOCENTE
 //AL HACERLE "BLUR"
