@@ -8,7 +8,7 @@ export async function getAlumnos(){
 // Example POST method implementation:
 export async function postAlumnosModificado( data) {
 
-   const url="http://192.168.33.31:8080/modificar-alumnos"
+   const url="http://192.168.33.31:8080/modificar-alumno"
    
    // Default options are marked with *
    const response = await fetch(url, {
