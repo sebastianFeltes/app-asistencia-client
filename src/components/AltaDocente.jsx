@@ -33,34 +33,35 @@ export default function AltaDocente() {
 
     };
 
-   
+
     const res = await tryAltaDocente(data);
 
     return res;
 
-  
+
 
 
   }
 
-  function limpiarFormulario (e) {
+  function limpiarFormulario(e) {
     e.target.reset();
   }
 
   return (
     <>
       <div className="hero min-h-screen bg-white">
-        <div className="hero-content text-center w-full border border-black">
-          <div className="w-full">
+        <div className="hero-content text-center  border-4 border-black rounded-2xl w-full m-4">
+          <div className="">
             <h2 className="text-3xl text-black font-bold mb-8">Alta Docente</h2>
 
             <form onSubmit={e => post(e)} className="grid grid-cols-2 gap-4 ">
               <div id="contenedor1" className="flex flex-col m-2 ">
                 <label className="label">
                   <span className="label-text  text-black">Tipo De Doc</span>
+
                 </label>
                 <div id="" className="from-control  flex flex-row   ">
-                  <select id="tipoDoc" defaultValue={"Tipo de Documento"} className="select bg-white text-black border border-black select-ghost w-full max-w-xs">
+                  <select id="tipoDoc" defaultValue={"Tipo de Documento"} className="select bg-white rounded-full text-black border border-black select-ghost w-full max-w-xs">
                     <option  >Tipo de Documento</option>
                     <option>DU</option>
                     <option>LC</option>
@@ -69,23 +70,26 @@ export default function AltaDocente() {
 
                 </div>
 
-               
+
 
                 <label className="label">
-                  <span className="label-text  text-black">Documento</span>
+                  <span className="label-text text-black">Documento</span>
+
+                  <span className="label-text text-xs  text-black mr-20">(Sin puntos)</span>
+
                 </label>
                 <input
                   id="dni"
                   type="text"
-                  placeholder="N°"
-                  className="input input-bordered w-full text-black max-w-xs bg-white border-black"
-                  />
-                  <div className="content-center m-2 w-30 ">
-                <button  className="btn btn-sm bg-sky-400 text-black">
-                  Buscar
-                </button>
-              </div>
-                  
+                  placeholder="Ingrese su Numero de Documento"
+                  className="input rounded-full w-full text-black max-w-xs bg-white border-black"
+                />
+                <div className="content-center m-2 ml-5 pl-36">
+                  <button className="btn btn-sm  rounded-full bg-blue-600 text-white">
+                    Buscar
+                  </button>
+                </div>
+
 
 
                 <label className="label">
@@ -94,8 +98,8 @@ export default function AltaDocente() {
                 <input
                   id="nombreDoc"
                   type="text"
-                  placeholder="Nombre"
-                  className="input input-bordered w-full text-black max-w-xs bg-white border-black"
+                  placeholder="Ingrese su Nombre "
+                  className="input rounded-full w-full text-black max-w-xs bg-white border-black"
                 />
 
                 <label className="label">
@@ -106,26 +110,22 @@ export default function AltaDocente() {
                 <input
                   id="apellidoDoc"
                   type="text"
-                  placeholder="Apellido"
-                  className="input input-bordered text-black w-full max-w-xs bg-white border-black"
+                  placeholder="Ingrese su Apellido"
+                  className="input rounded-full text-black w-full max-w-xs bg-white border-black"
                 />
                 <label className="label">
                   <span className="label-text text-black">Crea tu contraseña</span>
-                  <span className="label-text text-xs  text-black pr-72">(Minimo 8 caracteres)</span>
+                  <span className="label-text text-xs  text-black pr-36">(Minimo 8 caracteres)</span>
                 </label>
                 <input
                   id="contra"
                   type="password"
-                  placeholder="**********"
-                  className="input input-bordered w-full text-black max-w-xs bg-white border-black"
+                  placeholder="Ingrese una Contraseña"
+                  className="input rounded-full w-full text-black max-w-xs bg-white border-black"
                 />
-
-
-
-
               </div>
 
-              <div id="contenedor2" className="grid grid-cols-2 gap-4  m-3 ">
+              <div id="contenedor2" className="pl-10 ">
                 <div className=" ">
                   <label className="label">
                     <span className="label-text text-black">Localidad</span>
@@ -134,7 +134,7 @@ export default function AltaDocente() {
                     id="local"
                     type="text"
                     placeholder="Localidad"
-                    className="input input-bordered w-full text-black max-w-xs bg-white border-black"
+                    className="input rounded-full w-full text-black max-w-xs bg-white border-black"
                   />
 
                   <label className="label">
@@ -144,7 +144,7 @@ export default function AltaDocente() {
                     id="direc"
                     type="text"
                     placeholder="Direccion"
-                    className="input input-bordered w-full text-black max-w-xs bg-white border-black"
+                    className="input rounded-full w-full text-black max-w-xs bg-white border-black"
                   />
 
                   <label className="label">
@@ -154,8 +154,8 @@ export default function AltaDocente() {
                   <input
                     id="tele"
                     type="number" name="numero"
-                    placeholder="Telefono"
-                    className="input input-bordered text-black w-full max-w-xs bg-white border-black"
+                    placeholder="Numero de Telefono"
+                    className="input rounded-full text-black w-full max-w-xs bg-white border-black"
                   />
                   <label className="label">
                     <span className="label-text  text-black">Tel Extra</span>
@@ -165,15 +165,14 @@ export default function AltaDocente() {
                   <input
                     id="telex"
                     type="number"
-                    placeholder="Extra"
-                    className="input input-bordered text-black w-full max-w-xs bg-white border-black"
+                    placeholder="Numero Extra"
+                    className="input rounded-full text-black w-full max-w-xs bg-white border-black"
                   />
 
                   <label className="label">
                     <span className="label-text  text-black">Rol</span>
-                    <span className="label-text text-xs  text-black">Seleccione un rol</span>
                   </label>
-                  <select id="rol" defaultValue={"Tipo de Rol"} className="select bg-white text-black border border-black select-ghost w-full max-w-xs">
+                  <select id="rol" defaultValue={"Tipo de Rol"} className="select rounded-full bg-white text-black border border-black select-ghost w-full max-w-xs">
                     <option  >Tipo de Rol</option>
                     <option>Admin</option>
                     <option>Docente</option>
@@ -186,17 +185,17 @@ export default function AltaDocente() {
                   </label>
                   <input
                     id="correo"
-                    type="text"
-                    placeholder="Email"
-                    className="input input-bordered text-black w-full max-w-xs bg-white border-black"
+                    type="email"
+                    placeholder="Ingrese su Email"
+                    className="input rounded-full text-black w-full max-w-xs bg-white border-black"
                   />
                 </div>
               </div>
-              <div className="content-center m-2">
-                <button  onClick={(e) => limpiarFormulario(e)} type="reset" className="btn bg-sky-400 text-black">Cancelar</button>
+              <div className="content-center m-2 ">
+                <button onClick={(e) => limpiarFormulario(e)} type="reset" className="btn bg-blue-600 rounded-full text-white">Cancelar</button>
               </div>
               <div className="content-center m-2">
-                <button className="btn bg-sky-400 text-black">
+                <button className="btn bg-blue-600 rounded-full text-white">
                   Aceptar
                 </button>
               </div>
