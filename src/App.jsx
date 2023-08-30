@@ -10,6 +10,7 @@ import DataCursos from "./components/DataCursos";
 import AsistenciaAlumnos from "./components/AsistenciaAlumnos";
 import "./App.scss";
 import AltaAlumno from "./components/AltaAlumno";
+import AltaDocente from "./components/AltaDocente";
 
 function App() {
   const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ function App() {
             <Route path="/datos-docentes" element={<DatosDocentes />} />
             <Route path="/data-cursos" element={<DataCursos />} />
             <Route path="/asistencia-alumnos" element={<AsistenciaAlumnos />} />
+            <Route path="/alta-docente" element={<AltaDocente />} />
           </Route>
         </Routes>
       </BrowserRouter>
