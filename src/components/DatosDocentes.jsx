@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
-import { docenteModificado, getDataDocentes } from "../services/DatosDocentes.services";
+import {
+  docenteModificado,
+  getDataDocentes,
+} from "../services/DatosDocentes.services";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 /* import { BtnEditarDocente } from "./EditarDocentes"; */
@@ -16,10 +19,9 @@ export function DatosDocentes() {
   function mostrarModal(e) {
     e.preventDefault();
     let id = e.target.id;
-   
+
     setModal("modal" + id);
   }
-
 
   function modificarDatosDocentes(e) {
     e.preventDefault();
@@ -56,7 +58,7 @@ export function DatosDocentes() {
 
     docenteModificado(data);
 
-   /* console.log(check);
+    /* console.log(check);
     console.log(nombre);
     console.log(apellido);
     console.log(tipoDNI);
@@ -72,7 +74,7 @@ export function DatosDocentes() {
   }
 
   return (
-    <div className="bg-black min-h-screen">
+    <div className="bg-white min-h-screen">
       <form>
         <div className="flex justify-between">
           <Link to={"/alta-docente"}>
@@ -90,10 +92,10 @@ export function DatosDocentes() {
       </form>
 
       <div className="overflow-x-auto">
-        <table className="table text-center text-white bg-transparent">
+        <table className="table text-center text-black  bg-white ">
           {/* head */}
           <thead>
-            <tr className="text-white">
+            <tr className="text-black">
               <th>ACTIVO</th>
               <th>NOMBRE </th>
               <th>APELLIDO</th>
@@ -119,7 +121,7 @@ export function DatosDocentes() {
               </tr>
             ) : (
               data.map((e) => (
-                <tr key={e.legajo}>
+                <tr className=" hover:bg-slate-200" key={e.legajo}>
                   <td>
                     {e.activo ? "si" : "no"}{" "}
                     {/*  <input
@@ -143,7 +145,7 @@ export function DatosDocentes() {
                   <td>{e.rol}</td>
                   <td>
                     <button
-                      className="btn"
+                      className="btn bg-[#0184F5] text-white"
                       id={e.legajo}
                       onClick={(e) => mostrarModal(e)}
                     >
@@ -153,7 +155,7 @@ export function DatosDocentes() {
                       id={`modal${e.legajo}`}
                       className={
                         modal == "modal" + e.legajo
-                          ? `visible fixed w-full h-full m-0 p-4 top-0 left-0   bg-gray-400 border border-cyan-400 `
+                          ? `visible fixed w-full h-full m-0 p-4 top-0 left-0   bg-gray-400  `
                           : "hidden"
                       }
                     >
@@ -161,7 +163,7 @@ export function DatosDocentes() {
                         onSubmit={(e) => modificarDatosDocentes(e)}
                         className=" flex flex-row justify-center"
                       >
-                        <div className="flex flex-col items-center justify-around border w-full border-blue-400">
+                        <div className="flex flex-col items-center justify-around  w-full ">
                           <div className="flex flex-row align-middle">
                             <span className="label-text text-black mr-2">
                               Activo
@@ -192,16 +194,30 @@ export function DatosDocentes() {
                             defaultValue={e.apellido}
                             className="input input-bordered w-full max-w-lg bg-white text-black border border-blue-400"
                           />
-                          <span className="label-text   text-black">
+                          <span className="label-text   text-black ">
                             Tipo DNI
                           </span>
-                          <input
+                          {/* <input
                             id="nvoTipoDni"
                             type="text"
                             placeholder={e.tipoDNI}
                             defaultValue={e.tipoDNI}
                             className="input input-bordered w-full max-w-lg bg-white text-black border border-blue-400"
-                          />
+                          /> */}
+
+                            
+                            <select
+                              id="nvoTipoDni"
+                              defaultValue={"Tipo de Documento"}
+                              className="select select-bordered w-full max-w-lg bg-white text-black border border-blue-400  "
+                            >
+                              <option>Tipo de Documento</option>
+                              <option>DU</option>
+                              <option>LC</option>
+                              <option>LE</option>
+                            </select>
+                          
+
                           <span className="label-text   text-black">DNI</span>
                           <input
                             id="nvoDni"
