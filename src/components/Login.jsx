@@ -61,17 +61,9 @@ function Login() {
                       id="dni"
                       type="number"
                       placeholder="Ingrese su DNI"
-                      className="input input-bordered rounded-full bg-white w-64"
+                      className={`input input-bordered rounded-full bg-white w-64 ${dniOk? "focus:border-2 focus:border-sky-400" :"focus:border-2 focus:border-red-600"}`}
                     />{" "}
-                    {dniOk ? (
-                      <img
-                        className={`w-12 inline absolute `}
-                        src={check}
-                        alt=""
-                      />
-                    ) : (
-                      false
-                    )}
+                    
                   </span>
                 </div>
                 <div className="form-control">
@@ -82,17 +74,9 @@ function Login() {
                       id="password"
                       type="password"
                       placeholder="Ingrese su contraseña"
-                      className="input input-bordered rounded-full bg-white w-64"
+                      className={`input input-bordered rounded-full bg-white w-64 ${passOk? "focus:border-2 focus:border-sky-400" :"focus:border-2 focus:border-red-600"}`}
                     />{" "}
-                    {passOk ? (
-                      <img
-                        className={`w-12 inline absolute `}
-                        src={check}
-                        alt=""
-                      />
-                    ) : (
-                      false
-                    )}
+                    
                   </span>
                   <label className="label">
                     <span className="label-text-alt"></span>
@@ -101,13 +85,15 @@ function Login() {
                     </span>
                   </label>
                 </div>
-                <div className="form-control mt-6">
+                <div className="flex flex-row justify-center form-control mt-6">
+                  <Link to={"/home-admin"}>
                   <button
                     type="submit"
-                    className="btn btn-primary rounded-full bg-[#0184F5]"
+                    className="btn btn-wide btn-primary rounded-full bg-[#0184F5]"
                   >
                     INGRESAR
                   </button>
+                  </Link>
                 </div>
               </div>
             </form>
