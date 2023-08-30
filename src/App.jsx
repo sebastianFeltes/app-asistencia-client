@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import './App.scss'
 import HomeAdmin from './components/HomeAdmin'
 import AsistenciaAlumnos from './components/AsistenciaAlumnos'
+import "./App.scss";
 
 function App() {
 const queryClient= new QueryClient();
@@ -14,7 +15,6 @@ const queryClient= new QueryClient();
 //AL HACERLE "BLUR"
 
   return (
-    
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Routes>
@@ -26,7 +26,6 @@ const queryClient= new QueryClient();
           </Route>
         </Routes>
       </BrowserRouter>
-
     </QueryClientProvider>
   );
 }
