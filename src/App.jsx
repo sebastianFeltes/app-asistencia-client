@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import "./App.sscss";
+import "./App.scss";
 import Login from "./components/Login";
 import { Layout } from "./components/Layout";
 import HomeAdmin from "./components/HomeAdmin";
