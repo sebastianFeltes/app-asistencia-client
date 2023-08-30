@@ -1,7 +1,6 @@
 import Logo from "../assets/logocfl.png";
 import { Link, useNavigate } from "react-router-dom";
 import { postLogin } from "../services/Login.services";
-import check from "../assets/round check mark.png";
 import { useState } from "react";
 
 function Login() {
