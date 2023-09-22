@@ -12,6 +12,8 @@ import "./App.scss";
 import AltaAlumno from "./components/AltaAlumno";
 import AltaDocente from "./components/AltaDocente";
 import DataAlumnos from "./components/DataAlumnos";
+import LectorQR from "./components/LectorQR";
+import GeneradorQR from "./components/GeneradorQR";
 
 
 function App() {
@@ -29,6 +31,8 @@ function App() {
             <Route path="/asistencia-alumnos" element={<AsistenciaAlumnos />} />
             <Route path="/alta-docente" element={<AltaDocente />} />
             <Route path="/datos-alumnos" element={<DataAlumnos />} />
+            <Route path="/lector-qr" element={<LectorQR/>} />
+            <Route path="/generador-qr" element={<GeneradorQR/>} />
 
           </Route>
         </Routes>
