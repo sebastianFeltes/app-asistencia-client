@@ -1,11 +1,12 @@
 export async function postLogin(dni, pass) {
-  const url = "http://192.168.33.31:8080/login";
-  if (dni.length < 7) {
+  const url = "http://localhost:8080/login";
+  console.log("aca si")
+/*   if (dni.length < 7) {
     return alert("DNI Inválido")
   }
   if (pass.length <4){
     return alert("Pass inválida")
-  }
+  } */
   let data = {
     dni: dni,
     password: pass,
@@ -24,7 +25,7 @@ export async function postLogin(dni, pass) {
     referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
     body: JSON.stringify(data), // body data type must match "Content-Type" header
   });
-  let res = await response;
-
+  let res = await response.json();
+  console.log(res)
   return res;
 }

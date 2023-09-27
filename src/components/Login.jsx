@@ -8,6 +8,7 @@ function Login() {
 
   async function ingresar(ev) {
     ev.preventDefault();
+    console.log("aca si, func ingresar");
     let usuario = ev.target.dni.value;
     let pass = ev.target.password.value;
     let res = await postLogin(usuario, pass);
@@ -30,13 +31,13 @@ function Login() {
   const [passOk, setPassOk] = useState(false);
   function passChecker(e) {
     e.preventDefault();
-    const dni = e.target.value;
-    if (dni.length >= 7) {
+    const pass = e.target.value;
+    if (pass.length >= 4) {
       setPassOk(true);
     } else {
       setPassOk(false);
     }
-    console.log(dni);
+    console.log(pass);
   }
 
   return (
@@ -91,14 +92,12 @@ function Login() {
                   </label>
                 </div>
                 <div className="flex flex-row justify-center form-control mt-6">
-                  <Link to={"/home-admin"}>
-                    <button
-                      type="submit"
-                      className="btn btn-wide btn-primary rounded-full bg-[#0184F5]"
-                    >
-                      INGRESAR
-                    </button>
-                  </Link>
+                  <button
+                    type="submit"
+                    className="btn btn-wide btn-primary rounded-full bg-[#0184F5]"
+                  >
+                    INGRESAR
+                  </button>
                 </div>
               </div>
             </form>
