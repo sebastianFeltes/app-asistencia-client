@@ -4,8 +4,11 @@ import { getDataCursos, postCursoModificado } from "../services/DataCursos.servi
 import { useState } from "react";
 
 function DataCursos() {
+  // eslint-disable-next-line no-unused-vars
   const { data, isLoading, error } = useQuery(["getCursos"], getDataCursos);
   const [modal, setModal] = useState("modal");
+  
+  console.log(data)
 
   function mostrarModal(e) {
     e.preventDefault();
@@ -18,19 +21,19 @@ function DataCursos() {
     e.preventDefault();
     !modal ? e.target.reset() : true;
     const nombre = e.target.nvoNombreCurso.value;
-    const apellido = e.target.nvoProfesor.value;
+    const docente = e.target.nvoDocente.value;
     const dias = e.target.nvoDias.value;
     const horarios = e.target.nvoHorario.value;
-    const alumnos = e.target.nvoCantidadAlumnos.value;
+    const cantAlumnos = e.target.nvoCantidadAlumnos.value;
     const idCurso = e.target.idCurso.value;
 
     const data = {
       nombre: nombre,
-      apellido:apellido,
+      id_docente:docente,
       dias:dias,
-      horarios:horarios,
-      alumnos:alumnos,
-      idCurso : idCurso
+      horario:horarios,
+      cantAlumnos:cantAlumnos,
+      id_curso : idCurso
     }
     postCursoModificado(data)
 
@@ -51,7 +54,7 @@ function DataCursos() {
 
             <Link to={"/"}>
               {" "}
-              <button className="btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black">
+              <button className="btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black ">
                 Historial Cursos
               </button>
             </Link>
@@ -62,7 +65,7 @@ function DataCursos() {
             <thead className=" text-black  font-semibold">
               <tr>
                 <th>NOMBRE DEL CURSO</th>
-                <th>PROFESOR</th>
+                <th>DOCENTE</th>
                 <th>DIAS</th>
                 <th>HORARIOS</th>
                 <th>CANTIDAD DE ALUMNOS ACTIVOS</th>
@@ -75,35 +78,40 @@ function DataCursos() {
               {!data
                 ? false
                 : data.map((e) => (
-                    <tr className="hover:bg-slate-200" key={e.idCurso}>
+                    <tr className="hover:bg-slate-200" key={e.id_curso}>
                       <td className="hover:italic">{e.nombre.toUpperCase()}</td>
                       <td className="hover:italic">
-                        {e.profesor.toUpperCase()}
+                        {e.id_docente.toUpperCase()}
                       </td>
-                      <td>{e.dias}</td>
-                      <td>{e.horarios}</td>
-                      <td>{e.cantAlumnos}</td>
+                      <td>{e.id_dia}</td>
+                      <td>{e.horario}</td>
+                      <td></td>
                       <td>
-                        <input type="checkbox" className="toggle" />
+                      <input
+                              id="nvoCheck"
+                              type="checkbox"
+                              className={`toggle toggle-info bg-white text-black border border-blue-400 `}
+                              defaultChecked={e.activo ? true : false}
+                            />
                       </td>
                       <td>
                         <button
                           className="btn  bg-blue-600 text-white hover:bg-blue-300  hover:text-black"
-                          id={e.idCurso}
+                          id={e.id_Curso}
                           onClick={(e) => mostrarModal(e)}
                         >
                           Editar
                         </button>
                         <div
-                          id={`modal${e.idCurso}`}
-                          className={modal==`modal${e.idCurso}`?"visible fixed w-full h-full m-0 p-20 top-0 left-0   bg-gray-400 border border-cyan-400":"hidden" }
+                          id={`modal${e.id_Curso}`}
+                          className={modal==`modal${e.id_Curso}`?"visible fixed w-full h-full m-0 p-20 top-0 left-0   bg-gray-400 border border-cyan-400":"hidden" }
                         >
                           <form
                             onSubmit={(e) => modificarDatosCursos(e)}
                             className=" flex flex-row justify-center"
                           >
                             <div className="flex flex-col place-items-center justify-center border w-full border-blue-400">
-                              <input id="idCurso" value={e.idCurso} disabled></input>
+                              <input id="idCurso" value={e.id_Curso} disabled></input>
                               <span className="label-text  text-black">
                                 Nombre Del Curso
                               </span>
@@ -118,16 +126,16 @@ function DataCursos() {
                                 Profesor
                               </span>
                               <input
-                                defaultValue={e.profesor}
+                                defaultValue={e.id_docente}
                                 type="text"
-                                id="nvoProfesor"
+                                id="nvoDocente"
                                 className="input input-bordered w-full max-w-lg bg-white text-black border border-blue-400"
                               />
                               <span className="label-text   text-black">
                                 Dias
                               </span>
                               <input
-                                defaultValue={e.dias}
+                                defaultValue={e.id_dia}
                                 type="text"
                                 id="nvoDias"
                                 className="input input-bordered w-full max-w-lg bg-white text-black border border-blue-400"
@@ -136,7 +144,7 @@ function DataCursos() {
                                 Horario
                               </span>
                               <input
-                                defaultValue={e.horarios}
+                                defaultValue={e.horario}
                                 type="text"
                                 id="nvoHorario"
                                 className="input input-bordered w-full max-w-lg bg-white text-black border border-blue-400"
@@ -152,7 +160,7 @@ function DataCursos() {
                               />
 
                               <div className="flex justify-center">
-                                <button  className="btn   max-w-xs bg-[#0184F5] text-white m-2">
+                                <button  type="submit" className="btn   max-w-xs bg-[#0184F5] text-white m-2">
                                   Aceptar
                                 </button>
                                 <button type="reset" onClick={()=>setModal("modal")} className="btn  max-w-xs bg-[#0184F5] text-white m-2">
