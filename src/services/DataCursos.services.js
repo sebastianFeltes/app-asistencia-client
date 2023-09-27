@@ -1,13 +1,14 @@
 export async function getDataCursos(){
-   const response = await fetch('http://192.168.33.31:8080/cursos');
+   const response = await fetch('http://localhost:8080/cursos');
     const cursos = await response.json();
+
     return cursos;
 }
 
 
 
 export async function postCursoModificado( data) {
-    const url = "http://192.168.33.31:8080/modificar-curso"
+    const url = "http://localhost:8080/cursos"
 
    
     // Default options are marked with *
@@ -24,7 +25,7 @@ export async function postCursoModificado( data) {
       referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
       body: JSON.stringify(data), // body data type must match "Content-Type" header
     });
-    const res =  response.json(); // parses JSON response into native JavaScript objects
+    const res = await response.json(); // parses JSON response into native JavaScript objects
     console.log(res)
     return res;
   }
