@@ -25,11 +25,13 @@ export function DatosDocentes() {
 
   function modificarDatosDocentes(e) {
     e.preventDefault();
+    console.log("funcion component");
     !modal ? e.target.reset() : true;
+    const id_docente = e.target.id_docente
     const check = e.target.nvoCheck.checked;
     const nombre = e.target.nvoNombre.value;
     const apellido = e.target.nvoApellido.value;
-    const tipoDNI = e.target.nvoTipoDni.value;
+    const tipoDni = e.target.nvoTipoDni.value;
     const dni = e.target.nvoDni.value;
     const codAreaTel = e.target.nvoCodArTel.value;
     const telefono = e.target.nvoTelefono.value;
@@ -39,21 +41,29 @@ export function DatosDocentes() {
     const legajo = e.target.nvoLegajo.value;
     const localidad = e.target.nvoLocalidad.value;
     const rol = e.target.nvoRol.value;
+    const car_tel_extra = e.target.car_tel_extra;
+    const tel_extra = e.target.tel_extra;
+    const password = e.target.password;
+
 
     const data = {
-      check: check,
+      id_docente: id_docente,
+      activo: check,
       nombre: nombre,
       apellido: apellido,
-      tipoDNI: tipoDNI,
-      dni: dni,
-      codAreaTel: codAreaTel,
+      tipo_dni: tipoDni,
+      nro_dni: dni,
+      car_telefono: codAreaTel,
       telefono: telefono,
       direccion: direccion,
       email: email,
-      fecNac: fecNac,
-      legajo: legajo,
+      fec_nac: fecNac,
+      nro_legajo: legajo,
       localidad: localidad,
-      rol: rol,
+      id_rol: rol,
+      car_tel_extra: car_tel_extra,
+      tel_extra: tel_extra,
+      password: password,  
     };
 
     docenteModificado(data);
@@ -110,6 +120,9 @@ export function DatosDocentes() {
               <th>LEGAJO</th>
               <th>LOCALIDAD</th>
               <th>ROL</th>
+              <th>car_tel_extra</th>
+              <th>telefono_extra</th>
+              <th>password</th>
               {/* <th>DATOS EXTRAS</th> */}
               <th>EDITAR</th>
             </tr>
@@ -121,9 +134,9 @@ export function DatosDocentes() {
               </tr>
             ) : (
               data.map((e) => (
-                <tr className=" hover:bg-slate-200" key={e.legajo}>
+                <tr className=" hover:bg-slate-200 capitalize" key={e.nro_legajo}>
                   <td>
-                    {e.activo ? "si" : "no"}{" "}
+                    {e.activo=="true" ? "si" : "no"}{" "}
                     {/*  <input
                       type="checkbox"
                       className="toggle toggle-info"
@@ -132,21 +145,24 @@ export function DatosDocentes() {
                   </td>
                   <td>{e.nombre}</td>
                   <td>{e.apellido}</td>
-                  <td>{e.tipoDNI}</td>
+                  <td>{e.tipo_dni}</td>
 
-                  <td>{e.dni}</td>
-                  <td>{e.codAreaTel}</td>
+                  <td>{e.nro_dni}</td>
+                  <td>{e.car_telefono}</td>
                   <td>{e.telefono}</td>
                   <td>{e.direccion}</td>
                   <td>{e.email}</td>
-                  <td>{e.fecNac}</td>
-                  <td>{e.legajo}</td>
+                  <td>{e.fecha_nac}</td>
+                  <td>{e.nro_legajo}</td>
                   <td>{e.localidad}</td>
-                  <td>{e.rol}</td>
+                  <td>{e.descripcion}</td>
+                  <td>{e.car_tel_extra}</td>
+                  <td>{e.tel_extra}</td>
+                  <td>{e.password}</td>
                   <td>
                     <button
                       className="btn bg-[#0184F5] text-white"
-                      id={e.legajo}
+                      id={e.nro_legajo}
                       onClick={(e) => mostrarModal(e)}
                     >
                       Editar
@@ -154,7 +170,7 @@ export function DatosDocentes() {
                     <div
                       id={`modal${e.legajo}`}
                       className={
-                        modal == "modal" + e.legajo
+                        modal == "modal" + e.nro_legajo
                           ? `visible fixed w-full h-full m-0 p-4 top-0 left-0   bg-gray-400  `
                           : "hidden"
                       }
@@ -205,25 +221,23 @@ export function DatosDocentes() {
                             className="input input-bordered w-full max-w-lg bg-white text-black border border-blue-400"
                           /> */}
 
-                            
-                            <select
-                              id="nvoTipoDni"
-                              defaultValue={"Tipo de Documento"}
-                              className="select select-bordered w-full max-w-lg bg-white text-black border border-blue-400  "
-                            >
-                              <option>Tipo de Documento</option>
-                              <option>DU</option>
-                              <option>LC</option>
-                              <option>LE</option>
-                            </select>
-                          
+                          <select
+                            id="nvoTipoDni"
+                            defaultValue={"Tipo de Documento"}
+                            className="select select-bordered w-full max-w-lg bg-white text-black border border-blue-400  "
+                          >
+                            <option>Tipo de Documento</option>
+                            <option>DU</option>
+                            <option>LC</option>
+                            <option>LE</option>
+                          </select>
 
                           <span className="label-text   text-black">DNI</span>
                           <input
                             id="nvoDni"
                             type="text"
-                            placeholder={e.dni}
-                            defaultValue={e.dni}
+                            placeholder={e.nro_dni}
+                            defaultValue={e.nro_dni}
                             className="input input-bordered w-full max-w-lg bg-white text-black border border-blue-400"
                           />
                           <span className="label-text   text-black">
@@ -232,8 +246,8 @@ export function DatosDocentes() {
                           <input
                             id="nvoCodArTel"
                             type="text"
-                            placeholder={e.codAreaTel}
-                            defaultValue={e.codAreaTel}
+                            placeholder={e.car_telefono}
+                            defaultValue={e.car_telefono}
                             className="input input-bordered w-full max-w-lg bg-white text-black border border-blue-400"
                           />
 
@@ -280,16 +294,16 @@ export function DatosDocentes() {
                           <input
                             type="text"
                             id="nvoFecNac"
-                            placeholder={e.fecNac}
-                            defaultValue={e.fecNac}
+                            placeholder={e.fecha_nac}
+                            defaultValue={e.fecha_nac}
                             className="input input-bordered w-full max-w-lg bg-white text-black border border-blue-400"
                           />
                           <span className="label-text  text-black">Legajo</span>
                           <input
                             id="nvoLegajo"
                             type="text"
-                            placeholder={e.legajo}
-                            defaultValue={e.legajo}
+                            placeholder={e.nro_legajo}
+                            defaultValue={e.nro_legajo}
                             className="input input-bordered w-full max-w-lg bg-white text-black border border-blue-400"
                           />
                           <span className="label-text text-black">
@@ -311,18 +325,18 @@ export function DatosDocentes() {
                             <option
                               type="text"
 
-                              /* className="input input-bordered w-full max-w-lg bg-white text-black border border-blue-400" */
+                              
                             >
-                              {e.rol.toUpperCase()}
+                              {e.descripcion.toUpperCase()}
                             </option>
                             <option
                               value={
-                                e.rol.toUpperCase() === "ADMIN"
+                                e.descripcion.toUpperCase() === "ADMIN"
                                   ? "DOCENTE"
                                   : "DOCENTE"
                               }
                             >
-                              {e.rol.toUpperCase() === "DOCENTE"
+                              {e.descripcion.toUpperCase() === "COMMON"
                                 ? "ADMIN"
                                 : "DOCENTE"}
                             </option>
@@ -339,24 +353,7 @@ export function DatosDocentes() {
                     </div>
                   </td>
 
-                  {/* <td>
-                    {e.datosExtras}
-                    <select className="select select-bordered w-full max-w-xs">
-                      <option disabled>
-                        <span>Telofono: </span>
-                        <span>221-487-4871</span>
-                      </option>
-                      <option disabled>
-                        <span>Documentacion:</span>
-                        <span>Completa</span>
-                        </option>
-                      <option disabled>
-                        <span>Telefono Medico:</span>
-                        <span>221-345-6259 </span>
-                        </option>
-                        </select>
-                      </td> */}
-                  {/* <BtnEditarDocente /> */}
+                  
                 </tr>
               ))
             )}
@@ -364,54 +361,7 @@ export function DatosDocentes() {
         </table>
       </div>
 
-      {/*    <div className="collapse collapse-plus bg-base-200">
-        <input type="radio" name="my-accordion-3" checked="checked" />
-        <div className="collapse-title text-xl font-medium">
-          Docente 1
-        </div>
-        <div className="collapse-content">
-        <thead>
-            <tr>
-              <th></th>
-              <th>NOMBRE APELLIDO</th>
-              <th>DNI</th>
-              <th>DIRECCION</th>
-              <th>TELEFONO</th>
-              <th>EMAIL</th>
-            </tr>
-          </thead>
-          <tr>
-              
-              <td>JUAN CARLO</td>
-              <td>45.648.486</td>
-              <td>12 154 155</td>
-              <td>2213636355</td>
-              <td>juancarlos95@gmail.com</td>
-              </tr>
-
-
-
-          
-        </div>
-      </div>
-      <div className="collapse collapse-plus bg-base-200">
-        <input type="radio" name="my-accordion-3" />
-        <div className="collapse-title text-xl font-medium">
-          Click to open this one and close others
-        </div>
-        <div className="collapse-content">
-          <p>hello</p>
-        </div>
-      </div>
-      <div className="collapse collapse-plus bg-base-200">
-        <input type="radio" name="my-accordion-3" />
-        <div className="collapse-title text-xl font-medium">
-          Click to open this one and close others
-        </div>
-        <div className="collapse-content">
-          <p>hello</p>
-        </div>
-      </div> */}
+      
     </div>
   );
 }
