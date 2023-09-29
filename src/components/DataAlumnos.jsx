@@ -94,7 +94,7 @@ function DatosAlumnos() {
                 {!data
                   ? false
                   : data.map((e) => (
-                      <tr key={e.legajo}>
+                      <tr key={e.id_alumno}>
                         <td></td>
                         <td>{e.legajo}</td>
                         <td>{e.nombre}</td>

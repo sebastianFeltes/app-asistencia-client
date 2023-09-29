@@ -1,5 +1,5 @@
 export async function getAlumnos(){
-   const response = await fetch ("http://192.168.33.31:8080/alumnos");
+   const response = await fetch ("http://localhost:8080/data-alumnos");
    const alumnos =await response.json();
    return alumnos;
 }
@@ -8,7 +8,7 @@ export async function getAlumnos(){
 // Example POST method implementation:
 export async function postAlumnosModificado( data) {
 
-   const url="http://192.168.33.31:8080/modificar-alumno"
+   const url="http://localhost:8080/modificar-alumno"
    
    // Default options are marked with *
    const response = await fetch(url, {

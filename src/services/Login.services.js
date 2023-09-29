@@ -1,35 +1,13 @@
-export async function getAlumnos() {
-  const response = await fetch("http://192.168.33.31:8080/login");
-  const alumnos = await response.json();
-  return alumnos;
-}
-
-export async function postNuevoUsuario() {
-  const data = {
-    dni: 35954987,
-    nombre: "Sebastian"
-  }
-  const url = "http://192.168.33.31/login";
-  let response = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-    credentials: "include",
-    mode: "cors",
-  });
-  let result = await response.json();
-  return result;
-}
 export async function postLogin(dni, pass) {
-  const url = "http://192.168.33.31:8080/login";
+  const url = "http://localhost:8080/login";
   if (dni.length < 7) {
     return alert("DNI Inválido")
   }
-  if (pass.length <4){
+  if (pass.length < 4) {
     return alert("Pass inválida")
   }
   let data = {
-    dni: dni,
+    nro_dni: parseInt(dni),
     password: pass,
   };
 
@@ -46,7 +24,7 @@ export async function postLogin(dni, pass) {
     referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
     body: JSON.stringify(data), // body data type must match "Content-Type" header
   });
-  let res = await response;
-
+  let res = await response.json();
+  console.log(res)
   return res;
 }

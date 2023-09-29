@@ -41,7 +41,8 @@ export default function AltaDocente() {
     console.log(data)
     if (contra === contra2) {
       const res = await tryAltaDocente(data);
-      return console.log(res);
+      return alert(res.message)
+      
     } else {
       alert("las contraseñas deben ser iguales")
     }

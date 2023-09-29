@@ -136,7 +136,7 @@ export function DatosDocentes() {
               data.map((e) => (
                 <tr className=" hover:bg-slate-200 capitalize" key={e.nro_legajo}>
                   <td>
-                    {e.activo=="true" ? "si" : "no"}{" "}
+                    {e.activo ? "si" : "no"}{" "}
                     {/*  <input
                       type="checkbox"
                       className="toggle toggle-info"

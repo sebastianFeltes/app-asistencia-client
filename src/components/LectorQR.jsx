@@ -12,8 +12,8 @@ export default function LectorQR() {
 
 			//TODO: enviar findedNum al servidor para traer los datos del alumno
 			const res = await buscarAlumnoPorID(findedNum);
-			setAlumno(res);
-			console.log(findedNum);
+			setAlumno( await res);
+			console.log(res)
 			setMostrarData(!mostrarData);
 		}
 	};
@@ -39,16 +39,16 @@ export default function LectorQR() {
 					<div className={mostrarData ? "block" : "hidden"}>
 						<div className="w-1/2 h-full ml-auto mr-auto bg-white flex flex-col ">
 							<span className=" w-1/2 p-3 font-normal my-4  ml-auto mr-auto  border-b border-blue-600 rounded-lg">
-								{alumno ? alumno.apellido : false}
+								{alumno ? alumno.data_alumno_curso.apellido_alumno : false}
 							</span>
 							<span className=" w-1/2 p-3 my-4 font-normal  ml-auto mr-auto   border-b border-blue-600 rounded-lg">
-								{alumno ? alumno.nombre : false}
+								{alumno ? alumno.data_alumno_curso.nombre_alumno : false}
 							</span>
 							<span className=" w-1/2 p-3 font-normal my-4  ml-auto mr-auto  border-b border-blue-600 rounded-lg">
-								{alumno ? alumno.nro_dni : false}
+								{alumno ? alumno.data_alumno_curso.dni_alumno : false}
 							</span>
 							<span className=" w-1/2 p-3 font-normal my-4  ml-auto mr-auto  border-b border-blue-600 rounded-lg">
-								{new Date().toLocaleString("es-ES")}
+								{alumno.hora_ingreso}
 							</span>
 						</div>
 					</div>
