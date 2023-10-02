@@ -1,14 +1,15 @@
 export async function getAlumnos(){
-   const response = await fetch ("http://localhost:8080/data-alumnos");
+   const response = await fetch ("http://localhost:8080/datos-alumnos");
    const alumnos =await response.json();
+   console.log(alumnos)
    return alumnos;
 }
 
 
 // Example POST method implementation:
-export async function postAlumnosModificado( data) {
+export async function postAlumnosModificado(data) {
 
-   const url="http://192.168.33.31:8080/modificar-alumno"
+   const url="http://localhost:8080/datos-alumnos"
    
    // Default options are marked with *
    const response = await fetch(url, {
@@ -24,7 +25,7 @@ export async function postAlumnosModificado( data) {
      referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
      body: JSON.stringify(data), // body data type must match "Content-Type" header
    });
-   const res=response.json(); // parses JSON response into native JavaScript objects
+   const res= await response.json(); // parses JSON response into native JavaScript objects
    console.log(res)
    return res;
  }
