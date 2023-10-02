@@ -1,16 +1,5 @@
-export async function postLogin(dni, pass) {
-  const url = "http://localhost:8080/login";
-  if (dni.length < 7) {
-    return alert("DNI Inválido")
-  }
-  if (pass.length < 4) {
-    return alert("Pass inválida")
-  } 
-  let data = {
-    nro_dni: parseInt(dni),
-    password: pass,
-  };
-
+export default async function postAltaAlumno(data) {
+  const url = "http://localhost:8080/alta-alumno";
   const response = await fetch(url, {
     method: "POST", // *GET, POST, PUT, DELETE, etc.
     mode: "cors", // no-cors, *cors, same-origin
@@ -24,7 +13,14 @@ export async function postLogin(dni, pass) {
     referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
     body: JSON.stringify(data), // body data type must match "Content-Type" header
   });
-  let res = await response.json();
-  console.log(res)
-  return res;
+  const res = await response.json();
+  return console.log(res);
+}
+
+export async function getAltaAlumno(dni) {
+  const url = "http://localhost:8080/alta-alumno";
+  const response = await fetch(url + "/" + dni);
+  const res = await response.json();
+   console.log(res);
+   return res;
 }
