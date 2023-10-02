@@ -10,7 +10,7 @@ export default function NavBar() {
       <div className="flex-1 gap-2">
         <form className="w-full flex flex-row justify-evenly my-2">
           <button className="btn btn-primary rounded-full bg-[#0184F5] px-24 ">
-            <Link to={"/data-cursos"}>Cursos</Link>
+            <Link to={"/datos-cursos"}>Cursos</Link>
           </button>
           <button className="btn btn-primary rounded-full bg-[#0184F5] px-24 ">
             <Link to={"#"}>Alumnos</Link>
