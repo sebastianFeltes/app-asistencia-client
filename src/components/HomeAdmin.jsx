@@ -49,7 +49,7 @@ export default function HomeAdmin() {
             </button>
           </Link>
           {rol != "DOCENTE" ? (
-            <Link to={"/docentes"}>
+            <Link to={"/datos-docentes"}>
               <button className="btn bg-blue-600 text-white m-2 w-full hover:bg-blue-300 hover:text-black ">
                 Docentes
               </button>

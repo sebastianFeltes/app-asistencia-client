@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import {
   getAlumnos,
   postAlumnosModificado,
-} from "../services/DatosAlumnos.services";
+} from "../services/DatosAlumnos.services.js";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
@@ -119,10 +119,10 @@ function DatosAlumnos() {
                 {!data
                   ? false
                   : data.map((e) => (
-                      <tr key={e.id_alumno}>
+                      <tr key={e.id_alumno} className="hover:bg-slate-200">
                         <td></td>
                         <td>{e.nro_legajo}</td>
-                        <td>{e.nombre}</td>
+                        <td>{e.nombre.toUpperCase()}</td>
                         <td>{e.apellido}</td>
                         <td>{e.tipo_dni}</td>
                         <td>{e.nro_dni}</td>
@@ -135,15 +135,15 @@ function DatosAlumnos() {
                         <td>{e.telefono_extra}</td>
                         <td>
                           <div>
-                            {e.fotoc_analitico == "true"
+                            {e.fotoc_analitico == "on"
                               ? "ANALITICO: SI"
                               : "ANALITICO: NO"}
                           </div>
                           <div>
-                            {e.fotoc_dni == "true" ? "DNI: SI" : "DNI: NO"}
+                            {e.fotoc_dni == "on" ? "DNI: SI" : "DNI: NO"}
                           </div>
                           <div>
-                            {e.planilla_ins == "true"
+                            {e.planilla_ins == "on"
                               ? "PLANILLA: SI"
                               : "PLANILLA: NO"}
                           </div>
@@ -158,6 +158,13 @@ function DatosAlumnos() {
                             onClick={(e) => mostrarModal(e)}
                           >
                             Editar
+                          </button>
+                          <button
+                            className="btn max-w-xs bg-blue-600  text-white"
+                            id={e.id_alumno}
+                           
+                          >
+                            generarQR
                           </button>
                           {/* <div
                             id={`modal${e.id_alumno}`}
