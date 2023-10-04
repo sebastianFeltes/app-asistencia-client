@@ -1,11 +1,12 @@
 export async function postLogin(dni, pass) {
   const url = "http://localhost:8080/login";
-  if (dni.length < 7) {
+  console.log("aca si")
+/*   if (dni.length < 7) {
     return alert("DNI Inválido")
   }
   if (pass.length < 4) {
     return alert("Pass inválida")
-  }
+  } */
   let data = {
     nro_dni: parseInt(dni),
     password: pass,

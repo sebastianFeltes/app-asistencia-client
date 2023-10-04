@@ -8,6 +8,7 @@ function Login() {
 
   async function ingresar(ev) {
     ev.preventDefault();
+    console.log("aca si, func ingresar");
     let usuario = ev.target.dni.value;
     let pass = ev.target.password.value;
     let res = await postLogin(usuario, pass);
@@ -30,13 +31,13 @@ function Login() {
   const [passOk, setPassOk] = useState(false);
   function passChecker(e) {
     e.preventDefault();
-    const dni = e.target.value;
-    if (dni.length >= 7) {
+    const pass = e.target.value;
+    if (pass.length >= 4) {
       setPassOk(true);
     } else {
       setPassOk(false);
     }
-    console.log(dni);
+    console.log(pass);
   }
 
   return (
@@ -60,9 +61,13 @@ function Login() {
                       id="dni"
                       type="number"
                       placeholder="Ingrese su DNI"
-                      className={`input input-bordered rounded-full bg-white w-64 ${dniOk ? "focus:border-2 focus:border-sky-400" : "focus:border-2 focus:border-red-600"}`}
+                      className={`input input-bordered rounded-full bg-white w-64 ${
+                        dniOk
+                          ? "focus:border-2 focus:border-sky-400"
+                          : "focus:border-2 focus:border-red-600"
+                      }`}
                     />{" "}
-
+                    
                   </span>
                 </div>
                 <div className="form-control">
@@ -73,9 +78,13 @@ function Login() {
                       id="password"
                       type="password"
                       placeholder="Ingrese su contraseña"
-                      className={`input input-bordered rounded-full bg-white w-64 ${passOk ? "focus:border-2 focus:border-sky-400" : "focus:border-2 focus:border-red-600"}`}
+                      className={`input input-bordered rounded-full bg-white w-64 ${
+                        passOk
+                          ? "focus:border-2 focus:border-sky-400"
+                          : "focus:border-2 focus:border-red-600"
+                      }`}
                     />{" "}
-
+                    
                   </span>
                   <label className="label">
                     <span className="label-text-alt"></span>
