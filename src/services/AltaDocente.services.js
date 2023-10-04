@@ -1,7 +1,7 @@
 export async function tryAltaDocente(data) {
   const url = "http://localhost:8080/alta-docente"
-  console.log("services")
-  console.log(data)
+  console.log("recibido")
+  
 /*   if (data.nro_legajo.length < 4) { alert("legajo invalido") }
   if (data.tipo_dni == "Tipo de Documento") { alert("seleccione un tipo de Documento") }
   if (data.nro_dni.length < 7) { alert("Dni incompleto") }
@@ -33,6 +33,6 @@ export async function tryAltaDocente(data) {
     body: JSON.stringify(data), // body data type must match "Content-Type" header
   });
   const res = await response.json(); // parses JSON response into native JavaScript objects
-  console.log(res)
+  
   return res;
 }
