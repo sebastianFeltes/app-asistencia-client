@@ -1,22 +1,23 @@
 import Logo from "../assets/logocfl.png";
 import { Link, useNavigate } from "react-router-dom";
 import { postLogin } from "../services/Login.services";
-//import { useContext, useState } from "react";
-//import { UserContext } from "../context/user.context";
+import { useContext, useState } from "react";
+import { UserContext } from "../context/user.context";
 
 function Login() {
   const navigate = useNavigate();
   //const userContext = useContext(UserContext);
-  
+
   async function ingresar(ev) {
     ev.preventDefault();
     console.log("aca si, func ingresar");
     let usuario = ev.target.dni.value;
     let pass = ev.target.password.value;
     let res = await postLogin(usuario, pass);
-    if (res) {
-      
+    if (res.id_docente) {
       return navigate("/home-admin");
+    }else{
+      alert(res.message)
     }
   }
 
@@ -29,7 +30,7 @@ function Login() {
     } else {
       setDniOk(false);
     }
-    console.log(dni);
+
   }
   const [passOk, setPassOk] = useState(false);
   function passChecker(e) {
@@ -40,7 +41,7 @@ function Login() {
     } else {
       setPassOk(false);
     }
-    console.log(pass);
+
   }
 
   return (
@@ -53,7 +54,7 @@ function Login() {
                 <div className="flex flex-row justify-center">
                   <img src={Logo} className="w-36 rounded-full " />
                 </div>
-                <div className="flex justify-center">
+                <div className="flex justify-center text-white">
                   <h1>REGISTRO ASISTENCIA CFL 404</h1>
                 </div>
                 <div className="form-control">
@@ -83,9 +84,11 @@ function Login() {
                   </span>
                   <label className="label">
                     <span className="label-text-alt"></span>
-                    <span className="label-text-alt">
-                      <Link to={"/recuperar-contraseña"}>Recuperar contraseña</Link>
-                    </span>
+                    <Link to={"/recuperar-contraseña"}>
+                      <span className="label-text-alt text-gray-300 decoration underline hover:text-white">
+                        Recuperar contraseña
+                      </span>
+                    </Link>
                   </label>
                 </div>
                 <div className="flex flex-row justify-center form-control mt-6">
