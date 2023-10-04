@@ -1,18 +1,21 @@
 import Logo from "../assets/logocfl.png";
 import { Link, useNavigate } from "react-router-dom";
 import { postLogin } from "../services/Login.services";
-import { useState } from "react";
+//import { useContext, useState } from "react";
+//import { UserContext } from "../context/user.context";
 
 function Login() {
   const navigate = useNavigate();
-
+  //const userContext = useContext(UserContext);
+  
   async function ingresar(ev) {
     ev.preventDefault();
     console.log("aca si, func ingresar");
     let usuario = ev.target.dni.value;
     let pass = ev.target.password.value;
     let res = await postLogin(usuario, pass);
-    if (res.message == "loggeado") {
+    if (res) {
+      
       return navigate("/home-admin");
     }
   }
@@ -50,7 +53,7 @@ function Login() {
                 <div className="flex flex-row justify-center">
                   <img src={Logo} className="w-36 rounded-full " />
                 </div>
-                <div>
+                <div className="flex justify-center">
                   <h1>REGISTRO ASISTENCIA CFL 404</h1>
                 </div>
                 <div className="form-control">
@@ -61,13 +64,9 @@ function Login() {
                       id="dni"
                       type="number"
                       placeholder="Ingrese su DNI"
-                      className={`input input-bordered rounded-full bg-white w-64 ${
-                        dniOk
-                          ? "focus:border-2 focus:border-sky-400"
-                          : "focus:border-2 focus:border-red-600"
-                      }`}
+                      className={`input input-bordered rounded-full bg-white w-64 ${dniOk ? "focus:border-2 focus:border-sky-400" : "focus:border-2 focus:border-red-600"}`}
                     />{" "}
-                    
+
                   </span>
                 </div>
                 <div className="form-control">
@@ -78,18 +77,14 @@ function Login() {
                       id="password"
                       type="password"
                       placeholder="Ingrese su contraseña"
-                      className={`input input-bordered rounded-full bg-white w-64 ${
-                        passOk
-                          ? "focus:border-2 focus:border-sky-400"
-                          : "focus:border-2 focus:border-red-600"
-                      }`}
+                      className={`input input-bordered rounded-full bg-white w-64 ${passOk ? "focus:border-2 focus:border-sky-400" : "focus:border-2 focus:border-red-600"}`}
                     />{" "}
-                    
+
                   </span>
                   <label className="label">
                     <span className="label-text-alt"></span>
                     <span className="label-text-alt">
-                      <Link>Recuperar contraseña</Link>
+                      <Link to={"/recuperar-contraseña"}>Recuperar contraseña</Link>
                     </span>
                   </label>
                 </div>

@@ -1,7 +1,11 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { UserContext } from "../context/user.context";
 
 export default function HomeAdmin() {
   let rol = "DOCENTE";
+  const userContext = useContext(UserContext)
+  console.log(userContext)
 
   return (
     <div className="hero min-h-screen bg-white ">
