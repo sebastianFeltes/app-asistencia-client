@@ -1,9 +1,11 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../context/user.context";
+import { useQuery } from "@tanstack/react-query";
+import { getMostrarCursos } from "../services/homeAdmin.services";
 
 export default function HomeAdmin() {
-  let rol = "DOCENTE";
+  let rol = "ADMIN";
   
   const { data /*  isLoading, error */ } = useQuery( ["mostrarCursos"], getMostrarCursos
   );
@@ -24,12 +26,13 @@ export default function HomeAdmin() {
             </button>
           </Link>
 
-          <select className="select select-bordered w-full max-w-xs"  >
+          <select id="id-curso" className="select select-bordered w-full max-w-xs"  >
             {!data ? false :data.map((e) => ( 
               
             
             <option key={e.id_curso}>
-            {e.nombre}
+            {e.id_curso} 
+            {e.nombre.toUpperCase()}
             </option>
             
             )) }
