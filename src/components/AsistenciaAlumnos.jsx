@@ -2,8 +2,22 @@ import { useQuery } from "@tanstack/react-query";
 import { getAsistencia, postJustificada } from "../services/AsistenciaAlumnos.services";
 
 function AsistenciaAlumnos() {
-    const { data, isLoading, error } = useQuery(["getAsistencia"], getAsistencia)
+   // const { data, isLoading, error } = useQuery(["getAsistencia"], getAsistencia)
+    const data = [
+/*         {
+            fecha:["1/12","3/12","5,12","9/12","11/12","13/12"],
+            curso: "Programación",
+            profesor:"Feltes Sebastian",
+            dias:"Lun, Mie, Vie",
+            horarios:"17.00 a 21.00",
+            cantAlumnos: 18,
+            alumnos:{
+                apellido:"Dias"
+            }
 
+
+        } */
+    ]
     function justificarFalta(e) {
         e.preventDefault();
         let dni = e.target.id;
