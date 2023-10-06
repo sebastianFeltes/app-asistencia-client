@@ -4,9 +4,9 @@ import Logo from "../assets/logocfl.png";
 import { UserContext } from "../context/User.context";
 
 export default function NavBar() {
-  const UserData = useContext(UserContext);
-  const nombre = UserData.nombreUsuario.toUpperCase().split("", 1);
-  const apellido = UserData.apellidoUsuario.toUpperCase().split("", 1);
+  //const UserData = useContext(UserContext);
+  //const nombre = UserData.nombreUsuario.toUpperCase().split("", 1);
+  //const apellido = UserData.apellidoUsuario.toUpperCase().split("", 1);
 
   return (
     <div className="flex flex-row justify-around navbar  bg-[#093F7C] ">
@@ -27,7 +27,7 @@ export default function NavBar() {
           <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
             <div className="w-10 rounded-full">
               <span className=" text-center align-middle text-4xl rounded-full h-16  w-16 p-0 m-0 border border-white">
-                {nombre + apellido}
+                
               </span>
             </div>
           </label>

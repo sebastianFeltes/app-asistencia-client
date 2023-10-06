@@ -26,7 +26,7 @@ export default function HomeAdmin() {
             </button>
           </Link>
 
-          <select id="id-curso" className="select select-bordered w-full max-w-xs"  >
+          <select id="id-curso" className="select select-bordered w-full max-w-xs bg-white text-black"  >
             {!data ? false :data.map((e) => ( 
               
             
