@@ -6,6 +6,7 @@ import "./AltaDocente.scss"
 export default function AltaDocente() {
   async function post(e) {
     e.preventDefault();
+    console.log("ev")
     const tipoDoc = e.target.tipoDoc.value;
     const dni = e.target.dni.value;
     const nombreDoc = e.target.nombreDoc.value;
@@ -42,13 +43,12 @@ export default function AltaDocente() {
     if (contra === contra2) {
       const res = await tryAltaDocente(data);
 
-      if (res == "recibido"){
+      if (res.message){
 
-        e.target.reset(res);
+        e.target.reset();
+        return alert (res.message)
       }
-      return alert ("Docente cargado exitosamente")
 
-    
       
     } else {
       alert("las contraseñas deben ser iguales")
@@ -70,7 +70,7 @@ export default function AltaDocente() {
         <div className="hero-content text-center  border-4 border-black rounded-2xl w-full m-4">
           <div className="w-full ">
 
-            <h2 className="text-3xl text-black font-bold mb-8">ALTA DOCENTE</h2>
+            <h2 className="text-3xl text-black font-bold ">ALTA DOCENTE</h2>
 
             <form onSubmit={e => post(e)} className="flex flex-row flex-wrap justify-around w-full   ">
               <div id="contenedor1" className="flex flex-col grow-2 w-1/3 m-2 p-0 text-center ">
