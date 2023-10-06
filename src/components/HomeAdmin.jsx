@@ -1,11 +1,15 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { UserContext } from "../context/user.context";
 import { useQuery } from "@tanstack/react-query";
 import { getMostrarCursos } from "../services/homeAdmin.services";
+import UserContext from "../context/user.context";
 
 export default function HomeAdmin() {
-  let rol = "ADMIN";
+const userContext = useContext(UserContext);
+console.log(userContext)
+const rol = userContext.userData.id_rol;
+console.log(rol)
+
   
   const { data /*  isLoading, error */ } = useQuery( ["mostrarCursos"], getMostrarCursos
   );
@@ -14,7 +18,7 @@ export default function HomeAdmin() {
     <div className="hero min-h-screen bg-white ">
       <div className="hero-content  border-2 border-indigo-600 text-center">
         <div className="max-w-md flex flex-col">
-          {rol == "DOCENTE" ? (
+          {rol !== 1 ? (
             <h1 className="text-3xl font-bold text-black ">Inicio Docente</h1>
           ) : (
             <h1 className="text-3xl font-bold  text-black">Inicio Administrador</h1>
@@ -48,7 +52,7 @@ export default function HomeAdmin() {
               Cursos
             </button>
           </Link>
-          {rol != "DOCENTE" ? (
+          {rol == 1 ? (
             <Link to={"/datos-docentes"}>
               <button className="btn bg-blue-600 text-white m-2 w-full hover:bg-blue-300 hover:text-black ">
                 Docentes

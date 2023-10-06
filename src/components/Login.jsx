@@ -2,11 +2,11 @@ import Logo from "../assets/logocfl.png";
 import { Link, useNavigate } from "react-router-dom";
 import { postLogin } from "../services/Login.services";
 import { useContext, useState } from "react";
-import { UserContext } from "../context/user.context";
+import UserContext from "../context/user.context";
 
 function Login() {
   const navigate = useNavigate();
-  //const userContext = useContext(UserContext);
+  const userContext = useContext(UserContext);
 
   async function ingresar(ev) {
     ev.preventDefault();
@@ -15,6 +15,8 @@ function Login() {
     let pass = ev.target.password.value;
     let res = await postLogin(usuario, pass);
     if (res.id_docente) {
+      console.log(res);
+      userContext.setUserState(res);
       return navigate("/home-admin");
     }else{
       alert(res.message)
