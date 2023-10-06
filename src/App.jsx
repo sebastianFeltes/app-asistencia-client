@@ -6,15 +6,15 @@ import HomeAdmin from "./components/HomeAdmin";
 import { DatosDocentes } from "./components/DatosDocentes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./App.scss";
-import DataCursos from "./components/DataCursos";
+import DataCursos from "./components/DatosCursos";
 import AsistenciaAlumnos from "./components/AsistenciaAlumnos";
 import "./App.scss";
 import AltaAlumno from "./components/AltaAlumno";
 import AltaDocente from "./components/AltaDocente";
-import DataAlumnos from "./components/DataAlumnos";
+import DatosAlumnos from "./components/DatosAlumnos";
 import LectorQR from "./components/LectorQR";
 import GeneradorQR from "./components/GeneradorQR";
-
+import { UserContext } from "./context/user.context";
 
 function App() {
   const queryClient = new QueryClient();
@@ -28,12 +28,12 @@ function App() {
             <Route path="/home-admin" element={<HomeAdmin />} />
             <Route path="/alta-alumno" element={<AltaAlumno />} />
             <Route path="/datos-docentes" element={<DatosDocentes />} />
-            <Route path="/data-cursos" element={<DataCursos />} />
+            <Route path="/datos-cursos" element={<DataCursos />} />
             <Route path="/asistencia-alumnos" element={<AsistenciaAlumnos />} />
             <Route path="/alta-docente" element={<AltaDocente />} />
-            <Route path="/datos-alumnos" element={<DataAlumnos />} />
-            <Route path="/lector-qr" element={<LectorQR/>} />
-            <Route path="/generador-qr" element={<GeneradorQR/>} />
+            <Route path="/datos-alumnos" element={<DatosAlumnos />} />
+            <Route path="/lector-qr" element={<LectorQR />} />
+            <Route path="/generador-qr" element={<GeneradorQR />} />
 
           </Route>
         </Routes>

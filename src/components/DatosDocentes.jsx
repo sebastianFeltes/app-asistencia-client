@@ -24,11 +24,11 @@ export function DatosDocentes() {
     setModal("modal" + id);
   }
 
-  function modificarDatosDocentes(e) {
+  async function modificarDatosDocentes(e) {
     e.preventDefault();
     console.log("funcion component");
     !modal ? e.target.reset() : true;
-    const id_docente = e.target.id_docente
+    const id_docente = e.target.id;
     const check = e.target.nvoCheck.checked;
     const nombre = e.target.nvoNombre.value;
     const apellido = e.target.nvoApellido.value;
@@ -38,36 +38,36 @@ export function DatosDocentes() {
     const telefono = e.target.nvoTelefono.value;
     const direccion = e.target.nvoDireccion.value;
     const email = e.target.nvoEmail.value;
-    const fecNac = e.target.nvoFecNac.value;
-    const legajo = e.target.nvoLegajo.value;
+    //const fecNac = e.target.nvoFecNac.value;
     const localidad = e.target.nvoLocalidad.value;
     const rol = e.target.nvoRol.value;
-    const car_tel_extra = e.target.car_tel_extra;
-    const tel_extra = e.target.tel_extra;
-    const password = e.target.password;
-
+    const car_tel_extra = e.target.car_tel_extra.value;
+    const tel_extra = e.target.tel_extra.value;
+    //const password = e.target.password;
 
     const data = {
-      id_docente: id_docente,
+      id_docente: parseInt(id_docente),
       activo: check,
       nombre: nombre,
       apellido: apellido,
       tipo_dni: tipoDni,
-      nro_dni: dni,
-      car_telefono: codAreaTel,
-      telefono: telefono,
+      nro_dni: parseInt(dni),
+      car_telefono: parseInt(codAreaTel),
+      telefono: parseInt(telefono),
       direccion: direccion,
       email: email,
-      fec_nac: fecNac,
-      nro_legajo: legajo,
+      // fec_nac: fecNac,
+
       localidad: localidad,
-      id_rol: rol,
-      car_tel_extra: car_tel_extra,
-      tel_extra: tel_extra,
-      password: password,  
+      id_rol: rol === "ADMIN" ? 1 : 2,
+      car_tel_extra: parseInt(car_tel_extra),
+      tel_extra: parseInt(tel_extra),
+      //password: password,
     };
 
-    docenteModificado(data);
+    const res = await docenteModificado(data);
+    console.log(res)
+    return res;
 
     /* console.log(check);
     console.log(nombre);
@@ -84,6 +84,10 @@ export function DatosDocentes() {
     console.log(rol);*/
   }
 
+  function limpiarFormulario(e) {
+    e.preventDefault();
+    e.target.reset();
+  }
   return (
     <div className="bg-white min-h-screen">
       <form>
@@ -108,6 +112,7 @@ export function DatosDocentes() {
           <thead>
             <tr className="text-black">
               <th>ACTIVO</th>
+              <th>LEGAJO</th>
               <th>NOMBRE </th>
               <th>APELLIDO</th>
               <th>TIPO DNI</th>
@@ -118,12 +123,14 @@ export function DatosDocentes() {
               <th>DIRECCION</th>
               <th>EMAIL</th>
               <th>FEC NAC</th>
-              <th>LEGAJO</th>
+
               <th>LOCALIDAD</th>
+
               <th>ROL</th>
-              <th>car_tel_extra</th>
+
+              {/* <th>car_tel_extra</th>
               <th>telefono_extra</th>
-              <th>password</th>
+              <th>password</th> */}
               {/* <th>DATOS EXTRAS</th> */}
               <th>EDITAR</th>
             </tr>
@@ -135,31 +142,26 @@ export function DatosDocentes() {
               </tr>
             ) : (
               data.map((e) => (
-                <tr className=" hover:bg-slate-200 capitalize" key={e.nro_legajo}>
-                  <td>
-                    {e.activo ? "si" : "no"}{" "}
-                    {/*  <input
-                      type="checkbox"
-                      className="toggle toggle-info"
-                      checked={e.activo}
-                    />{" "} */}
-                  </td>
-                  <td className="hover:italic" >{e.nombre}</td>
-                  <td  className="hover:italic" >{e.apellido}</td>
-                  <td>{e.tipo_dni}</td>
+                <tr
+                  className=" hover:bg-slate-200 capitalize"
+                  key={e.nro_legajo}
+                >
+                  <td>{e.activo==="true" ? "activo" : "inactivo"} </td>
+                  <td className="hover:italic">{e.nro_legajo}</td>
+                  <td className="hover:italic">{e.nombre}</td>
+                  <td className="hover:italic">{e.apellido}</td>
+                  <td className="hover:italic">{e.tipo_dni}</td>
 
-                  <td>{e.nro_dni}</td>
-                  <td>{e.car_telefono}</td>
-                  <td>{e.telefono}</td>
-                  <td>{e.direccion}</td>
-                  <td>{e.email}</td>
-                  <td>{e.fecha_nac}</td>
-                  <td>{e.nro_legajo}</td>
-                  <td>{e.localidad}</td>
-                  <td>{e.descripcion}</td>
-                  <td>{e.car_tel_extra}</td>
-                  <td>{e.tel_extra}</td>
-                  <td>{e.password}</td>
+                  <td className="hover:italic">{e.nro_dni}</td>
+                  <td className="hover:italic">{e.car_telefono}</td>
+                  <td className="hover:italic">{e.telefono}</td>
+                  <td className="hover:italic">{e.direccion}</td>
+                  <td className="hover:italic">{e.email}</td>
+                  <td className="hover:italic">{e.fecha_nac}</td>
+
+                  <td className="hover:italic">{e.localidad}</td>
+                  <td className="hover:italic">{e.descripcion}</td>
+
                   <td>
                     <button
                       className="btn bg-[#0184F5] text-white"
@@ -172,11 +174,248 @@ export function DatosDocentes() {
                       id={`modal${e.nro_legajo}`}
                       className={
                         modal == "modal" + e.nro_legajo
-                          ? `visible fixed w-full h-full m-0 p-4 top-0 left-0   bg-gray-400  `
+                          ? `visible fixed w-full h-full m-0 top-0 left-0 hero min-h-screen bg-white  overflow-scroll `
                           : "hidden"
                       }
                     >
-                      <form
+                      <div className="hero-content text-center  border-4 border-black rounded-2xl w-full">
+                        <div className="w-full ">
+                          <h2 className="text-3xl text-black font-bold mb-8">
+                            Datos Docente
+                          </h2>
+
+                          <form
+                            onSubmit={(e) => modificarDatosDocentes(e)}
+                            onReset={(e) => limpiarFormulario(e)}
+                            id={e.id_docente}
+                            className="flex flex-row flex-wrap justify-around w-full "
+                          >
+                            <div
+                              id="contenedor1"
+                              className="flex flex-col grow-2 w-1/3 m-2 text-center "
+                            >
+                              <div className="flex flex-row align-middle">
+                                <span className="label-text text-black mr-2">
+                                  Activo
+                                </span>
+                                <input
+                                  id="nvoCheck"
+                                  type="checkbox"
+                                  className={`toggle toggle-info bg-white text-black border border-blue-400 `}
+                                  defaultChecked={e.activo==="true" ? true : false}
+                                />
+                              </div>
+
+                              <label className="label">
+                                <span className="label-text  text-black">
+                                  Tipo De Doc
+                                </span>
+                              </label>
+                              <div
+                                id="nvoTipoDni"
+                                className="from-control  flex flex-row   "
+                              >
+                                <select
+                                  id="nvoTipoDni"
+                                  defaultValue={e.tipo_dni}
+                                  className="select bg-white rounded-full text-black border border-black select-ghost w-full max-w-xs"
+                                >
+                                  <option>Tipo de Documento</option>
+                                  <option>DU</option>
+                                  <option>LC</option>
+                                  <option>LE</option>
+                                </select>
+                              </div>
+
+                              <label className="label">
+                                <span className="label-text text-black">
+                                  Documento
+                                  <span className="label-text text-xs  text-black ml-44">
+                                    (Sin puntos)
+                                  </span>
+                                </span>
+                              </label>
+                              <input
+                                id="nvoDni"
+                                type="text"
+                                placeholder={e.nro_dni}
+                                defaultValue={e.nro_dni}
+                                className="input rounded-full w-full text-black max-w-xs bg-white border-black"
+                              />
+                              <div className="content-center m-2 ml-36"></div>
+
+                              <label className="label">
+                                <span className="label-text  text-black">
+                                  Nombre Docente
+                                </span>
+                              </label>
+                              <input
+                                id="nvoNombre"
+                                type="text"
+                                placeholder={e.nombre}
+                                defaultValue={e.nombre}
+                                className="input rounded-full w-full text-black max-w-xs bg-white border-black"
+                              />
+
+                              <label className="label">
+                                <span className="label-text  text-black">
+                                  Apellido Docente
+                                </span>
+                              </label>
+                              <input
+                                id="nvoApellido"
+                                type="text"
+                                placeholder={e.apellido}
+                                defaultValue={e.apellido}
+                                className="input rounded-full text-black w-full max-w-xs bg-white border-black"
+                              />
+
+                              <label className="label">
+                                <span className="label-text text-black ml-12">
+                                  Localidad
+                                </span>
+                              </label>
+                              <input
+                                id="nvoLocalidad"
+                                type="text"
+                                placeholder={e.localidad}
+                                defaultValue={e.localidad}
+                                className="input rounded-full w-full text-black max-w-xs bg-white border-black"
+                              />
+
+                              <label className="label">
+                                <span className="label-text text-black ml-12">
+                                  Direccion
+                                </span>
+                              </label>
+                              <input
+                                id="nvoDireccion"
+                                type="text"
+                                placeholder={e.direccion}
+                                defaultValue={e.direccion}
+                                className="input rounded-full w-full text-black max-w-xs bg-white border-black"
+                              />
+                            </div>
+
+                            <div
+                              id="contenedor2"
+                              className=" flex flex-col grow-2 w-1/3 m-2 text-center"
+                            >
+                              <div className=" ">
+                                <label className="label">
+                                  <span className="label-text  text-black ml-12">
+                                    Codigo de area{" "}
+                                  </span>
+                                </label>
+                                <input
+                                  id="nvoCodArTel"
+                                  type="number"
+                                  placeholder={e.car_telefono}
+                                  defaultValue={e.car_telefono}
+                                  className="input rounded-full text-black mr-60 max-w-xs w-20 bg-white border-black"
+                                />
+
+                                <label className="label">
+                                  <span className="label-text  text-black ml-12">
+                                    Telefono
+                                    <span className="label-text text-xs  text-black ml-36 ">
+                                      (Sin guines ni puntos)
+                                    </span>
+                                  </span>
+                                </label>
+                                <input
+                                  id="nvoTelefono"
+                                  type="number"
+                                  name="numero"
+                                  placeholder={e.telefono}
+                                  defaultValue={e.telefono}
+                                  maxLength="9"
+                                  className="input rounded-full text-black w-full max-w-xs bg-white border-black"
+                                />
+
+                                <label className="label">
+                                  <span className="label-text  text-black ml-12">
+                                    Codigo de area{" "}
+                                  </span>
+                                </label>
+                                <input
+                                  id="car_tel_extra"
+                                  type="number"
+                                  placeholder={e.car_telefono}
+                                  defaultValue={e.car_telefono}
+                                  className="input rounded-full text-black w-20 mr-60 max-w-xs bg-white border-black"
+                                />
+
+                                <label className="label">
+                                  <span className="label-text  text-black ml-12">
+                                    Tel Extra
+                                    <span className="label-text text-xs  text-black ml-36 ">
+                                      (Sin guines ni puntos)
+                                    </span>
+                                  </span>
+                                </label>
+                                <input
+                                  id="tel_extra"
+                                  type="number"
+                                  placeholder={e.telefono_extra}
+                                  defaultValue={e.telefono_extra}
+                                  className="input rounded-full text-black w-full max-w-xs bg-white border-black"
+                                />
+
+                                <label className="label">
+                                  <span className="label-text  text-black ml-12">
+                                    Email
+                                  </span>
+                                </label>
+                                <input
+                                  id="nvoEmail"
+                                  type="email"
+                                  placeholder={e.email}
+                                  defaultValue={e.email}
+                                  className="input rounded-full text-black w-full max-w-xs bg-white border-black"
+                                />
+
+                                <label className="label">
+                                  <span className="label-text  text-black ml-12">
+                                    Rol
+                                  </span>
+                                </label>
+                                <select
+                                  id="nvoRol"
+                                  className="select rounded-full bg-white text-black border border-black select-ghost w-full max-w-xs"
+                                >
+                                  <option>
+                                    {e.id_rol == 1 ? "ADMIN" : "DOCENTE"}
+                                  </option>
+                                  <option>
+                                    {e.id_rol == 2 ? "ADMIN" : "DOCENTE"}
+                                  </option>
+                                </select>
+                              </div>
+                            </div>
+                            <div className=" flex flex-row grow-3 w-full justify-evenly  m-2 text-center ">
+                              <div className="content-center m-2 ">
+                                <button
+                                  className="btn bg-blue-600 rounded-full border-none text-white"
+                                  type="submit"
+                                >
+                                  Aceptar
+                                </button>
+                              </div>
+                              <div className="content-center m-2">
+                                <button
+                                  type="submit"
+                                  onClick={mostrarModal}
+                                  className="btn bg-blue-600 rounded-full border-none  text-white"
+                                >
+                                  Cancelar
+                                </button>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                      {/*  <form
                         onSubmit={(e) => modificarDatosDocentes(e)}
                         className=" flex flex-row justify-center"
                       >
@@ -214,13 +453,7 @@ export function DatosDocentes() {
                           <span className="label-text   text-black ">
                             Tipo DNI
                           </span>
-                          {/* <input
-                            id="nvoTipoDni"
-                            type="text"
-                            placeholder={e.tipoDNI}
-                            defaultValue={e.tipoDNI}
-                            className="input input-bordered w-full max-w-lg bg-white text-black border border-blue-400"
-                          /> */}
+                        
 
                           <select
                             id="nvoTipoDni"
@@ -323,11 +556,7 @@ export function DatosDocentes() {
                             id="nvoRol"
                             className="select select-bordered w-full max-w-lg bg-white text-black border border-blue-400"
                           >
-                            <option
-                              type="text"
-
-                              
-                            >
+                            <option type="text">
                               {e.descripcion.toUpperCase()}
                             </option>
                             <option
@@ -350,19 +579,15 @@ export function DatosDocentes() {
                             Cancelar
                           </button>
                         </div>
-                      </form>
+                      </form> */}
                     </div>
                   </td>
-
-                  
                 </tr>
               ))
             )}
           </tbody>
         </table>
       </div>
-
-      
     </div>
   );
 }

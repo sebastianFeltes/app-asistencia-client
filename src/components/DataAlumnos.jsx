@@ -311,3 +311,4 @@ const { data, /*isLoading, error*/ } = useQuery(["getAlumnos"], getAlumnos);
 }
 
 export default DatosAlumnos;
+
