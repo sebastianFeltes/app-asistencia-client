@@ -19,6 +19,7 @@ import GeneradorQR from "./components/GeneradorQR";
 function App() {
   const queryClient = new QueryClient();
   return (
+    
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Routes>

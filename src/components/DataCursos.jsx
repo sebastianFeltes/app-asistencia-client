@@ -1,9 +1,13 @@
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getDataCursos, postCursoModificado } from "../services/DataCursos.services";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { UserContext } from "../context/User.context";
 
 function DataCursos() {
+
+  const user = useContext(UserContext);
+  const rol = user.rolUsuario;
   // eslint-disable-next-line no-unused-vars
   const { data, isLoading, error } = useQuery(["getCursos"], getDataCursos);
   const [modal, setModal] = useState("modal");
@@ -45,12 +49,11 @@ function DataCursos() {
       <div className="hero-content text-center p-0 w-full">
         <div className="overflow-x-auto">
           <div className=" flex justify-between">
-            <Link to={"/"}>
-              {" "}
+            {rol===2?(<Link to={"/"}>
               <button className="btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black ">
                 Nuevo Curso
               </button>
-            </Link>
+            </Link>):false}
 
             <Link to={"/"}>
               {" "}

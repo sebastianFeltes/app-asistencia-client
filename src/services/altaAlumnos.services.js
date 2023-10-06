@@ -14,13 +14,13 @@ export default async function postAltaAlumno(data) {
     body: JSON.stringify(data), // body data type must match "Content-Type" header
   });
   const res = await response.json();
-  return console.log(res);
+  return res;
 }
 
 export async function getAltaAlumno(dni) {
   const url = "http://localhost:8080/alta-alumno";
   const response = await fetch(url + "/" + dni);
   const res = await response.json();
-   console.log(res);
-   return res;
+  console.log(res);
+  return res;
 }
