@@ -41,13 +41,13 @@ function DatosAlumnos() {
     const telefonoExtra = e.target.telExtra.value;
     const legajo = e.target.nroLegajoAlumno.value;
     const localidad = e.target.localidadAlumno.value;
-    const fotocAnalitico = e.target.docAnalitico.value;
-    const fotocDni = e.target.docDni.value;
-    const planillaIns = e.target.docPlanilla.value;
+    const fotocAnalitico = e.target.docAnalitico.checked;
+    const fotocDni = e.target.docDni.checked;
+    const planillaIns = e.target.docPlanilla.checked;
     const id_alumno = e.target.id;
 
     const data = {
-      activo: activo,
+      activo: activo ? 1 : 0,
       nombre: nombre,
       apellido: apellido,
       tipo_dni: tipoDNI,
@@ -60,16 +60,15 @@ function DatosAlumnos() {
       localidad: localidad,
       car_tel_extra: parseInt(carTelefonoExtra),
       telefono_extra: parseInt(telefonoExtra),
-      fotoc_analitico: fotocAnalitico,
-      fotoc_dni: fotocDni,
-      planilla_ins: planillaIns,
+      fotoc_analitico: fotocAnalitico ? 1 : 0,
+      fotoc_dni: fotocDni ? 1 : 0,
+      planilla_ins: planillaIns ? 1 : 0,
       id_alumno: parseInt(id_alumno),
     };
-    console.log('funcion en el comp',data);
+    console.log(data);
     const res = await postAlumnosModificado(data);
-    alert(res.message)
-    return  setModal("modal");
-
+    alert(res.message.toUpperCase());
+    return setModal("modal");
   }
 
   return (
@@ -77,15 +76,15 @@ function DatosAlumnos() {
       <div className="hero-content text-center ">
         <div className="max-w-full">
           <div className="flex flex-col justify-between">
-            <h1 className="text-5xl font-bold">Datos Alumnos</h1>
+            <h1 className="text-5xl font-bold">DATOS ALUMNOS</h1>
             <div className="flex justify-between w-full">
               <Link to="/alta-alumno">
-                <button className="btn bg-blue-600 text-white">
+                <button className="btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black">
                   Nuevo Alumno
                 </button>
               </Link>
               <Link to="/historial-alumno">
-                <button className="btn bg-blue-600 text-white ">
+                <button className="btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black">
                   Historial Alumnos
                 </button>
               </Link>
@@ -98,21 +97,21 @@ function DatosAlumnos() {
               <thead className="text-black">
                 <tr>
                   <th></th>
-                  <th>Legajo Alumno</th>
-                  <th>Nombre Alumno</th>
-                  <th>Apellido Alumno</th>
-                  <th>Tipo D.N.I. Alumno</th>
-                  <th>N° D.N.I. Alumno</th>
-                  <th>Dirección Alumno</th>
-                  <th>Localidad</th>
-                  <th>Cod. Area Tel Alumno</th>
-                  <th>Telefono Alumno</th>
-                  <th>Email Alumno</th>
-                  <th>Cod. Area Tel Extra</th>
-                  <th>Telefono Extra</th>
-                  <th>Documentación</th>
-                  <th>Activo</th>
-                  <th>Editar</th>
+                  <th>LEGAJO ALUMNO</th>
+                  <th>NOMBRE ALUMNO</th>
+                  <th>APELLIDO ALUMNO</th>
+                  <th>TIPO D.N.I. ALUMNO</th>
+                  <th>N° D.N.I. ALUMNO</th>
+                  <th>DIRECCIÓN ALUMNO</th>
+                  <th>LOCALIDAD</th>
+                  <th>COD. AREA TEL. ALUMNO</th>
+                  <th>TELEFONO ALUMNO</th>
+                  <th>EMAIL ALUMNO</th>
+                  <th>COD. AREA TEL. EXTRA</th>
+                  <th>TELEFONO EXTRA</th>
+                  <th>DOCUMENTACIÓN</th>
+                  <th>ACTIVO</th>
+                  <th>EDITAR</th>
                 </tr>
               </thead>
               <tbody>
@@ -123,11 +122,11 @@ function DatosAlumnos() {
                         <td></td>
                         <td>{e.nro_legajo}</td>
                         <td>{e.nombre.toUpperCase()}</td>
-                        <td>{e.apellido}</td>
+                        <td>{e.apellido.toUpperCase()}</td>
                         <td>{e.tipo_dni}</td>
                         <td>{e.nro_dni}</td>
-                        <td>{e.direccion}</td>
-                        <td>{e.localidad}</td>
+                        <td>{e.direccion.toUpperCase()}</td>
+                        <td>{e.localidad.toUpperCase()}</td>
                         <td>{e.car_telefono}</td>
                         <td>{e.telefono}</td>
                         <td>{e.email}</td>
@@ -135,15 +134,15 @@ function DatosAlumnos() {
                         <td>{e.telefono_extra}</td>
                         <td>
                           <div>
-                            {e.fotoc_analitico == "on"
+                            {e.fotoc_analitico == true
                               ? "ANALITICO: SI"
                               : "ANALITICO: NO"}
                           </div>
                           <div>
-                            {e.fotoc_dni == "on" ? "DNI: SI" : "DNI: NO"}
+                            {e.fotoc_dni == true ? "DNI: SI" : "DNI: NO"}
                           </div>
                           <div>
-                            {e.planilla_ins == "on"
+                            {e.planilla_ins == true
                               ? "PLANILLA: SI"
                               : "PLANILLA: NO"}
                           </div>
@@ -153,16 +152,15 @@ function DatosAlumnos() {
                         {/* boton Editar del HISTORIAL ALUMNO */}
                         <td>
                           <button
-                            className="btn max-w-xs bg-blue-600  text-white"
+                            className="btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black"
                             id={e.id_alumno}
                             onClick={(e) => mostrarModal(e)}
                           >
                             Editar
                           </button>
                           <button
-                            className="btn max-w-xs bg-blue-600  text-white"
+                            className="btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black"
                             id={e.id_alumno}
-                           
                           >
                             generarQR
                           </button>
@@ -578,7 +576,7 @@ function DatosAlumnos() {
                                                 type="checkbox"
                                                 className="checkbox border-black m-2 "
                                                 defaultChecked={
-                                                  e.fotoc_dni == "true"
+                                                  e.fotoc_dni == 1
                                                     ? true
                                                     : false
                                                 }
@@ -594,7 +592,7 @@ function DatosAlumnos() {
                                                 type="checkbox"
                                                 className="checkbox  border-black m-2"
                                                 defaultChecked={
-                                                  e.planilla_ins == "true"
+                                                  e.planilla_ins == 1
                                                     ? true
                                                     : false
                                                 }
@@ -610,7 +608,7 @@ function DatosAlumnos() {
                                                 type="checkbox"
                                                 className="checkbox  border-black m-2"
                                                 defaultChecked={
-                                                  e.fotoc_analitico == "true"
+                                                  e.fotoc_analitico == 1
                                                     ? true
                                                     : false
                                                 }
@@ -638,7 +636,7 @@ function DatosAlumnos() {
                                         <div className="content-center m-2">
                                           <button
                                             type="reset"
-                                            className="btn  max-w-xs bg-blue-600 text-white"
+                                            className="btn  max-w-xs bg-blue-600 text-white hover:bg-blue-300  hover:text-black"
                                           >
                                             Cancelar
                                           </button>
@@ -647,7 +645,7 @@ function DatosAlumnos() {
                                         <div className="content-center m-2">
                                           <button
                                             type="submit"
-                                            className="btn max-w-xs bg-blue-600 text-white"
+                                            className="btn max-w-xs bg-blue-600 text-white hover:bg-blue-300  hover:text-black"
                                           >
                                             Aceptar
                                           </button>
