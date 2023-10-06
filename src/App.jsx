@@ -19,6 +19,7 @@ import { UserContext } from "./context/user.context";
 function App() {
   const queryClient = new QueryClient();
   return (
+    
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Routes>

@@ -19,6 +19,7 @@ export function DatosDocentes() {
   function mostrarModal(e) {
     e.preventDefault();
     let id = e.target.id;
+    console.log(id)
 
     setModal("modal" + id);
   }
@@ -170,7 +171,7 @@ export function DatosDocentes() {
                       Editar
                     </button>
                     <div
-                      id={`modal${e.legajo}`}
+                      id={`modal${e.nro_legajo}`}
                       className={
                         modal == "modal" + e.nro_legajo
                           ? `visible fixed w-full h-full m-0 top-0 left-0 hero min-h-screen bg-white  overflow-scroll `

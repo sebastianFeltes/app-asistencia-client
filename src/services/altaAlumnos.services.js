@@ -21,8 +21,8 @@ export async function getAltaAlumno(dni) {
   const url = "http://localhost:8080/alta-alumno";
   const response = await fetch(url + "/" + dni);
   const res = await response.json();
-   console.log(res);
-   return res;
+  console.log(res);
+  return res;
 }
 export async function getCurso() {
   const url = "http://localhost:8080/alta-alumno";
