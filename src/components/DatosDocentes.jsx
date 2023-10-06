@@ -64,24 +64,14 @@ export function DatosDocentes() {
       tel_extra: parseInt(tel_extra),
       //password: password,
     };
-
+    
     const res = await docenteModificado(data);
     console.log(res)
+    alert("docente modificado bro")
+    setModal("modal")
     return res;
 
-    /* console.log(check);
-    console.log(nombre);
-    console.log(apellido);
-    console.log(tipoDNI);
-    console.log(dni);
-    console.log(codAreaTel);
-    console.log(telefono);
-    console.log(direccion);
-    console.log(email);
-    console.log(fecNac);
-    console.log(legajo);
-    console.log(localidad);
-    console.log(rol);*/
+    
   }
 
   function limpiarFormulario(e) {
@@ -395,10 +385,10 @@ export function DatosDocentes() {
                             </div>
                             <div className=" flex flex-row grow-3 w-full justify-evenly  m-2 text-center ">
                               <div className="content-center m-2 ">
-                                <button
+                                <button 
                                   className="btn bg-blue-600 rounded-full border-none text-white"
                                   type="submit"
-                                >
+                                >  
                                   Aceptar
                                 </button>
                               </div>
