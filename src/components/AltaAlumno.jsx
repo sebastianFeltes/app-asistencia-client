@@ -1,11 +1,19 @@
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import postAltaAlumno, {
   getAltaAlumno,
 } from "../services/altaAlumnos.services";
 import "./altaAlumno.scss";
+import { getMostrarCursos } from "../services/homeAdmin.services";
 export default function AltaAlumno() {
+
   const [alumnoExistente, setAlumnoExistente] = useState(undefined);
-  //FUNCION PARA ENVIAR DATOS
+  const { data /*  isLoading, error */ } = useQuery(["mostrarCursos"], getMostrarCursos
+  );
+
+
+  //TODO:FUNCION PARA ENVIAR DATOS(POST)
 
   async function post(e) {
     e.preventDefault();
@@ -26,7 +34,7 @@ export default function AltaAlumno() {
     const docAnalitico = e.target.docAnalitico.checked;
     const cursoAlumno = e.target.cursoAlumno.value;
 
-    //PAQUETE DE DATOS
+    //PAQUETE DE DATOS PARA EL POST
     const data = {
       nombre: nombreAlumno,
       apellido: apellidoAlumno,
@@ -54,12 +62,12 @@ export default function AltaAlumno() {
     }
   }
 
-  //FUNCION CANCELAR
+  //TODO:FUNCION CANCELAR Y LIMPIE EL FORMULARIO
   function limpiarFormulario(e) {
     e.target.reset();
   }
 
-  //FUNCION BUSCAR ALUMNO
+  //TODO:FUNCION BUSCAR ALUMNO(GET)
   async function getBuscarAlumno(e) {
     e.preventDefault();
     const dni = e.target.value;
@@ -71,29 +79,29 @@ export default function AltaAlumno() {
     return res;
   }
 
-  //FUNCION SELECCIONAR MAS DE UN CURSO
+  //TODO:FUNCION SELECCIONAR MAS DE UN CURSO
   function agregarCurso(e) {
     e;
   }
   return (
-    <div className="hero min-h-screen bg-white">
-      <div className="hero-content text-center w-full">
-        <div className="border-4 border-black w-full rounded-3xl">
+    <div className="hero min-h-screen bg-white overflow-hidden h-full">
+      <div className="hero-content text-center m-4 border-4 border-black w-full rounded-3xl ">
+        <div className=" ">
           <div className=" border-black w-full ">
-            <h2 className="text-black text-3xl font-bold mb-8 m-2 justify-center">
+            <h2 className="text-black text-4xl font-bold mb-8 justify-center">
               ALTA ALUMNO
             </h2>
 
             {/* FORMULARIO */}
             <form onSubmit={(e) => post(e)}>
-              {/* DIV CONTENEDOR */}
-              <div className="grid grid-cols-2 gap-4 m-2 ">
-                {/* DIV IZQUIERDO */}
+              {/* DIV CONTENEDOR PADRE */}
+              <div className="grid grid-cols-2 w-full gap-4 m-2 ">
+                {/* DIV CONTENEDOR HIJO IZQUIERDO */}
                 <div
                   id="contenedor1"
-                  className=" border-black flex flex-col m-2 "
+                  className=" border-black flex flex-col m-2 w-full "
                 >
-                  <div className=" flex">
+                  <div className=" flex">{/* DIV DE SPAN "TIPO DNI Y DNI" */}
                     <label className="label">
                       <span className="label-text ms-1 text-black">
                         TIPO DE DOCUMENTO
@@ -102,14 +110,14 @@ export default function AltaAlumno() {
                     <label className="label flex">
                       <p className="label-text text-black ms-4">
                         DNI DEL ALUMNO:
-                        <span className="label-text-alt text-xs text-black m-2">
-                          *sin puntos o guiones
+                        <span className="label-text-alt text-xs text-black m-1">
+                          *sin puntos ni guiones
                         </span>
                       </p>
                     </label>
                   </div>
-                  <div className="form-control flex flex-row">
-                    {/* DEPENDIENDO CUAL SELECCIONE EN LA OPCION ANTERIOR,SE AUTOCOMPLETE CON F O M O NADA  */}
+
+                  <div className="form-control flex flex-row">{/* DIV DE INPUTS "TIPO DNI Y DNI" */}
                     <select
                       id="tipoDocumento"
                       className=" m-0 w-40 select max-w-xs bg-transparent rounded-full border-black"
@@ -132,9 +140,6 @@ export default function AltaAlumno() {
                           placeholder="Nº"
                           className="w-40 ms-0.5 rounded-full input input-bordered input-info  max-w-xs  bg-white border-black"
                         />
-
-                        {/* BOTON DE BUSCAR */}
-                        {/* <button onClick={(e) => getBuscarAlumno(e)} type="" className="ms-1 btn bg-blue-600 text-black rounded-full w-24 border-none">Buscar</button> */}
                       </div>
                     </div>
                   </div>
@@ -148,7 +153,7 @@ export default function AltaAlumno() {
                     id="nombreAlumno"
                     defaultValue={alumnoExistente ? alumnoExistente.nombre : ""}
                     type="text"
-                    placeholder="Ingrese su nombre"
+                    placeholder="Ingrese nombre del alumno"
                     className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
                   />
 
@@ -163,7 +168,7 @@ export default function AltaAlumno() {
                       alumnoExistente ? alumnoExistente.apellido : ""
                     }
                     type="text"
-                    placeholder="Ingrese su apellido"
+                    placeholder="Ingrese apellido del alumno"
                     className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
                   />
 
@@ -176,7 +181,7 @@ export default function AltaAlumno() {
                       alumnoExistente ? alumnoExistente.localidad : ""
                     }
                     type="text"
-                    placeholder="Ingrese su localidad"
+                    placeholder="Ingrese localidad"
                     className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
                   />
 
@@ -189,13 +194,13 @@ export default function AltaAlumno() {
                       alumnoExistente ? alumnoExistente.direccion : ""
                     }
                     type="text"
-                    placeholder="Ingrese su direccion"
+                    placeholder="Ingrese Domicilio"
                     className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
                   />
                 </div>
 
                 {/* DIV DERECHO */}
-                <div className=" border-black flex flex-col m-2 ">
+                <div className=" border-black flex flex-col m-2 w-full ">
                   <div className=" flex">
                     <label className="label ">
                       <p className="label-text ms-1 text-black">
@@ -209,7 +214,7 @@ export default function AltaAlumno() {
                       <p className="label-text ms-10 text-black">
                         TEL ALUMNO:
                         <span className="label-text-alt text-xs text-black m-2">
-                          *sin 15
+                          *sin 15 ni guiones
                         </span>
                       </p>
                     </label>
@@ -218,7 +223,7 @@ export default function AltaAlumno() {
                     <input
                       id="telCaracteristica"
                       defaultValue={
-                        alumnoExistente ? alumnoExistente.telCar : ""
+                        alumnoExistente ? alumnoExistente.car_telefono : ""
                       }
                       type="number"
                       placeholder="Ej: 221"
@@ -227,9 +232,9 @@ export default function AltaAlumno() {
 
                     <input
                       id="telAlumno"
-                      defaultValue={alumnoExistente ? alumnoExistente.tel : ""}
+                      defaultValue={alumnoExistente ? alumnoExistente.telefono : ""}
                       type="number"
-                      placeholder="Ingrese su tel"
+                      placeholder="Ingrese tel"
                       className="ms-0.5 rounded-full input input-bordered input-info w-40 max-w-xs  bg-white border-black"
                     />
                   </div>
@@ -247,7 +252,7 @@ export default function AltaAlumno() {
                       <p className="label-text ms-10 text-black">
                         TEL EXTRA:
                         <span className="label-text-alt text-xs text-black m-2">
-                          *sin 15
+                          *sin 15 ni guiones
                         </span>
                       </p>
                     </label>
@@ -256,7 +261,7 @@ export default function AltaAlumno() {
                     <input
                       id="telCaracterExtra"
                       defaultValue={
-                        alumnoExistente ? alumnoExistente.telCarExt : ""
+                        alumnoExistente ? alumnoExistente.car_tel_extra : ""
                       }
                       type="number"
                       placeholder="Ej: 221"
@@ -266,7 +271,7 @@ export default function AltaAlumno() {
                     <input
                       id="telExtra"
                       defaultValue={
-                        alumnoExistente ? alumnoExistente.telExt : ""
+                        alumnoExistente ? alumnoExistente.telefono_extra : ""
                       }
                       type="number"
                       placeholder="Ingrese tel"
@@ -282,10 +287,10 @@ export default function AltaAlumno() {
                   <input
                     id="nroLegajoAlumno"
                     defaultValue={
-                      alumnoExistente ? alumnoExistente.numLegajo : ""
+                      alumnoExistente ? alumnoExistente.nro_legajo : ""
                     }
                     type="number"
-                    placeholder="Ingrese su numero de legajo"
+                    placeholder="Ingrese numero de legajo"
                     className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
                   />
 
@@ -298,7 +303,7 @@ export default function AltaAlumno() {
                     id="emailAlumno"
                     defaultValue={alumnoExistente ? alumnoExistente.email : ""}
                     type="email"
-                    placeholder="Ingrese su email"
+                    placeholder="Ingrese email"
                     className="rounded-full input input-info w-full max-w-xs  bg-white border-black"
                   />
 
@@ -309,18 +314,27 @@ export default function AltaAlumno() {
                     </label>
                     <div className="flex m-0">
                       <select
+
                         id="cursoAlumno"
                         className="select w-full max-w-xs bg-transparent rounded-full border-black"
                       >
                         <option disabled selected>
                           Curso
                         </option>
+                        {!data ? false : data.map((e) => (
+
+
+                          <option key={e.id_curso}>
+                            {e.nombre.toUpperCase()}
+                          </option>
+
+                        ))}
                       </select>
                       {/*  BOTON PARA AGREGAR MAS DE UN CURSO */}
                       <button
                         onClick={(e) => agregarCurso(e)}
                         type="button"
-                        className="btn ml-2 bg-blue-600 text-black rounded-full w-12 border-none"
+                        className="btn ml-2 bg-blue-600 text-white rounded-full w-12 border-none hover:bg-blue-300 hover:text-black "
                       >
                         +
                       </button>
@@ -338,6 +352,9 @@ export default function AltaAlumno() {
                     <label className="label cursor-pointer">
                       <span className=" text-black label-text">DNI</span>
                       <input
+                        defaultValue={
+                          alumnoExistente ? alumnoExistente.fotoc_dni : ""
+                        }
                         id="docDni"
                         type="checkbox"
                         className="checkbox border-black m-2 "
@@ -347,6 +364,9 @@ export default function AltaAlumno() {
                     <label className="label cursor-pointer">
                       <span className=" text-black label-text">Planilla</span>
                       <input
+                        defaultValue={
+                          alumnoExistente ? alumnoExistente.planilla_ins : ""
+                        }
                         id="docPlanilla"
                         type="checkbox"
                         className="checkbox  border-black m-2"
@@ -356,6 +376,10 @@ export default function AltaAlumno() {
                     <label className="label cursor-pointer">
                       <span className="label-text text-black">Analitico</span>
                       <input
+                        defaultValue={
+                          alumnoExistente ? alumnoExistente.fotoc_analitico
+                            : ""
+                        }
                         id="docAnalitico"
                         type="checkbox"
                         className="checkbox  border-black m-2"
@@ -368,25 +392,28 @@ export default function AltaAlumno() {
               {/*  BOTONES DE "ACEPTAR" Y "CANCELAR" */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="content-center m-2">
-                  <button
+
+                  <Link to={"/datos-alumnos"}> <button
                     onClick={(e) => limpiarFormulario(e)}
                     type="reset"
-                    className="btn  bg-blue-600 text-black rounded-full w-48 border-none"
+                    className="btn  bg-blue-600 text-white rounded-full w-48 border-none hover:bg-blue-300 hover:text-black "
                   >
                     Cancelar
-                  </button>
+                  </button></Link>
                 </div>
 
                 <div className="content-center m-2">
                   <button
                     type="submit"
-                    className="btn bg-blue-600 text-black rounded-full w-48 border-none "
+                    className="btn bg-blue-600 text-white rounded-full w-48 border-none hover:bg-blue-300 hover:text-black  "
                   >
                     Aceptar
                   </button>
                 </div>
               </div>
             </form>
+
+            <Link to={"/generador-qr"}><button className="text-blue-600">GENERAR QR</button></Link>
           </div>
         </div>
       </div>
