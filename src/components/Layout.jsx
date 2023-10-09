@@ -3,9 +3,10 @@ import "./Layout.scss";
 import NavBar from "./NavBar";
 
 export function Layout() {
+  const logged=true
   return (
     <>
-      <NavBar />
+      {logged?<NavBar />:false}
       <Outlet />
     </>
   );

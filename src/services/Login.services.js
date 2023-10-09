@@ -5,7 +5,7 @@ export async function postLogin(dni, pass) {
   }
   if (pass.length < 4) {
     return alert("Pass inválida")
-  }
+  } 
   let data = {
     nro_dni: parseInt(dni),
     password: pass,

@@ -24,11 +24,11 @@ export default function AltaDocente() {
     const data = {
       tipo_dni: tipoDoc,
       nro_dni: parseInt(dni),
-      nombre: nombreDoc,
-      apellido: apellidoDoc,
+      nombre: nombreDoc.toLowerCase(),
+      apellido: apellidoDoc.toLowerCase(),
       password: contra,
-      direccion: direc,
-      localidad: local,
+      direccion: direc.toLowerCase(),
+      localidad: local.toLowerCase(),
       car_telefono: parseInt(codi1),
       telefono: parseInt(tele),
       car_tel_extra: parseInt(codi2),
@@ -38,10 +38,17 @@ export default function AltaDocente() {
       activo: true
     };
 
-    console.log(data)
+    
     if (contra === contra2) {
       const res = await tryAltaDocente(data);
-      return alert(res.message)
+
+      if (res == "recibido"){
+
+        e.target.reset(res);
+      }
+      return alert ("Docente cargado exitosamente")
+
+    
       
     } else {
       alert("las contraseñas deben ser iguales")
@@ -58,78 +65,79 @@ export default function AltaDocente() {
 
   return (
     <>
+    {/* contenedor1 */}
       <div className="hero min-h-screen bg-white">
         <div className="hero-content text-center  border-4 border-black rounded-2xl w-full m-4">
           <div className="w-full ">
 
-            <h2 className="text-3xl text-black font-bold mb-8">Alta Docente</h2>
+            <h2 className="text-3xl text-black font-bold mb-8">ALTA DOCENTE</h2>
 
             <form onSubmit={e => post(e)} className="flex flex-row flex-wrap justify-around w-full   ">
-              <div id="contenedor1" className="flex flex-col grow-2 w-1/3 m-2 text-center ">
+              <div id="contenedor1" className="flex flex-col grow-2 w-1/3 m-2 p-0 text-center ">
+
+                <div className=" p-0   flex flex-row w-3/4">
+                  <div id="" className="from-control mb-0 mt-auto mr-2  flex flex-col flex-grow-0 ">
+                    <label className="label">
+                      <span className="label-text ms-1 text-black">TIPO DE DOC</span>
+
+                    </label>
+
+                    <select id="tipoDoc" defaultValue={"Tipo de Documento"} className="m-0 b w-full select text-black bg-transparent mr-auto rounded-full border-black ">
+                      <option  >Tipo  </option>
+                      <option>DU</option>
+                      <option>LC</option>
+                      <option>LE</option>
+                    </select>
+                  </div>
+
+                  <div className="mb-0 mt-auto p-0 flex-grow-2 align-bottom ">
+                    <div id="" className="from-control  flex flex-col  ">
+                      <label className="label">
+                        <span className="label-text ms-1 text-black">NRO DE DOCUMENTO</span>
+
+                      </label>
+
+                      <input
+                        id="dni"
+                        type="number"
+                        placeholder="N°"
+                        className="m-0 w-full input text-black  bg-transparent mr-auto rounded-full border-black "
+                      />
+
+                    </div>
 
 
-                <label className="label">
-                  <span className="label-text  text-black">Tipo De Doc</span>
 
-                </label>
-                <div id="" className="from-control  flex flex-row   ">
-                  <select id="tipoDoc" defaultValue={"Tipo de Documento"} className="select bg-white rounded-full text-black border border-black select-ghost w-full max-w-xs">
-                    <option  >Tipo de Documento</option>
-                    <option>DU</option>
-                    <option>LC</option>
-                    <option>LE</option>
-                  </select>
+                  </div>
 
                 </div>
 
 
 
                 <label className="label">
-                  <span className="label-text text-black">Documento
-                    <span className="label-text text-xs  text-black ml-44">(Sin puntos)</span>
-                  </span>
-
-
-
-                </label>
-                <input
-                  id="dni"
-                  type="text"
-                  placeholder="Ingrese su Numero de Documento"
-                  className="input rounded-full w-full text-black max-w-xs bg-white border-black"
-                />
-                <div className="content-center m-2 ml-36">
-                  <button type="reset" className="btn btn-sm border-none rounded-full bg-blue-600 text-white">
-                    Buscar
-                  </button>
-                </div>
-
-
-
-                <label className="label">
-                  <span className="label-text  text-black">Nombre Docente</span>
+                  <span className="label-text  text-black">NOMBRE DOCENTE</span>
                 </label>
                 <input
                   id="nombreDoc"
                   type="text"
-                  placeholder="Ingrese su Nombre "
-                  className="input rounded-full w-full text-black max-w-xs bg-white border-black"
+                  placeholder="Ingrese su nombre "
+                  className="input rounded-full w-3/4 text-black max-w-xs bg-white border-black"
                 />
 
                 <label className="label">
                   <span className="label-text  text-black">
-                    Apellido Docente
+                    APELLIDO DOCENTE
                   </span>
                 </label>
                 <input
                   id="apellidoDoc"
                   type="text"
-                  placeholder="Ingrese su Apellido"
+                  placeholder="Ingrese su apellido"
                   className="input rounded-full text-black w-full max-w-xs bg-white border-black"
                 />
                 <label className="label">
-                  <span className="label-text text-black">Crea tu contraseña
-                    <span className="label-text text-xs text-black ml-20 ">(Minimo 8 caracteres)</span>
+                  <span className="label-text text-black">CREA TU CONTRASEÑA
+                    <span className="label-text text-xs text-black ml-10 ">*Minimo 8 caracteres</span>
                   </span>
                 </label>
                 <input
@@ -141,8 +149,8 @@ export default function AltaDocente() {
 
 
                 <label className="label">
-                  <span className="label-text text-black">Confirmar  contraseña
-                    <span className="label-text text-xs text-black ml-20 ">(Minimo 8 caracteres)</span>
+                  <span className="label-text text-black">CONFIRMAR CONTRASEÑA
+                    <span className="label-text text-xs text-black ml-5 ">*Minimo 8 caracteres</span>
                   </span>
                 </label>
                 <input
@@ -153,85 +161,114 @@ export default function AltaDocente() {
                 />
 
                 <label className="label">
-                  <span className="label-text text-black ml-12">Localidad</span>
+                  <span className="label-text text-black ">LOCALIDAD</span>
                 </label>
                 <input
                   id="local"
                   type="text"
-                  placeholder="Localidad"
+                  placeholder="Ingrese su localidad"
                   className="input rounded-full w-full text-black max-w-xs bg-white border-black"
                 />
 
               </div>
 
-              <div id="contenedor2" className=" flex flex-col grow-2 w-1/3 m-2 text-center">
+              {/* contenedor2 */}
+
+              <div id="contenedor2" className=" flex flex-col  grow-2 w-1/3 m-2 text-center">
                 <div className=" ">
 
 
                   <label className="label">
-                    <span className="label-text text-black ml-12">Direccion</span>
+                    <span className="label-text text-black ml-12">DIRECCION</span>
                   </label>
                   <input
                     id="direc"
                     type="text"
-                    placeholder="Direccion"
+                    placeholder="Ingrese su direccion"
                     className="input rounded-full w-full text-black max-w-xs bg-white border-black"
                   />
 
+                  <div className="flex">
+                    <div>
+                      <label className="label">
+                        <span className="label-text  text-black ml-12">COD </span>
+                      </label>
+
+                      <input
+                        id="codi1"
+                        type="number"
+                        placeholder="Ej:221"
+                        className="input rounded-full text-black  w-28 ml-10 bg-white border-black"
+
+                      />
+
+
+
+                    </div>
+                    <div>
+                      <label className="label">
+                        <span className="label-text  text-black ml-4">TELEFONO<span>*sin guiones ni puntos</span>
+                        </span>
+                      </label>
+
+                      <input
+                        id="tele"
+                        type="number" name="numero"
+                        placeholder="Ej:6766891"
+                        maxLength="9"
+                        className="input rounded-full text-black w-48 ml-2 max-w-xs m-0 bg-white border-black"
+                      />
+
+                    </div>
+
+
+                  </div>
+
+
+
+                  <div className="flex">
+                    <div>
+                      <label className="label">
+                        <span className="label-text  text-black ml-12">COD </span>
+
+                      </label>
+                      <input
+                        id="codi2"
+                        type="number"
+                        placeholder="Ej:221"
+                        className="input rounded-full text-black  w-28 ml-10 bg-white border-black"
+
+                      />
+
+                    </div>
+                    <div>
+                      <label className="label">
+                        <span className="label-text  text-black ml-4">TEL EXTRA <span>*sin guiones ni puntos</span>
+                        </span>
+
+                      </label>
+                      <input
+                        id="telex"
+                        type="number"
+                        placeholder="Ej:6766891"
+                        className="input rounded-full text-black w-48 ml-2 max-w-xs m-0 bg-white border-black"
+
+                      />
+
+
+
+                    </div>
+
+
+
+                  </div>
+
+
+
+
+
                   <label className="label">
-                    <span className="label-text  text-black ml-12">Codigo de area </span>
-
-                  </label>
-                  <input
-                    id="codi1"
-                    type="number"
-                    placeholder="Ej:221"
-                    className="input rounded-full text-black mr-60 max-w-xs w-20 bg-white border-black"
-
-                  />
-
-                  <label className="label">
-                    <span className="label-text  text-black ml-12">Telefono
-                      <span className="label-text text-xs  text-black ml-36 ">(Sin guines ni puntos)</span>
-                    </span>
-                  </label>
-                  <input
-                    id="tele"
-                    type="number" name="numero"
-                    placeholder="Numero de Telefono"
-                    maxLength="9"
-                    className="input rounded-full text-black w-full max-w-xs bg-white border-black"
-                  />
-
-                  <label className="label">
-                    <span className="label-text  text-black ml-12">Codigo de area </span>
-
-                  </label>
-                  <input
-                    id="codi2"
-                    type="number"
-                    placeholder="Ej:221"
-                    className="input rounded-full text-black w-20 mr-60 max-w-xs bg-white border-black"
-
-                  />
-
-                  <label className="label">
-                    <span className="label-text  text-black ml-12">Tel Extra
-                      <span className="label-text text-xs  text-black ml-36 "  >(Sin guines ni puntos)</span>
-                    </span>
-
-                  </label>
-                  <input
-                    id="telex"
-                    type="number"
-                    placeholder="Numero Extra"
-                    className="input rounded-full text-black w-full max-w-xs bg-white border-black"
-
-                  />
-
-
-                  <label className="label">
-                    <span className="label-text  text-black ml-12">Email</span>
+                    <span className="label-text  text-black ml-12">EMAIL</span>
                   </label>
                   <input
                     id="correo"
@@ -241,10 +278,10 @@ export default function AltaDocente() {
                   />
 
                   <label className="label">
-                    <span className="label-text  text-black ml-12">Rol</span>
+                    <span className="label-text  text-black ml-12">ROL</span>
                   </label>
                   <select id="rol" defaultValue={"Tipo de Rol"} className="select rounded-full bg-white text-black border border-black select-ghost w-full max-w-xs">
-                    <option  >Tipo de Rol</option>
+                    <option>Tipo de Rol</option>
                     <option>Admin</option>
                     <option>Docente</option>
 
@@ -254,11 +291,11 @@ export default function AltaDocente() {
               <div className=" flex flex-row grow-3 w-full justify-evenly  m-2 text-center ">
 
                 <div className="content-center m-2 ">
-                  <button onClick={(e) => limpiarFormulario(e)} type="reset" className="btn bg-blue-600 rounded-full border-none text-white">Cancelar</button>
+                  <button onClick={(e) => limpiarFormulario(e)} type="reset" className="btn bg-blue-600 w-48 rounded-full border-none text-white">CANCELAR</button>
                 </div>
                 <div className="content-center m-2">
-                  <button type="submit" className="btn bg-blue-600 rounded-full border-none  text-white">
-                    Aceptar
+                  <button type="submit" className="btn bg-blue-600 rounded-full w-48 border-none  text-white">
+                    ACEPTAR
                   </button>
                 </div>
               </div>
