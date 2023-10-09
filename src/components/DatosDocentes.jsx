@@ -4,10 +4,13 @@ import {
   getDataDocentes,
 } from "../services/DatosDocentes.services";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import UserContext from "../context/user.context";
 /* import { BtnEditarDocente } from "./EditarDocentes"; */
 
 export function DatosDocentes() {
+  const userContext= useContext(UserContext)
+  const usuario = userContext.userData
   const { data /*  isLoading, error */ } = useQuery(
     ["docentes"],
     getDataDocentes
@@ -79,6 +82,8 @@ export function DatosDocentes() {
     e.target.reset();
   }
   return (
+    usuario && usuario.id_rol==1?
+
     <div className="bg-white min-h-screen">
       <form>
         <div className="flex justify-between">
@@ -578,6 +583,6 @@ export function DatosDocentes() {
           </tbody>
         </table>
       </div>
-    </div>
+    </div>:false
   );
 }
