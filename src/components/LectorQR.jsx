@@ -1,32 +1,66 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { buscarAlumnoPorID } from "../services/GestionQR.services";
+import Logo from "../assets/logocfl.png";
 
 export default function LectorQR() {
 	const [mostrarData, setMostrarData] = useState(false);
+	const [mostrarError, setMostrarError] = useState(false);
 	const [alumno, setAlumno] = useState(false);
+	const [inputValue, setInputValue] = useState("");
+	const inputRef = useRef(null);
 	const sendInfo = async (e) => {
 		e.preventDefault();
 		let currentValue = e.target.value;
 		if (currentValue.includes(".")) {
 			let findedNum = parseInt(e.target.value.split(".")[0]);
-
 			//TODO: enviar findedNum al servidor para traer los datos del alumno
 			const res = await buscarAlumnoPorID(findedNum);
-			setAlumno( await res);
-			console.log(res)
-			setMostrarData(!mostrarData);
+			if (res.error) {
+				setMostrarError(!mostrarError);
+				setTimeout(() => {
+					setMostrarError(false);
+					setInputValue("");
+				}, 5000);
+			} else {
+				setAlumno(await res);
+
+				console.log(!res.error);
+				setMostrarData(!mostrarData);
+				setTimeout(() => {
+					setMostrarData(false);
+					setInputValue("");
+				}, 5000);
+			}
 		}
 	};
+	useEffect(() => {
+		setInputValue(""); // Limpia el input cuando se monta el componente
+		inputRef.current.focus();
+	}, [mostrarData, mostrarError]);
 
 	return (
 		<div className="hero min-h-screen bg-white ">
 			<div className="hero-content w-full text-center">
 				<div className="w-full flex flex-col ">
+					<div className="absolute z-50 top-0 left-0 w-full bg-[#093F7C]">
+						<img src={Logo} className="w-32 rounded-full m-2 inline" />
+						<span className="text-3xl text-white">
+							Registro Automático de Asistencias - Centro de Formación Laboral 404 - Berisso
+						</span>
+					</div>
+
 					<h1 className="text-5xl m-8 font-bold">
 						{mostrarData ? "Datos del alumno" : "Escanee su código.."}
 					</h1>
 					<input
-						onChange={(e) => sendInfo(e)}
+						disabled={mostrarData || mostrarError ? true : false}
+						autoFocus
+						ref={inputRef}
+						onChange={(e) => {
+							sendInfo(e);
+							setInputValue(e.target.value);
+						}}
+						value={inputValue}
 						id="nombreAlumno"
 						type="password"
 						placeholder="Código"
@@ -38,17 +72,53 @@ export default function LectorQR() {
 					/>
 					<div className={mostrarData ? "block" : "hidden"}>
 						<div className="w-1/2 h-full ml-auto mr-auto bg-white flex flex-col ">
-							<span className=" w-1/2 p-3 font-normal my-4  ml-auto mr-auto  border-b border-blue-600 rounded-lg">
-								{alumno ? alumno.data_alumno_curso.apellido_alumno : false}
+							<label className="label">
+								<span className="label-text">Alumno</span>
+								<span className="label-text-alt"></span>
+							</label>
+							<span className=" w-full p-1 font-normal text-black my-2  ml-auto mr-auto  border-b border-blue-600 rounded-lg">
+								{alumno
+									? alumno.data_alumno_curso.apellido_alumno +
+									  " " +
+									  alumno.data_alumno_curso.nombre_alumno
+									: false}
 							</span>
-							<span className=" w-1/2 p-3 my-4 font-normal  ml-auto mr-auto   border-b border-blue-600 rounded-lg">
-								{alumno ? alumno.data_alumno_curso.nombre_alumno : false}
-							</span>
-							<span className=" w-1/2 p-3 font-normal my-4  ml-auto mr-auto  border-b border-blue-600 rounded-lg">
+							<label className="label">
+								<span className="label-text">Nro DNI</span>
+								<span className="label-text-alt"></span>
+							</label>
+							<span className=" w-full p-1 font-normal my-2  text-black  ml-auto mr-auto  border-b border-blue-600 rounded-lg">
 								{alumno ? alumno.data_alumno_curso.dni_alumno : false}
 							</span>
-							<span className=" w-1/2 p-3 font-normal my-4  ml-auto mr-auto  border-b border-blue-600 rounded-lg">
+
+							<label className="label">
+								<span className="label-text">Curso</span>
+								<span className="label-text-alt"></span>
+							</label>
+							<span className=" w-full p-1 font-normal my-2  text-black  ml-auto mr-auto  border-b border-blue-600 rounded-lg">
+								{alumno ? alumno.data_alumno_curso.nombre_curso : false}
+							</span>
+							<label className="label">
+								<span className="label-text">Horario de Ingreso</span>
+								<span className="label-text-alt"></span>
+							</label>
+							<span className=" w-full p-1 font-normal my-2  text-black  ml-auto mr-auto  border-b border-blue-600 rounded-lg">
 								{alumno.hora_ingreso}
+							</span>
+
+							<label className="label">
+								<span className="label-text">Registro de Asistencia</span>
+								<span className="label-text-alt"></span>
+							</label>
+							<span className=" w-full p-1 font-normal my-2  text-black  ml-auto mr-auto  border-b border-blue-600 rounded-lg">
+								{alumno ? alumno.cod_asistencia.descripcion : false}
+							</span>
+						</div>
+					</div>
+					<div className={mostrarError ? "block" : "hidden"}>
+						<div className="fixed top-0 left-0 w-screen h-screen ml-auto mr-auto bg-white flex flex-col justify-center align-middle border border-cyan-400">
+							<span className="border border-red-500 text-red-600 text-3xl p-8 ">
+								Error al buscar alumno o cargar la asistencia, por favor informe en secretaría...
 							</span>
 						</div>
 					</div>
