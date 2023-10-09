@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../assets/logocfl.png";
-import { UserContext } from "../context/User.context";
+
 
 export default function NavBar() {
 	//const UserData = useContext(UserContext);
