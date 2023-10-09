@@ -1,12 +1,15 @@
 import { Outlet } from "react-router-dom";
 import "./Layout.scss";
 import NavBar from "./NavBar";
+import { useContext } from "react";
+import UserContext from "../context/user.context";
 
 export function Layout() {
-  const logged=true
+  const userContext = useContext(UserContext)
+  const usuario = userContext.userData
   return (
     <>
-      {logged?<NavBar />:false}
+      {usuario.id_rol?<NavBar />:false}
       <Outlet />
     </>
   );
