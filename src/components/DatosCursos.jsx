@@ -4,11 +4,16 @@ import {
   getDataCursos,
   postCursoModificado,
 } from "../services/DatosCursos.services";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { getDataDocentes } from "../services/DatosDocentes.services";
+import UserContext from "../context/user.context";
 function DataCursos() {
+
+  const userContext = useContext(UserContext);
+  const rol = userContext.userData.id_rol;
+  console.log(rol)
   // eslint-disable-next-line no-unused-vars
-  const { data, isLoading, error } = useQuery(["getCursos"], getDataCursos);
+  const { data, /* isLoading, error */ } = useQuery(["getCursos"], getDataCursos);
   const [modal, setModal] = useState("modal");
   const [docentes, setDocentes] = useState(undefined);
 
@@ -22,8 +27,8 @@ function DataCursos() {
     const res = await getDataDocentes();
     return await setDocentes(res);
   }
-
-  function modificarDatosCursos(e) {
+   // funcion que modifica los datos
+   async function modificarDatosCursos(e) {
     e.preventDefault();
     !modal ? e.target.reset() : true;
     const nombre = e.target.nvoNombreCurso.value;
@@ -41,21 +46,33 @@ function DataCursos() {
       horario_final: nvoHorarioFinal,
       activo: Boolean(nvoCheck),
     };
-    console.log(data);
-    postCursoModificado(data);
+   
+     const res = await postCursoModificado(data);
+     if (res.message=="Curso modificado"){
+      alert(res.message)
+     }else{
+      alert("error al modificar")
+     }
+     return setModal("modal")
   }
+  /* function limpiarFormulario(e) {
+    e.preventDefault();
+    e.target.reset();
+  } */
   return (
     <div className="hero min-h-screen bg-slate-50 text-black tabla-data-cursos">
       <div className="hero-content text-center p-0 w-full">
         <div className="overflow-x-auto">
           <h1 className="text-5xl font-bold">Datos Cursos</h1>
           <div className=" flex flex-row justify-between">
+           
+           { rol !== 1 ? ( 
             <Link to={"/alta-curso"}>
               {" "}
               <button className="btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black ">
                 Nuevo Curso
               </button>
-            </Link>
+            </Link>):false }
 
             <Link to={"/historial-curso"}>
               {" "}
@@ -103,13 +120,14 @@ function DataCursos() {
                       </td>
                       {/* MODAL QUE MODIFICA LOS DATOS DE LOS CURSOS */}
                       <td>
+                        { rol !== 1 ? ( 
                         <button
                           className="btn  bg-blue-600 text-white hover:bg-blue-300  hover:text-black"
                           id={e.id_curso}
                           onClick={(e) => mostrarModal(e)}
                         >
                           Editar
-                        </button>
+                        </button>): false  }
                         <div
                           id={`modal${e.id_curso}`}
                           className={
@@ -139,14 +157,7 @@ function DataCursos() {
                                         id="contenedor1"
                                         className=" border-black flex flex-col m-2 "
                                       >
-                                        <input
-                                          disabled
-                                          id="idCurso"
-                                          placeholder={e.id_curso}
-                                          defaultValue={e.id_curso}
-                                          type="text"
-                                          className=""
-                                        />
+                                       
                                         <label className="label">
                                           <span className="label-text text-black">
                                             NOMBRE DEL CURSO:
@@ -184,11 +195,16 @@ function DataCursos() {
 
                                       {/* DIV DERECHO */}
                                       <div className=" border-black flex flex-col m-2 ">
-                                        <div className=" flex"></div>
+                                       
 
                                         <label className="label">
                                           <span className="label-text text-black">
                                             HORARIO INICIO:
+                                          </span>
+                                        </label>
+                                        <label className="label ">
+                                          <span >
+                                           
                                           </span>
                                         </label>
                                         <input
