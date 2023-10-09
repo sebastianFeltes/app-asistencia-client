@@ -14,12 +14,12 @@ import AltaDocente from "./components/AltaDocente";
 import DatosAlumnos from "./components/DatosAlumnos";
 import LectorQR from "./components/LectorQR";
 import GeneradorQR from "./components/GeneradorQR";
-import { UserContext } from "./context/user.context";
+import UserState from "./context/userState";
 
 function App() {
   const queryClient = new QueryClient();
   return (
-    
+    <UserState> 
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Routes>
@@ -39,6 +39,8 @@ function App() {
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
+    </UserState>
+    
   );
 }
 
