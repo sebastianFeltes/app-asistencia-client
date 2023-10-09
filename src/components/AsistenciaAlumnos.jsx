@@ -1,7 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { getAsistencia, postJustificada } from "../services/AsistenciaAlumnos.services";
+import { useContext } from "react";
+import UserContext from "../context/user.context";
 
 function AsistenciaAlumnos() {
+    const userContext= useContext(UserContext)
+    const usuario=userContext.userData
    // const { data, isLoading, error } = useQuery(["getAsistencia"], getAsistencia)
     const data = [
 /*         {
@@ -88,7 +92,7 @@ function AsistenciaAlumnos() {
                     {/* row 1 */}
                     {data ?
                         data.alumnos.map(el => (
-                            <tr className="hover:bg-slate-200">
+                            <tr key={el.apellido} className="hover:bg-slate-200">
                                 <td>
 
                                 </td>
@@ -102,7 +106,7 @@ function AsistenciaAlumnos() {
                                 {
                                     el.registros.map(e => (
                                         <td className={e == "P" ? "text-blue-600 font-bold" : e == "A" ? "text-red-600 font-bold" : e == "1/2" ? "text-green-600 font-bold" : e == "J" ? "text-orange-600 font-bold" : false} >
-                                            {e != "A" ? e : <select onChange={(e) => justificarFalta(e)} id={el.dni} className="bg-transparent"><option value="A">A</option><option value="J">J</option></select>}
+                                            {e != "A" && usuario.id_rol==1? e : <select onChange={(e) => justificarFalta(e)} id={el.dni} className="bg-transparent"><option value="A">A</option><option value="J">J</option></select>}
                                         </td>
                                     ))
                                 }
