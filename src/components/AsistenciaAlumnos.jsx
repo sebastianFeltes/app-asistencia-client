@@ -13,10 +13,10 @@ function AsistenciaAlumnos() {
     return (
 
 
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto bg-white">
 
             <div className="hero   ">
-                <div className="hero-content  p-2 bg">
+                <div className="hero-content  p-2 bg ">
                     <h1 className="  p-3  font-normal  border-b border-blue-600 rounded-lg ">
                         Nombre del curso:
                         <span>
@@ -50,7 +50,7 @@ function AsistenciaAlumnos() {
 
                 </div>
             </div>
-            <table className="table   ">
+            <table className="table bg-white   ">
 
                 {/* head */}
 
@@ -61,8 +61,8 @@ function AsistenciaAlumnos() {
 
                         </th>
 
-                        <th className=" w-0  "><strong>Apellidos Alumno</strong></th>
-                        <th className=" w-0   "> <strong>Nombres Alumnno</strong></th>
+                        <th className=" w-0 border-b"><strong>Apellidos Alumno</strong></th>
+                        <th className=" w-0 border-b"> <strong>Nombres Alumnno</strong></th>
                         {data ? data.fecha.map(e => (
                             <td>{e}</td>
                         )) : false}
