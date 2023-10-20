@@ -5,9 +5,14 @@ import {
 } from "../services/DatosAlumnos.services.js";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+//import { UserContext } from "../context/user.context";//
 
 function DatosAlumnos() {
   //
+  //const userContext=useContext(UserContext);
+  //const rol =  userContext.userData.id_rol;
+  //console.log(rol)
+
   const { data /*isLoading, error*/ } = useQuery(["getAlumnos"], getAlumnos);
   const [modal, setModal] = useState("modal");
 
@@ -33,6 +38,7 @@ function DatosAlumnos() {
     const apellido = e.target.apellidoAlumno.value;
     const tipoDNI = e.target.tipoDocumento.value;
     const dni = e.target.dniAlumno.value;
+    const fechaNac = e.target.fechaNacimiento.value;
     const codAreaTel = e.target.telCaracteristica.value;
     const telefono = e.target.telAlumno.value;
     const direccion = e.target.direccionAlumno.value;
@@ -52,6 +58,7 @@ function DatosAlumnos() {
       apellido: apellido,
       tipo_dni: tipoDNI,
       nro_dni: parseInt(dni),
+      fecha_nac: (fechaNac),
       car_telefono: parseInt(codAreaTel),
       telefono: parseInt(telefono),
       direccion: direccion,
@@ -78,11 +85,16 @@ function DatosAlumnos() {
           <div className="flex flex-col justify-between">
             <h1 className="text-5xl font-bold">DATOS ALUMNOS</h1>
             <div className="flex justify-between w-full">
+              {/*rol == 1 ? (
+
               <Link to="/alta-alumno">
                 <button className="btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black">
                   Nuevo Alumno
                 </button>
               </Link>
+             ): ( 
+              false
+             )*/}
               <Link to="/historial-alumno">
                 <button className="btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black">
                   Historial Alumnos
@@ -92,7 +104,7 @@ function DatosAlumnos() {
           </div>
 
           <div className="overflow-x-auto">
-            <table className="table">
+            <table className="text-center table w-screen">
               {/* head */}
               <thead className="text-black">
                 <tr>
@@ -102,6 +114,7 @@ function DatosAlumnos() {
                   <th>APELLIDO ALUMNO</th>
                   <th>TIPO D.N.I. ALUMNO</th>
                   <th>N° D.N.I. ALUMNO</th>
+                  <th>FECHA DE NACIMIENTO</th>
                   <th>DIRECCIÓN ALUMNO</th>
                   <th>LOCALIDAD</th>
                   <th>COD. AREA TEL. ALUMNO</th>
@@ -111,7 +124,7 @@ function DatosAlumnos() {
                   <th>TELEFONO EXTRA</th>
                   <th>DOCUMENTACIÓN</th>
                   <th>ACTIVO</th>
-                  <th>EDITAR</th>
+                  <th>BOTONES</th>
                 </tr>
               </thead>
               <tbody>
@@ -125,6 +138,7 @@ function DatosAlumnos() {
                         <td>{e.apellido.toUpperCase()}</td>
                         <td>{e.tipo_dni}</td>
                         <td>{e.nro_dni}</td>
+                        <td>{e.fecha_nac}</td>
                         <td>{e.direccion.toUpperCase()}</td>
                         <td>{e.localidad.toUpperCase()}</td>
                         <td>{e.car_telefono}</td>
@@ -151,19 +165,21 @@ function DatosAlumnos() {
 
                         {/* boton Editar del HISTORIAL ALUMNO */}
                         <td>
-                          <button
-                            className="btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black"
-                            id={e.id_alumno}
-                            onClick={(e) => mostrarModal(e)}
-                          >
-                            Editar
-                          </button>
-                          <button
-                            className="btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black"
-                            id={e.id_alumno}
-                          >
-                            generarQR
-                          </button>
+                          <div className="flex flex-col">
+                            <button
+                              className="btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black"
+                              id={e.id_alumno}
+                              onClick={(e) => mostrarModal(e)}
+                            >
+                              Editar
+                            </button>
+                            <button
+                              className="btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black"
+                              id={e.id_alumno}
+                            >
+                              generarQR
+                            </button>
+                          </div>
                           {/* <div
                             id={`modal${e.id_alumno}`}
                             className={
@@ -405,6 +421,18 @@ function DatosAlumnos() {
                                               </div>
                                             </div>
                                           </div>
+                                          <label className="label">
+                                            <span className="label-text text-black">
+                                              NRO DE LEGAJO:
+                                            </span>
+                                          </label>
+                                          <input
+                                            id="nroLegajoAlumno"
+                                            placeholder={e.nro_legajo}
+                                            defaultValue={e.nro_legajo}
+                                            type="number"
+                                            className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
+                                          />
 
                                           <label className="label">
                                             <span className="label-text text-black">
@@ -432,36 +460,64 @@ function DatosAlumnos() {
                                             className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
                                           />
 
-                                          <label className="label">
+                                          <label className="label ">
                                             <span className="label-text text-black">
-                                              LOCALIDAD:
+                                              EMAIL DEL ALUMNO:
                                             </span>
                                           </label>
                                           <input
-                                            id="localidadAlumno"
-                                            type="text"
-                                            placeholder={e.localidad}
-                                            defaultValue={e.localidad}
-                                            className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
-                                          />
-
-                                          <label className="label">
-                                            <span className="label-text text-black">
-                                              DIRECCION:
-                                            </span>
-                                          </label>
-                                          <input
-                                            id="direccionAlumno"
-                                            type="text"
-                                            placeholder={e.direccion}
-                                            defaultValue={e.direccion}
-                                            className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
+                                            id="emailAlumno"
+                                            type="email"
+                                            placeholder={e.email}
+                                            defaultValue={e.email}
+                                            className="rounded-full input input-info w-full max-w-xs  bg-white border-black"
                                           />
                                         </div>
 
                                         {/* DIV DERECHO */}
+                                       
                                         <div className=" border-black flex flex-col m-2 ">
+
+                                          <label className="label">
+                                          <span className="label-text text-black">
+                                            FECHA DE NACIMIENTO:
+                                          </span>
+                                        </label>
+                                        <input
+                                          id="fechaNacimiento"
+                                          type="text"
+                                          placeholder={e.fecha_nac}
+                                          defaultValue={e.fecha_nac}
+                                          className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
+                                        />
+                                        <label className="label">
+                                          <span className="label-text text-black">
+                                            DIRECCION:
+                                          </span>
+                                        </label>
+                                        <input
+                                          id="direccionAlumno"
+                                          type="text"
+                                          placeholder={e.direccion}
+                                          defaultValue={e.direccion}
+                                          className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
+                                        />
+
+                                        <label className="label">
+                                          <span className="label-text text-black">
+                                            LOCALIDAD:
+                                          </span>
+                                        </label>
+                                        <input
+                                          id="localidadAlumno"
+                                          type="text"
+                                          placeholder={e.localidad}
+                                          defaultValue={e.localidad}
+                                          className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
+                                        />
                                           <div className=" flex">
+
+
                                             <label className="label ">
                                               <p className="label-text ms-1 text-black">
                                                 TEL CARACT:{" "}
@@ -532,32 +588,6 @@ function DatosAlumnos() {
                                               className="ms-0.5 rounded-full input input-bordered input-info w-40 max-w-xs  bg-white border-black"
                                             />
                                           </div>
-
-                                          <label className="label">
-                                            <span className="label-text text-black">
-                                              NRO DE LEGAJO:
-                                            </span>
-                                          </label>
-                                          <input
-                                            id="nroLegajoAlumno"
-                                            placeholder={e.nro_legajo}
-                                            defaultValue={e.nro_legajo}
-                                            type="number"
-                                            className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
-                                          />
-
-                                          <label className="label ">
-                                            <span className="label-text text-black">
-                                              EMAIL DEL ALUMNO:
-                                            </span>
-                                          </label>
-                                          <input
-                                            id="emailAlumno"
-                                            type="email"
-                                            placeholder={e.email}
-                                            defaultValue={e.email}
-                                            className="rounded-full input input-info w-full max-w-xs  bg-white border-black"
-                                          />
 
                                           {/*   DIV DOCUMENTACION */}
                                           <div className="form-control flex flex-row">
