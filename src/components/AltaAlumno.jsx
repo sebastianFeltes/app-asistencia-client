@@ -12,7 +12,7 @@ export default function AltaAlumno() {
   const userContext = useContext(UserContext);
   const usuario = userContext.userData;
   const [alumnoExistente, setAlumnoExistente] = useState(undefined);
-  /*  const [seleccionarCurso, selectCurso] = []; */
+  const [cursosSeleccionados, setCursosSeleccionados] = useState([]);
   const { data /*  isLoading, error */ } = useQuery(["mostrarCursos"], getMostrarCursos
   );
 
@@ -36,7 +36,7 @@ export default function AltaAlumno() {
     const docDni = e.target.docDni.checked;
     const docPlanilla = e.target.docPlanilla.checked;
     const docAnalitico = e.target.docAnalitico.checked;
-    const cursoAlumno = e.target.cursoAlumno.value;
+    const cursoAlumno = cursosSeleccionados.map(e=>e.id_curso)
 
     //PAQUETE DE DATOS PARA EL POST
     const data = {
@@ -55,8 +55,8 @@ export default function AltaAlumno() {
       documentacionDni: docDni,
       documentacionPlanilla: docPlanilla,
       documentacionAnalitico: docAnalitico,
-      curso: cursoAlumno,
-    };
+      cursos: cursoAlumno,
+    };console.log(data)
 
     const res = await postAltaAlumno(data);
     console.log(res);
@@ -86,7 +86,15 @@ export default function AltaAlumno() {
   //TODO:FUNCION SELECCIONAR MAS DE UN CURSO
   function agregarCurso(e) {
     e.preventDefault()
-    /* const cursos = e.target.form.cursoAlumno.value;*/
+    const cursoSeleccionado = e.target.form.cursoAlumno.value;
+    const idCursoSeleccionado = cursoSeleccionado.split("-")[0]
+    const nombreCursoSeleccionado = cursoSeleccionado.split("-")[1]
+    const dataCursoSeleccionado = {
+      id_curso: idCursoSeleccionado,
+      nombre_curso: nombreCursoSeleccionado,
+    }
+    setCursosSeleccionados([...cursosSeleccionados, dataCursoSeleccionado])
+
   }
 
 
@@ -129,7 +137,7 @@ export default function AltaAlumno() {
                     <div className="form-control flex flex-row">{/* DIV DE INPUTS "TIPO DNI Y DNI" */}
                       <select
                         id="tipoDocumento"
-                        className=" m-0 w-40 select max-w-xs bg-transparent rounded-full border-black"
+                        className=" m-0 w-40 select max-w-xs text-black  bg-transparent rounded-full border-black"
                       >
                         {
                           <option disabled selected>
@@ -147,7 +155,7 @@ export default function AltaAlumno() {
                             onBlur={(e) => getBuscarAlumno(e)}
                             type="text"
                             placeholder="Nº"
-                            className="w-40 ms-0.5 rounded-full input input-bordered input-info  max-w-xs  bg-white border-black"
+                            className="w-40 ms-0.5 rounded-full input input-bordered input-info  max-w-xs text-black  bg-white border-black"
                           />
                         </div>
                       </div>
@@ -163,7 +171,7 @@ export default function AltaAlumno() {
                       defaultValue={alumnoExistente ? alumnoExistente.nombre : ""}
                       type="text"
                       placeholder="Ingrese nombre del alumno"
-                      className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
+                      className="text-black rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
                     />
 
                     <label className="label">
@@ -178,7 +186,7 @@ export default function AltaAlumno() {
                       }
                       type="text"
                       placeholder="Ingrese apellido del alumno"
-                      className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
+                      className="rounded-full text-black  input input-bordered input-info w-full max-w-xs bg-white border-black"
                     />
 
                     <label className="label">
@@ -191,7 +199,7 @@ export default function AltaAlumno() {
                       }
                       type="text"
                       placeholder="Ingrese localidad"
-                      className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
+                      className="rounded-full input text-black  input-bordered input-info w-full max-w-xs bg-white border-black"
                     />
 
                     <label className="label">
@@ -204,8 +212,53 @@ export default function AltaAlumno() {
                       }
                       type="text"
                       placeholder="Ingrese Domicilio"
-                      className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
+                      className="rounded-full input text-black  input-bordered input-info w-full max-w-xs bg-white border-black"
                     />
+                    {/*   DIV DOCUMENTACION */}
+                    <div className="form-control flex flex-row">
+                      <label className="label">
+                        <span className="label-text text-black">
+                          DOCUMENTACION:
+                        </span>
+                      </label>
+
+                      <label className="label cursor-pointer">
+                        <span className=" text-black label-text">DNI</span>
+                        <input
+                          defaultValue={
+                            alumnoExistente ? alumnoExistente.fotoc_dni : ""
+                          }
+                          id="docDni"
+                          type="checkbox"
+                          className="checkbox border-black m-2 "
+                        />
+                      </label>
+
+                      <label className="label cursor-pointer">
+                        <span className=" text-black label-text">Planilla</span>
+                        <input
+                          defaultValue={
+                            alumnoExistente ? alumnoExistente.planilla_ins : ""
+                          }
+                          id="docPlanilla"
+                          type="checkbox"
+                          className="checkbox  border-black m-2 "
+                        />
+                      </label>
+
+                      <label className="label cursor-pointer">
+                        <span className="label-text text-black">Analitico</span>
+                        <input
+                          defaultValue={
+                            alumnoExistente ? alumnoExistente.fotoc_analitico
+                              : ""
+                          }
+                          id="docAnalitico"
+                          type="checkbox"
+                          className="checkbox  border-black m-2"
+                        />
+                      </label>
+                    </div>
                   </div>
 
                   {/* DIV DERECHO */}
@@ -236,7 +289,7 @@ export default function AltaAlumno() {
                         }
                         type="number"
                         placeholder="Ej: 221"
-                        className="rounded-full input input-bordered input-info max-w-xs w-40 bg-white border-black"
+                        className="rounded-full text-black  input input-bordered input-info max-w-xs w-40 bg-white border-black"
                       />
 
                       <input
@@ -244,7 +297,7 @@ export default function AltaAlumno() {
                         defaultValue={alumnoExistente ? alumnoExistente.telefono : ""}
                         type="number"
                         placeholder="Ingrese tel"
-                        className="ms-0.5 rounded-full input input-bordered input-info w-40 max-w-xs  bg-white border-black"
+                        className="ms-0.5 rounded-full text-black  input input-bordered input-info w-40 max-w-xs  bg-white border-black"
                       />
                     </div>
 
@@ -274,7 +327,7 @@ export default function AltaAlumno() {
                         }
                         type="number"
                         placeholder="Ej: 221"
-                        className="rounded-full input input-bordered input-info max-w-xs w-40 bg-white border-black"
+                        className="rounded-full input input-bordered text-black  input-info max-w-xs w-40 bg-white border-black"
                       />
 
                       <input
@@ -284,7 +337,7 @@ export default function AltaAlumno() {
                         }
                         type="number"
                         placeholder="Ingrese tel"
-                        className="ms-0.5 rounded-full input input-bordered input-info w-40 max-w-xs  bg-white border-black"
+                        className="ms-0.5 rounded-full input text-black  input-bordered input-info w-40 max-w-xs  bg-white border-black"
                       />
                     </div>
 
@@ -300,7 +353,7 @@ export default function AltaAlumno() {
                       }
                       type="number"
                       placeholder="Ingrese numero de legajo"
-                      className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
+                      className="rounded-full input input-bordered text-black  input-info w-full max-w-xs bg-white border-black"
                     />
 
                     <label className="label ">
@@ -313,18 +366,12 @@ export default function AltaAlumno() {
                       defaultValue={alumnoExistente ? alumnoExistente.email : ""}
                       type="email"
                       placeholder="Ingrese email"
-                      className="rounded-full input input-info w-full max-w-xs  bg-white border-black"
+                      className="rounded-full input input-info text-black  w-full max-w-xs  bg-white border-black"
                     />
 
                     {/* DIV CURSOS */}
                     <div className="m-0 p-0">
-                      {/*  <div>
-                      {selectCurso.map((e) => (
-                        <span key={e.id_curso}>
-                        {e.nombre_curso}
-                        </span>
-                      ))}
-                    </div> */}
+
                       <label className="label">
                         <span className="label-text text-black">CURSO:</span>
                       </label>
@@ -332,15 +379,13 @@ export default function AltaAlumno() {
                         <select
 
                           id="cursoAlumno"
-                          className="select w-full max-w-xs bg-transparent rounded-full border-black"
+                          className="select w-full max-w-xs text-black bg-transparent rounded-full border-black"
                         >
                           <option disabled selected>
                             Curso
                           </option>
                           {!data ? false : data.map((e) => (
-
-
-                            <option key={e.id_curso} value={e.id_curso}>
+                            <option key={e.id_curso} value={e.id_curso + "-" + e.nombre.toUpperCase()}>
                               {e.nombre.toUpperCase()}
                             </option>
 
@@ -354,53 +399,16 @@ export default function AltaAlumno() {
                         >
                           +
                         </button>
+                        <div className="ml-2">
+                          <ul className="grid grid-cols-1 gap-2">
+                            {!cursosSeleccionados ? false : cursosSeleccionados.map((e) => (
+                              <li key={e.id_curso} className="text-black text-xs">
+                                {e.nombre_curso}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
                       </div>
-                    </div>
-
-                    {/*   DIV DOCUMENTACION */}
-                    <div className="form-control flex flex-row">
-                      <label className="label">
-                        <span className="label-text text-black">
-                          DOCUMENTACION:
-                        </span>
-                      </label>
-
-                      <label className="label cursor-pointer">
-                        <span className=" text-black label-text">DNI</span>
-                        <input
-                          defaultValue={
-                            alumnoExistente ? alumnoExistente.fotoc_dni : ""
-                          }
-                          id="docDni"
-                          type="checkbox"
-                          className="checkbox border-black m-2 "
-                        />
-                      </label>
-
-                      <label className="label cursor-pointer">
-                        <span className=" text-black label-text">Planilla</span>
-                        <input
-                          defaultValue={
-                            alumnoExistente ? alumnoExistente.planilla_ins : ""
-                          }
-                          id="docPlanilla"
-                          type="checkbox"
-                          className="checkbox  border-black m-2"
-                        />
-                      </label>
-
-                      <label className="label cursor-pointer">
-                        <span className="label-text text-black">Analitico</span>
-                        <input
-                          defaultValue={
-                            alumnoExistente ? alumnoExistente.fotoc_analitico
-                              : ""
-                          }
-                          id="docAnalitico"
-                          type="checkbox"
-                          className="checkbox  border-black m-2"
-                        />
-                      </label>
                     </div>
                   </div>
                 </div>
