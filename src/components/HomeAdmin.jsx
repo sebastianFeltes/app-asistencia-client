@@ -24,7 +24,7 @@ console.log(rol)
             <h1 className="text-3xl font-bold  text-black">Inicio Administrador</h1>
           )}
 
-          <Link to={"/datos-alumnos"}>
+          <Link to={"/app/datos-alumnos"}>
             <button className="btn bg-blue-600 text-white m-2 w-full hover:bg-blue-300 hover:text-black ">
               Alumnos
             </button>
@@ -41,19 +41,19 @@ console.log(rol)
             
             )) }
           </select>
-          <Link to={"/asistencia-alumnos"}>
+          <Link to={"/app/asistencia-alumnos"}>
             <button className="btn bg-blue-600 text-white m-2 w-full hover:bg-blue-300 hover:text-black ">
               Asistencia
             </button>
           </Link>
 
-          <Link to={"/datos-cursos"}>
+          <Link to={"/app/datos-cursos"}>
             <button className="btn bg-blue-600 text-white m-2 w-full hover:bg-blue-300 hover:text-black ">
               Cursos
             </button>
           </Link>
           {rol == 1 ? (
-            <Link to={"/datos-docentes"}>
+            <Link to={"/app/datos-docentes"}>
               <button className="btn bg-blue-600 text-white m-2 w-full hover:bg-blue-300 hover:text-black ">
                 Docentes
               </button>

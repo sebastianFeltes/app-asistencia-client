@@ -16,7 +16,7 @@ function Login() {
     if (res.id_docente) {
       console.log(res);
       userContext.setUserState(res);
-      return navigate("/home-admin");
+      return navigate("/app/home-admin");
     }else{
       alert(res.message)
     }
