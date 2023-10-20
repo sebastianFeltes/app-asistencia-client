@@ -32,7 +32,7 @@ export function DatosDocentes() {
     console.log("funcion component");
     !modal ? e.target.reset() : true;
     const id_docente = e.target.id;
-    const check = e.target.nvoCheck.checked;
+    const check = e.target.nvoCheck.checked?1:0;
     const nombre = e.target.nvoNombre.value;
     const apellido = e.target.nvoApellido.value;
     const tipoDni = e.target.nvoTipoDni.value;
@@ -51,14 +51,14 @@ export function DatosDocentes() {
     const data = {
       id_docente: parseInt(id_docente),
       activo: check,
-      nombre: nombre,
-      apellido: apellido,
-      tipo_dni: tipoDni,
+      nombre: nombre.toUpperCase(),
+      apellido: apellido.toUpperCase(),
+      tipo_dni: tipoDni.toUpperCase(),
       nro_dni: parseInt(dni),
       car_telefono: parseInt(codAreaTel),
       telefono: parseInt(telefono),
-      direccion: direccion,
-      email: email,
+      direccion: direccion.toUpperCase(),
+      email: email.toUpperCase(),
       // fec_nac: fecNac,
 
       localidad: localidad,
@@ -141,7 +141,7 @@ export function DatosDocentes() {
                   className=" hover:bg-slate-200 capitalize"
                   key={e.nro_legajo}
                 >
-                  <td>{e.activo==="true" ? "activo" : "inactivo"} </td>
+                  <td>{e.activo=== "1" ? "activo" : "inactivo"} </td>
                   <td className="hover:italic">{e.nro_legajo}</td>
                   <td className="hover:italic">{e.nombre}</td>
                   <td className="hover:italic">{e.apellido}</td>
@@ -197,7 +197,7 @@ export function DatosDocentes() {
                                   id="nvoCheck"
                                   type="checkbox"
                                   className={`toggle toggle-info bg-white text-black border border-blue-400 `}
-                                  defaultChecked={e.activo==="true" ? true : false}
+                                  defaultChecked={e.activo==="1" ? true : false}
                                 />
                               </div>
 
