@@ -9,10 +9,11 @@ export default function AltaDocente() {
 
   const userContext = useContext(UserContext);
   const usuario = userContext.userData;
+ 
 
   async function post(e) {
     e.preventDefault();
-    console.log("recibido")
+    
     const tipoDoc = e.target.tipoDoc.value;
     const dni = e.target.dni.value;
     const nombreDoc = e.target.nombreDoc.value;
@@ -40,9 +41,10 @@ export default function AltaDocente() {
       telefono: parseInt(tele),
       car_tel_extra: parseInt(codi2),
       telefono_extra: parseInt(telex),
-      id_rol: rol == "ADMIN" ? 2 : 1,
+      id_rol: rol == "ADMIN" ? 1 : 2,
       email: correo,
-      activo: true
+      activo: true,
+      rol_creador: usuario.id_rol
     };
 
 
@@ -70,20 +72,20 @@ export default function AltaDocente() {
   }
 
   return (
-    usuario.id_rol == 2 ?
+    usuario.id_rol == 1 ?
       <>
 
         {/* contenedor1 */}
-        <div className="hero min-h-screen bg-white">
-          <div className="hero-content text-center  border-4 border-black rounded-2xl w-full m-4">
+        <div className="hero min-h-min bg-white">
+          <div className="hero-content text-center  border-4 m-2 border-black rounded-3xl w-full ">
             <div className="w-full ">
 
               <h2 className="text-3xl text-black font-bold ">ALTA DOCENTE</h2>
 
               <form onSubmit={e => post(e)} className="flex flex-row flex-wrap justify-around w-full   ">
-                <div id="contenedor1" className="flex flex-col grow-2 w-1/3 m-2 p-0 text-center ">
+                <div id="contenedor1" className="flex flex-col justify-center w-1/2 p-0 text-center   ">
 
-                  <div className=" p-0   flex flex-row w-3/4">
+                  <div className=" p-0   flex flex-row w-full">
                     <div id="" className="from-control mb-0 mt-auto mr-2  flex flex-col flex-grow-0 ">
                       <label className="label">
                         <span className="label-text ms-1 text-black">TIPO DE DOC</span>
@@ -182,12 +184,13 @@ export default function AltaDocente() {
 
                 {/* contenedor2 */}
 
-                <div id="contenedor2" className=" flex flex-col  grow-2 w-1/3 m-2 text-center">
-                  <div className=" ">
+                <div id="contenedor2" className=" flex flex-col  justify-center w-1/2 min-h-full text-center ">
 
+
+                  <div className="flex flex-col justify-start">
 
                     <label className="label">
-                      <span className="label-text text-black ml-12">DIRECCION</span>
+                      <span className="label-text text-black">DIRECCION</span>
                     </label>
                     <input
                       id="direc"
@@ -195,88 +198,79 @@ export default function AltaDocente() {
                       placeholder="Ingrese su direccion"
                       className="input rounded-full w-full text-black max-w-xs bg-white border-black"
                     />
+                  </div>
 
-                    <div className="flex">
-                      <div>
-                        <label className="label">
-                          <span className="label-text  text-black ml-12">COD </span>
-                        </label>
+                  <div className="flex flex-row">
+                    <div className="flex flex-col justify-start">
+                      <label className="label">
+                        <span className="label-text  text-black">COD </span>
+                      </label>
+                      <input
+                        id="codi1"
+                        type="number"
+                        placeholder="Ej:221"
+                        className="input rounded-full text-black mr-3 w-28 bg-white border-black"
 
-                        <input
-                          id="codi1"
-                          type="number"
-                          placeholder="Ej:221"
-                          className="input rounded-full text-black  w-28 ml-10 bg-white border-black"
-
-                        />
-
-
-
-                      </div>
-                      <div>
-                        <label className="label">
-                          <span className="label-text  text-black ml-4">TELEFONO<span>*sin guiones ni puntos</span>
-                          </span>
-                        </label>
-
-                        <input
-                          id="tele"
-                          type="number" name="numero"
-                          placeholder="Ej:6766891"
-                          maxLength="9"
-                          className="input rounded-full text-black w-48 ml-2 max-w-xs m-0 bg-white border-black"
-                        />
-
-                      </div>
-
-
+                      />
                     </div>
-
-
-
-                    <div className="flex">
-                      <div>
-                        <label className="label">
-                          <span className="label-text  text-black ml-12">COD </span>
-
-                        </label>
-                        <input
-                          id="codi2"
-                          type="number"
-                          placeholder="Ej:221"
-                          className="input rounded-full text-black  w-28 ml-10 bg-white border-black"
-
-                        />
-
-                      </div>
-                      <div>
-                        <label className="label">
-                          <span className="label-text  text-black ml-4">TEL EXTRA <span>*sin guiones ni puntos</span>
-                          </span>
-
-                        </label>
-                        <input
-                          id="telex"
-                          type="number"
-                          placeholder="Ej:6766891"
-                          className="input rounded-full text-black w-48 ml-2 max-w-xs m-0 bg-white border-black"
-
-                        />
-
-
-
-                      </div>
-
-
-
+                    <div className="flex flex-col justify-start">
+                      <label className="label">
+                        <span className="label-text  text-black">TELEFONO<span>*sin guiones ni puntos</span>
+                        </span>
+                      </label>
+                      <input
+                        id="tele"
+                        type="number" name="numero"
+                        placeholder="Ej:6766891"
+                        maxLength="9"
+                        className="input rounded-full text-black w-48  max-w-xs m-0 bg-white border-black"
+                      />
                     </div>
+                  </div>
+
+                  <div className="flex flex-row">
+                    <div className="flex flex-col justify-start">
+
+                      <label className="label">
+                        <span className="label-text  text-black">COD </span>
+
+                      </label>
+                      <input
+                        id="codi2"
+                        type="number"
+                        placeholder="Ej:221"
+                        className="input rounded-full text-black mr-3 w-28 bg-white border-black"
+
+                      />
+                    </div>
+                    <div className="flex flex-col justify-start">
+
+                      <label className="label">
+                        <span className="label-text  text-black ">TEL EXTRA <span>*sin guiones ni puntos</span>
+                        </span>
+
+                      </label>
+                      <input
+                        id="telex"
+                        type="number"
+                        placeholder="Ej:6766891"
+                        className="input rounded-full text-black w-48 max-w-xs m-0 bg-white border-black"
+
+                      />
+                    </div>
+                  </div>
 
 
 
+
+
+
+
+                  <div className="flex flex-col justify-start">
 
 
                     <label className="label">
-                      <span className="label-text  text-black ml-12">EMAIL</span>
+                      <span className="label-text  text-black ">EMAIL</span>
                     </label>
                     <input
                       id="correo"
@@ -284,9 +278,11 @@ export default function AltaDocente() {
                       placeholder="Ingrese su Email"
                       className="input rounded-full text-black w-full max-w-xs bg-white border-black"
                     />
+                  </div>
+                  <div className="flex flex-col justify-start">
 
                     <label className="label">
-                      <span className="label-text  text-black ml-12">ROL</span>
+                      <span className="label-text  text-black">ROL</span>
                     </label>
                     <select id="rol" defaultValue={"Tipo de Rol"} className="select rounded-full bg-white text-black border border-black select-ghost w-full max-w-xs">
                       <option>Tipo de Rol</option>
@@ -295,22 +291,23 @@ export default function AltaDocente() {
 
                     </select>
                   </div>
-                </div>
-                <div className=" flex flex-row grow-3 w-full justify-evenly  m-2 text-center ">
 
-                  <div className="content-center m-2 ">
+                  <div className="h-full flex flex-row  w-full justify-evenly  text-center items-end">
+
+
                     <button onClick={(e) => limpiarFormulario(e)} type="reset" className="btn bg-blue-600 w-48 rounded-full border-none text-white">CANCELAR</button>
-                  </div>
-                  <div className="content-center m-2">
+
                     <button type="submit" className="btn bg-blue-600 rounded-full w-48 border-none  text-white">
                       ACEPTAR
                     </button>
+
                   </div>
                 </div>
+
               </form>
             </div>
           </div>
-        </div>
+        </div >
       </> : false
   );
 }
