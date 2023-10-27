@@ -13,6 +13,7 @@ console.log(rol)
   
   const { data /*  isLoading, error */ } = useQuery( ["mostrarCursos"], getMostrarCursos
   );
+  
  
   return (
     <div className="hero min-h-screen bg-white ">
@@ -34,8 +35,8 @@ console.log(rol)
             {!data ? false :data.map((e) => ( 
               
             
-            <option key={e.id_curso}>
-            {e.id_curso} 
+            <option  value={e.id_curso} key={e.id_curso}>
+            
             {e.nombre.toUpperCase()}
             </option>
             

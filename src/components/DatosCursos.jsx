@@ -1,34 +1,43 @@
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import {
-  getDataCursos,
-  postCursoModificado,
-} from "../services/DatosCursos.services";
+import {getDataCursos, getDataDias, postCursoModificado,} from "../services/DatosCursos.services";
 import { useContext, useState } from "react";
 import { getDataDocentes } from "../services/DatosDocentes.services";
 import UserContext from "../context/user.context";
 function DataCursos() {
-
   const userContext = useContext(UserContext);
   const rol = userContext.userData.id_rol;
-  console.log(rol)
+ 
   // eslint-disable-next-line no-unused-vars
-  const { data, /* isLoading, error */ } = useQuery(["getCursos"], getDataCursos);
+  const { data /* isLoading, error */ } = useQuery(
+    ["getCursos"],
+    getDataCursos
+  );
+  
+ 
   const [modal, setModal] = useState("modal");
   const [docentes, setDocentes] = useState(undefined);
-
+  const [dias, setDias] = useState([]);
   async function mostrarModal(e) {
     //funcion que muestra el modal
     e.preventDefault();
     const id = e.target.id;
 
-    console.log(id);
+   
+    
     setModal("modal" + id);
     const res = await getDataDocentes();
-    return await setDocentes(res);
+    const dias = await getDataDias();
+     setDias(dias)
+    return setDocentes(res);
+    
+
   }
-   // funcion que modifica los datos
-   async function modificarDatosCursos(e) {
+  function agregarDia(e) {
+    e;
+  }
+  // funcion que modifica los datos
+  async function modificarDatosCursos(e) {
     e.preventDefault();
     !modal ? e.target.reset() : true;
     const nombre = e.target.nvoNombreCurso.value;
@@ -46,15 +55,16 @@ function DataCursos() {
       horario_final: nvoHorarioFinal,
       activo: Boolean(nvoCheck),
     };
-   
-     const res = await postCursoModificado(data);
-     if (res.message=="Curso modificado"){
-      alert(res.message)
-     }else{
-      alert("error al modificar")
-     }
-     return setModal("modal")
+
+    const res = await postCursoModificado(data);
+    if (res.message == "Curso modificado") {
+      alert(res.message);
+    } else {
+      alert("error al modificar");
+    }
+    return setModal("modal");
   }
+
   /* function limpiarFormulario(e) {
     e.preventDefault();
     e.target.reset();
@@ -65,14 +75,16 @@ function DataCursos() {
         <div className="overflow-x-auto">
           <h1 className="text-5xl font-bold">Datos Cursos</h1>
           <div className=" flex flex-row justify-between">
-           
-           { rol !== 1 ? ( 
-            <Link to={"/alta-curso"}>
-              {" "}
-              <button className="btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black ">
-                Nuevo Curso
-              </button>
-            </Link>):false }
+            {rol == 1 ? (
+              <Link to={"/alta-curso"}>
+                {" "}
+                <button className="btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black ">
+                  Nuevo Curso
+                </button>
+              </Link>
+            ) : (
+              false
+            )}
 
             <Link to={"/historial-curso"}>
               {" "}
@@ -120,14 +132,17 @@ function DataCursos() {
                       </td>
                       {/* MODAL QUE MODIFICA LOS DATOS DE LOS CURSOS */}
                       <td>
-                        { rol !== 1 ? ( 
-                        <button
-                          className="btn  bg-blue-600 text-white hover:bg-blue-300  hover:text-black"
-                          id={e.id_curso}
-                          onClick={(e) => mostrarModal(e)}
-                        >
-                          Editar
-                        </button>): false  }
+                        {rol == 1 ? (
+                          <button
+                            className="btn  bg-blue-600 text-white hover:bg-blue-300  hover:text-black"
+                            id={e.id_curso}
+                            onClick={(e) => mostrarModal(e)}
+                          >
+                            Editar
+                          </button>
+                        ) : (
+                          false
+                        )}
                         <div
                           id={`modal${e.id_curso}`}
                           className={
@@ -152,12 +167,20 @@ function DataCursos() {
                                   >
                                     {/* DIV CONTENEDOR */}
                                     <div className="grid grid-cols-2 gap-4 m-2 ">
+                                    
+                                          <input
+                                          id="idCurso"
+                                          placeholder={e.id_curso}
+                                          defaultValue={e.id_curso}
+                                          type="number"
+                                          className="hidden"
+                                        />
                                       {/* DIV IZQUIERDO */}
                                       <div
                                         id="contenedor1"
                                         className=" border-black flex flex-col m-2 "
                                       >
-                                       
+                                        
                                         <label className="label">
                                           <span className="label-text text-black">
                                             NOMBRE DEL CURSO:
@@ -170,7 +193,7 @@ function DataCursos() {
                                           type="text"
                                           className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
                                         />
-
+                                      
                                         <label className="label">
                                           <span className="label-text text-black">
                                             NOMBRE DEL DOCENTE:
@@ -179,33 +202,65 @@ function DataCursos() {
                                         <span className="label-text text-black"></span>
                                         <select
                                           id="nvoDocente"
-                                          className="select select-bordered w-full max-w-xs bg-white text-black"
+                                          className="select w-full max-w-xs bg-transparent rounded-full border-black"
                                         >
                                           {docentes
                                             ? docentes.map((e) => {
                                                 return (
-                                                  <option value={e.id_docente} key={e.id_docente}>
+                                                  <option
+                                                    value={e.id_docente}
+                                                    key={e.id_docente}
+                                                  >
                                                     {e.nombre}
                                                   </option>
                                                 );
                                               })
                                             : false}
                                         </select>
+                                        <label className="label">
+                                          <span className="label-text text-black">
+                                            NUEVO DIA:
+                                          </span>
+                                        </label>
+                                        <div className="flex m-0">
+                                        
+                                         <select
+                                          id="nvoDocente"
+                                          className="select w-full max-w-xs bg-transparent rounded-full border-black"
+                                        >
+                                          {dias
+                                            ? dias.map((e) => {
+                                                return (
+                                                  <option
+                                                    value={e.id_dia}
+                                                    key={e.nombre}
+                                                  >
+                                                    {e.nombre}
+                                                  </option>
+                                                );
+                                              })
+                                            : false}
+                                        </select> 
+                                          {/*  BOTON PARA AGREGAR MAS DE UN DIA */}
+                                          <button
+                                            onClick={(e) => agregarDia(e)}
+                                            type="button"
+                                            className="btn ml-2 bg-blue-600 text-black rounded-full w-12 border-none"
+                                          >
+                                            +
+                                          </button>
+                                        </div>
                                       </div>
 
                                       {/* DIV DERECHO */}
                                       <div className=" border-black flex flex-col m-2 ">
-                                       
-
                                         <label className="label">
                                           <span className="label-text text-black">
                                             HORARIO INICIO:
                                           </span>
                                         </label>
                                         <label className="label ">
-                                          <span >
-                                           
-                                          </span>
+                                          <span></span>
                                         </label>
                                         <input
                                           id="nvoHorarioInicio"
@@ -255,6 +310,14 @@ function DataCursos() {
 
                                     {/*  BOTONES DE "ACEPTAR" Y "CANCELAR" */}
                                     <div className="grid grid-cols-2 gap-4">
+                                    <div className="content-center m-2">
+                                        <button
+                                          type="submit"
+                                          className="btn  bg-blue-600 text-white hover:bg-blue-300  hover:text-black"
+                                        >
+                                          Aceptar
+                                        </button>
+                                      </div>
                                       <div className="content-center m-2">
                                         <button
                                           type="reset"
@@ -264,14 +327,7 @@ function DataCursos() {
                                         </button>
                                       </div>
 
-                                      <div className="content-center m-2">
-                                        <button
-                                          type="submit"
-                                          className="btn  bg-blue-600 text-white hover:bg-blue-300  hover:text-black"
-                                        >
-                                          Aceptar
-                                        </button>
-                                      </div>
+                                      
                                     </div>
                                   </form>
                                 </div>
