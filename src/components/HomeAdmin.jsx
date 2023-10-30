@@ -6,9 +6,9 @@ import UserContext from "../context/user.context";
 
 export default function HomeAdmin() {
 const userContext = useContext(UserContext);
-console.log(userContext)
+
 const rol = userContext.userData.id_rol;
-console.log(rol)
+
 
   
   const { data /*  isLoading, error */ } = useQuery( ["mostrarCursos"], getMostrarCursos
@@ -17,7 +17,7 @@ console.log(rol)
  
   return (
     <div className="hero min-h-screen bg-white ">
-      <div className="hero-content  border-2 border-indigo-600 text-center">
+      <div className="hero-content  border-2 border-indigo-600 text-center ">
         <div className="max-w-md flex flex-col">
           {rol !== 1 ? (
             <h1 className="text-3xl font-bold text-black ">Inicio Docente</h1>
@@ -31,7 +31,7 @@ console.log(rol)
             </button>
           </Link>
 
-          <select id="id-curso" className="select select-bordered w-full max-w-xs bg-white text-black"  >
+          <select id="id-curso" className="select w-full max-w-xs bg-transparent rounded-full border-black"  >
             {!data ? false :data.map((e) => ( 
               
             

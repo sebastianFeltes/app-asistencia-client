@@ -17,24 +17,30 @@ function DataCursos() {
  
   const [modal, setModal] = useState("modal");
   const [docentes, setDocentes] = useState(undefined);
-  const [dias, setDias] = useState([]);
+  const [dias, setDias] = useState(undefined);
+  const [diasAgregar, setDiasAgregar] = useState([]);
+
+  //funcion que muestra el modal
   async function mostrarModal(e) {
-    //funcion que muestra el modal
     e.preventDefault();
     const id = e.target.id;
-
-   
-    
     setModal("modal" + id);
     const res = await getDataDocentes();
     const dias = await getDataDias();
      setDias(dias)
+     console.log(dias)
     return setDocentes(res);
     
 
   }
+  
   function agregarDia(e) {
-    e;
+    e.preventDefault();
+   
+    const dia = e.target.form.nvoDia.value;
+    
+    setDiasAgregar([...diasAgregar,dia])
+    console.log(diasAgregar)
   }
   // funcion que modifica los datos
   async function modificarDatosCursos(e) {
@@ -46,7 +52,7 @@ function DataCursos() {
     const nvoHorarioFinal = e.target.nvoHorarioFinal.value;
     const nvoCheck = e.target.nvoCheck.value;
     const idCurso = e.target.idCurso.value;
-
+    
     const data = {
       id_curso: parseInt(idCurso),
       nombre: nombre,
@@ -54,10 +60,12 @@ function DataCursos() {
       horario_inicio: nvoHorarioInicio,
       horario_final: nvoHorarioFinal,
       activo: Boolean(nvoCheck),
+      
     };
 
     const res = await postCursoModificado(data);
     if (res.message == "Curso modificado") {
+     
       alert(res.message);
     } else {
       alert("error al modificar");
@@ -65,10 +73,10 @@ function DataCursos() {
     return setModal("modal");
   }
 
-  /* function limpiarFormulario(e) {
-    e.preventDefault();
-    e.target.reset();
-  } */
+    function limpiarFormulario(e) {
+    /* e.preventDefault(); */
+    e.target.reset()
+  }  
   return (
     <div className="hero min-h-screen bg-slate-50 text-black tabla-data-cursos">
       <div className="hero-content text-center p-0 w-full">
@@ -225,7 +233,7 @@ function DataCursos() {
                                         <div className="flex m-0">
                                         
                                          <select
-                                          id="nvoDocente"
+                                          id="nvoDia"
                                           className="select w-full max-w-xs bg-transparent rounded-full border-black"
                                         >
                                           {dias
@@ -249,6 +257,13 @@ function DataCursos() {
                                           >
                                             +
                                           </button>
+                                          {/* {dia.map((e)=>{
+                                            return(
+                                            <span key={e.id_dia}>
+                                                {e.nombre}
+                                            </span>
+                                            )
+                                          })} */}
                                         </div>
                                       </div>
 
@@ -321,6 +336,7 @@ function DataCursos() {
                                       <div className="content-center m-2">
                                         <button
                                           type="reset"
+                                          onReset={(e) => (limpiarFormulario(e))}
                                           className="btn  bg-blue-600 text-white hover:bg-blue-300  hover:text-black"
                                         >
                                           Cancelar
