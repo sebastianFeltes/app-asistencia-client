@@ -1,7 +1,7 @@
 export async function getAlumnos(){
    const response = await fetch ("http://localhost:8080/datos-alumnos");
    const alumnos =await response.json();
-   console.log(alumnos)
+ 
    return alumnos;
 }
 
