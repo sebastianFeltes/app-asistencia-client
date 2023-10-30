@@ -27,6 +27,7 @@ export default function AltaAlumno() {
     const dniAlumno = e.target.dniAlumno.value;
     const direccionAlumno = e.target.direccionAlumno.value;
     const localidadAlumno = e.target.localidadAlumno.value;
+    const fechaNac = e.target.fechaNac.value;
     const emailAlumno = e.target.emailAlumno.value;
     const telAlumno = e.target.telAlumno.value;
     const telCaracteristica = e.target.telCaracteristica.value;
@@ -36,30 +37,32 @@ export default function AltaAlumno() {
     const docDni = e.target.docDni.checked;
     const docPlanilla = e.target.docPlanilla.checked;
     const docAnalitico = e.target.docAnalitico.checked;
-    const cursoAlumno = cursosSeleccionados.map(e=>e.id_curso)
+    const cursoAlumno = cursosSeleccionados.map(e => e.id_curso);
+    const fechaNacFormateada = fechaNac.split("-").reverse().join("/")
 
     //PAQUETE DE DATOS PARA EL POST
     const data = {
-      nombre: nombreAlumno,
-      apellido: apellidoAlumno,
-      tipoDoc: tipoDocumento,
-      dni: parseInt(dniAlumno),
-      direccion: direccionAlumno,
-      localidad: localidadAlumno,
+      nombre: nombreAlumno.toLowerCase(),
+      apellido: apellidoAlumno.toLowerCase(),
+      tipo_dni: tipoDocumento.toLowerCase(),
+      nro_dni: parseInt(dniAlumno),
+      direccion: direccionAlumno.toLowerCase(),
+      localidad: localidadAlumno.toLowerCase(),
+      fecha_nac: fechaNacFormateada,
       email: emailAlumno,
-      tel: parseInt(telAlumno),
-      telCar: parseInt(telCaracteristica),
-      telCarExt: parseInt(telCaracterExtra),
-      telExt: parseInt(telExtra),
-      numLegajo: parseInt(nroLegajoAlumno),
-      documentacionDni: docDni,
-      documentacionPlanilla: docPlanilla,
-      documentacionAnalitico: docAnalitico,
+      telefono: parseInt(telAlumno),
+      car_telefono: parseInt(telCaracteristica),
+      car_tel_extra: parseInt(telCaracterExtra),
+      telefono_extra: parseInt(telExtra),
+      nro_legajo: parseInt(nroLegajoAlumno),
+      fotoc_dni: docDni ? 1 : 0,
+      planilla_ins: docPlanilla ? 1 : 0,
+      fotoc_analitico: docAnalitico ? 1 : 0,
       cursos: cursoAlumno,
-    };console.log(data)
+    };
 
+    //LIMPIAR FORMULARIO CUANDO EL ALUMNO SE CARGUE EXITOSAMENTE
     const res = await postAltaAlumno(data);
-    console.log(res);
     if (res == "recibido") {
       e.target.reset();
       return alert("alumno cargado exitosamente");
@@ -81,6 +84,7 @@ export default function AltaAlumno() {
       setAlumnoExistente(res);
     }
     return res;
+
   }
 
   //TODO:FUNCION SELECCIONAR MAS DE UN CURSO
@@ -103,7 +107,7 @@ export default function AltaAlumno() {
     usuario.id_rol == 1 ?
       <div className="hero min-h-screen bg-white overflow-hidden h-full">
         <div className="hero-content text-center m-4 border-4 border-black w-full rounded-3xl ">
-          <div className=" ">
+          <div className=" w-full ">
             <div className=" border-black w-full ">
               <h2 className="text-black text-4xl font-bold mb-8 justify-center">
                 ALTA ALUMNO
@@ -116,9 +120,9 @@ export default function AltaAlumno() {
                   {/* DIV CONTENEDOR HIJO IZQUIERDO */}
                   <div
                     id="contenedor1"
-                    className=" border-black flex flex-col m-2 w-full "
+                    className=" border-black flex flex-col m-2 w-full  "
                   >
-                    <div className=" flex">{/* DIV DE SPAN "TIPO DNI Y DNI" */}
+                    <div className=" flex w-full">{/* DIV DE SPAN "TIPO DNI Y DNI" */}
                       <label className="label">
                         <span className="label-text ms-1 text-black">
                           TIPO DE DOCUMENTO
@@ -134,7 +138,7 @@ export default function AltaAlumno() {
                       </label>
                     </div>
 
-                    <div className="form-control flex flex-row">{/* DIV DE INPUTS "TIPO DNI Y DNI" */}
+                    <div className="form-control flex flex-row w-full">{/* DIV DE INPUTS "TIPO DNI Y DNI" */}
                       <select
                         id="tipoDocumento"
                         className=" m-0 w-40 select max-w-xs text-black  bg-transparent rounded-full border-black"
@@ -189,6 +193,20 @@ export default function AltaAlumno() {
                       className="rounded-full text-black  input input-bordered input-info w-full max-w-xs bg-white border-black"
                     />
 
+
+                    <label className="label">
+                      <span className="label-text text-black">FECHA NAC:</span>
+                    </label>
+                    <input
+                      id="fechaNac"
+                      defaultValue={
+                        alumnoExistente ? alumnoExistente.fecha_nac : ""
+                      }
+                      type="date"
+                      placeholder="Ingrese fecha de nacimiento"
+                      className="rounded-full input text-black  input-bordered input-info w-full max-w-xs bg-white border-black"
+                    />
+
                     <label className="label">
                       <span className="label-text text-black">LOCALIDAD:</span>
                     </label>
@@ -214,51 +232,7 @@ export default function AltaAlumno() {
                       placeholder="Ingrese Domicilio"
                       className="rounded-full input text-black  input-bordered input-info w-full max-w-xs bg-white border-black"
                     />
-                    {/*   DIV DOCUMENTACION */}
-                    <div className="form-control flex flex-row">
-                      <label className="label">
-                        <span className="label-text text-black">
-                          DOCUMENTACION:
-                        </span>
-                      </label>
 
-                      <label className="label cursor-pointer">
-                        <span className=" text-black label-text">DNI</span>
-                        <input
-                          defaultValue={
-                            alumnoExistente ? alumnoExistente.fotoc_dni : ""
-                          }
-                          id="docDni"
-                          type="checkbox"
-                          className="checkbox border-black m-2 "
-                        />
-                      </label>
-
-                      <label className="label cursor-pointer">
-                        <span className=" text-black label-text">Planilla</span>
-                        <input
-                          defaultValue={
-                            alumnoExistente ? alumnoExistente.planilla_ins : ""
-                          }
-                          id="docPlanilla"
-                          type="checkbox"
-                          className="checkbox  border-black m-2 "
-                        />
-                      </label>
-
-                      <label className="label cursor-pointer">
-                        <span className="label-text text-black">Analitico</span>
-                        <input
-                          defaultValue={
-                            alumnoExistente ? alumnoExistente.fotoc_analitico
-                              : ""
-                          }
-                          id="docAnalitico"
-                          type="checkbox"
-                          className="checkbox  border-black m-2"
-                        />
-                      </label>
-                    </div>
                   </div>
 
                   {/* DIV DERECHO */}
@@ -369,7 +343,7 @@ export default function AltaAlumno() {
                       className="rounded-full input input-info text-black  w-full max-w-xs  bg-white border-black"
                     />
 
-                    {/* DIV CURSOS */}
+                    {/* DIV CURSOS HIJO  */}
                     <div className="m-0 p-0">
 
                       <label className="label">
@@ -383,7 +357,7 @@ export default function AltaAlumno() {
                         >
                           <option disabled selected>
                             Curso
-                          </option>
+                          </option>{/*TODO: MAPEO DE CURSOS */}
                           {!data ? false : data.map((e) => (
                             <option key={e.id_curso} value={e.id_curso + "-" + e.nombre.toUpperCase()}>
                               {e.nombre.toUpperCase()}
@@ -391,7 +365,7 @@ export default function AltaAlumno() {
 
                           ))}
                         </select>
-                        {/*  BOTON PARA AGREGAR MAS DE UN CURSO */}
+                        {/* TODO: BOTON PARA AGREGAR MAS DE UN CURSO */}
                         <button
                           onClick={(e) => agregarCurso(e)}
                           type="button"
@@ -401,6 +375,7 @@ export default function AltaAlumno() {
                         </button>
                         <div className="ml-2">
                           <ul className="grid grid-cols-1 gap-2">
+                            {/* TODO:MAP PARA AGREGAR MAS DE UN CURSO */}
                             {!cursosSeleccionados ? false : cursosSeleccionados.map((e) => (
                               <li key={e.id_curso} className="text-black text-xs">
                                 {e.nombre_curso}
@@ -409,13 +384,70 @@ export default function AltaAlumno() {
                           </ul>
                         </div>
                       </div>
+                      {/*   DIV DOCUMENTACION */}
+                      <div className="form-control flex flex-row mt-7">
+                        <label className="label">
+                          <span className="label-text text-black">
+                            DOCUMENTACION:
+                          </span>
+                        </label>
+
+                        <label className="label cursor-pointer">
+                          <span className=" text-black label-text">DNI</span>
+                          <input
+                            defaultValue={
+                              alumnoExistente ? alumnoExistente.fotoc_dni : ""
+                            }
+                            id="docDni"
+                            type="checkbox"
+                            className="checkbox border-black m-2 "
+                          />
+                        </label>
+
+                        <label className="label cursor-pointer">
+                          <span className=" text-black label-text">Planilla</span>
+                          <input
+                            defaultValue={
+                              alumnoExistente ? alumnoExistente.planilla_ins : ""
+                            }
+                            id="docPlanilla"
+                            type="checkbox"
+                            className="checkbox  border-black m-2 "
+                          />
+                        </label>
+
+                        <label className="label cursor-pointer">
+                          <span className="label-text text-black">Analitico</span>
+                          <input
+                            defaultValue={
+                              alumnoExistente ? alumnoExistente.fotoc_analitico
+                                : ""
+                            }
+                            id="docAnalitico"
+                            type="checkbox"
+                            className="checkbox  border-black m-2"
+                          />
+                        </label>
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                {/*  BOTONES DE "ACEPTAR" Y "CANCELAR" */}
+                {/* DIV PADRE DE LOS BOTONES DE "ACEPTAR" Y "CANCELAR" */}
                 <div className="grid grid-cols-2 gap-4">
+
+
                   <div className="content-center m-2">
+                    {/* TODO:BOTON DE ACEPTAR */}
+                    <button
+                      type="submit"
+                      className="btn bg-blue-600 text-white rounded-full w-48 border-none hover:bg-blue-300 hover:text-black  "
+                    >
+                      Aceptar
+                    </button>
+                  </div>
+                  <div className="content-center m-2">
+                    {/* TODO:BOTON CANCELAR LINKEADO A /datos-alumnos */}
 
                     <Link to={"/datos-alumnos"}> <button
                       onClick={(e) => limpiarFormulario(e)}
@@ -425,19 +457,11 @@ export default function AltaAlumno() {
                       Cancelar
                     </button></Link>
                   </div>
-
-                  <div className="content-center m-2">
-                    <button
-                      type="submit"
-                      className="btn bg-blue-600 text-white rounded-full w-48 border-none hover:bg-blue-300 hover:text-black  "
-                    >
-                      Aceptar
-                    </button>
-                  </div>
                 </div>
               </form>
-
-              <Link to={"/generador-qr"}><button className="text-blue-600">GENERAR QR</button></Link>
+              
+              {/* TODO:BOTON DE GENERAR QR */}
+              <Link to={"/generador-qr"}><button className="text-blue-600 ">GENERAR QR</button></Link>
             </div>
           </div>
         </div>
