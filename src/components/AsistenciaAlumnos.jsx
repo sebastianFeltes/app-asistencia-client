@@ -21,47 +21,55 @@ function AsistenciaAlumnos() {
 
 	return (
 		<div className="hero min-h-screen w-full bg-white">
-			<div className="hero-content h-full text-center border border-yellow-400 items-start">
+			<div className="hero-content h-full text-center  items-start">
 				<div className="w-full">
 					<div className="flex flex-row w-full justify-between text-black">
-						<h1 className="  p-3  font-normal  border-b border-blue-600 rounded-lg ">Nombre del curso:</h1>
-						<h2 className=" p-3 font-normal  border-b border-blue-600 rounded-lg">Nombre del profesor:</h2>
-						<h2 className=" border-solid p-3 font-normal  border-b border-blue-600 rounded-lg  ">
-							<span>Dias:</span>
+						
+						<h1 className="  mb-4 p-3   font-bold  border-b border-blue-600 rounded-lg ">Nombre del curso:</h1>
+						<h2 className="  mb-4 p-3  font-bold  border-b border-blue-600 rounded-lg">Nombre del profesor:</h2>
+						<h2 className=" mb-4 border-solid p-3  font-bold  border-b border-blue-600 rounded-lg "><span>Dias:</span>
 						</h2>
-						<h2 className=" border-solid p-3 font-normal  border-b border-blue-600 rounded-lg ">
+						<h2 className=" mb-4 border-solid p-3  font-bold  border-b border-blue-600 rounded-lg ">
 							Horarios:
 						</h2>
-						<h2 className=" p-3 font-normal   border-b border-blue-600 rounded-lg">Cantidad de alumnos:</h2>
+						<h2 className="  mb-4 p-3  font-bold   border-b border-blue-600 rounded-lg ">Cantidad de alumnos:</h2>
 					</div>
-					<div className="overflow-x-scroll">
-						<table>
-							<thead>
-								<tr>
-									<th>Nombre</th>
-									<th>Apellido</th>
+					<div className="overflow-x-scroll  ">
+						<table >
+							<thead >
+                               
+								<tr >
+									<th  className="   mr-2 p-1   border-solid  border-2 border-black text-black">Nombre</th>
+									<th className="  p-2  border-solid border-2 border-black text-black ">Apellido</th>
 									{uniqueDates.map((date, index) => (
-										<th key={index}>{date}</th>
+										<th className=" p-1  border-solid border-2 border-black  text-black" key={index}>{date.split("",5)}</th>
 									))}
 								</tr>
+								
+
 							</thead>
-							<tbody>
+							<tbody >
 								{uniqueStudents.map((student) => (
-									<tr key={student.id_alumno}>
-										<td>{student.nombre}</td>
-										<td>{student.apellido}</td>
+									<tr className=" hover:bg-slate-200" key={student.id_alumno}>
+										
+
+										<td className="border  border-black bg-white " >{student.nombre.split(" ")[0]}</td>
+										<td  className=" border  border-black">{student.apellido}</td>
+										
+										
 										{uniqueDates.map((date, index) => {
 											const attendanceRecord = data.find(
 												(item) => item.fecha === date && item.id_alumno === student.id_alumno
 											);
 											return (
-												<td key={index}>
+												<td  className=" border border-black" key={index}>
 													{attendanceRecord
 														? attendanceRecord.descripcion.split("")[0].toUpperCase()
 														: "N/A"}
 												</td>
 											);
 										})}
+										
 									</tr>
 								))}
 							</tbody>
@@ -103,7 +111,7 @@ export default AsistenciaAlumnos;
 								{uniqueDates.map((date, index) => (
 									<th key={index}>{date}</th>
 								))}
-							</tr>
+							</tr>	
 						</thead>
 						<tbody>
 							{uniqueStudents.map((student) => (
