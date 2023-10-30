@@ -12,7 +12,6 @@ export default function NavBar() {
     e.preventDefault();
     navigate("/");
     userContext.setUserState(undefined);
-    console.log(userContext);
     return alert("Se ha cerrado la sesión");
   }
   return (
