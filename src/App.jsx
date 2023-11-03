@@ -19,28 +19,29 @@ import UserState from "./context/userState";
 function App() {
   const queryClient = new QueryClient();
   return (
-    <UserState> 
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Login />} />
-            <Route path="/home-admin" element={<HomeAdmin />} />
-            <Route path="/alta-alumno" element={<AltaAlumno />} />
-            <Route path="/datos-docentes" element={<DatosDocentes />} />
-            <Route path="/datos-cursos" element={<DataCursos />} />
-            <Route path="/asistencia-alumnos" element={<AsistenciaAlumnos />} />
-            <Route path="/alta-docente" element={<AltaDocente />} />
-            <Route path="/datos-alumnos" element={<DatosAlumnos />} />
-            <Route path="/lector-qr" element={<LectorQR />} />
-            <Route path="/generador-qr" element={<GeneradorQR />} />
-
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </QueryClientProvider>
+    <UserState>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Login />} />
+              <Route path="/home-admin" element={<HomeAdmin />} />
+              <Route path="/alta-alumno" element={<AltaAlumno />} />
+              <Route path="/datos-docentes" element={<DatosDocentes />} />
+              <Route path="/datos-cursos" element={<DataCursos />} />
+              <Route
+                path="/asistencia-alumnos"
+                element={<AsistenciaAlumnos />}
+              />
+              <Route path="/alta-docente" element={<AltaDocente />} />
+              <Route path="/datos-alumnos" element={<DatosAlumnos />} />
+              <Route path="/lector-qr" element={<LectorQR />} />
+              <Route path="/generador-qr" element={<GeneradorQR />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </QueryClientProvider>
     </UserState>
-    
   );
 }
 

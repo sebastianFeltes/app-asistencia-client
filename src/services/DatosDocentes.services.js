@@ -7,10 +7,15 @@ export async function getDataDocentes() {
 
 // Ejemplo implementando el metodo POST:
 export async function docenteModificado(data) {
-  const url = "http://localhost:8080/docentes";
-  // Opciones por defecto estan marcadas con un *
-  console.log(data);
-  const response = await fetch(url, {
+  return post(data, "docentes")
+}
+export async function altaAlumno(data){
+  return post(data, "alumno")
+}
+
+export async function post(data, path) {
+
+  const response = await fetch(`http://localhost:8080/${path}`, {
     method: "POST", // *GET, POST, PUT, DELETE, etc.
     mode: "cors", // no-cors, *cors, same-origin
     cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached

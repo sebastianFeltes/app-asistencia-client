@@ -5,6 +5,22 @@ import postAltaAlumno, {
 import "./altaAlumno.scss";
 export default function AltaAlumno() {
   const [alumnoExistente, setAlumnoExistente] = useState(undefined);
+  const [cursosSeleccionados, setCursosSeleccionados] = useState([]);
+
+  const cursosDisponibles = [
+    {
+      nombre_curso: "Programma",
+      id_curso: 1,
+    },
+    {
+      nombre_curso: "Adm. Base de Datos",
+      id_curso: 2,
+    },
+    {
+      nombre_curso: "PHP",
+      id_curso: 3,
+    },
+  ];
   //FUNCION PARA ENVIAR DATOS
 
   async function post(e) {
@@ -24,7 +40,7 @@ export default function AltaAlumno() {
     const docDni = e.target.docDni.checked;
     const docPlanilla = e.target.docPlanilla.checked;
     const docAnalitico = e.target.docAnalitico.checked;
-    const cursoAlumno = e.target.cursoAlumno.value;
+    // const cursoAlumno = e.target.cursoAlumno.value;
 
     //PAQUETE DE DATOS
     const data = {
@@ -43,15 +59,15 @@ export default function AltaAlumno() {
       documentacionDni: docDni,
       documentacionPlanilla: docPlanilla,
       documentacionAnalitico: docAnalitico,
-      curso: cursoAlumno,
+      curso: cursosSeleccionados,
     };
 
-    const res = await postAltaAlumno(data);
+    /* const res = await postAltaAlumno(data);
     console.log(res);
     if (res == "recibido") {
       e.target.reset();
       return alert("alumno cargado exitosamente");
-    }
+    } */
   }
 
   //FUNCION CANCELAR
@@ -73,7 +89,17 @@ export default function AltaAlumno() {
 
   //FUNCION SELECCIONAR MAS DE UN CURSO
   function agregarCurso(e) {
-    e;
+    e.preventDefault();
+    console.log(e);
+    const idCursoAgregar = e.target.form.cursoAlumno.value;
+    console.log(idCursoAgregar);
+    const cursoSeleccionado = cursosDisponibles.find(
+      (curso) => curso.id_curso === parseInt(idCursoAgregar)
+    );
+    if(cursoSeleccionado){
+      setCursosSeleccionados([...cursosSeleccionados, cursoSeleccionado]);
+    }
+    console.log(cursosSeleccionados);
   }
   return (
     <div className="hero min-h-screen bg-white">
@@ -303,6 +329,12 @@ export default function AltaAlumno() {
                   />
 
                   {/* DIV CURSOS */}
+                  <div>
+                    {cursosSeleccionados.map((e) => {
+                      return <div key={e.id_curso}>{e.nombre_curso}</div>;
+                    })}
+                  </div>
+
                   <div className="m-0 p-0">
                     <label className="label">
                       <span className="label-text text-black">CURSO:</span>
@@ -312,9 +344,14 @@ export default function AltaAlumno() {
                         id="cursoAlumno"
                         className="select w-full max-w-xs bg-transparent rounded-full border-black"
                       >
-                        <option disabled selected>
-                          Curso
-                        </option>
+                        <option>Seleccione un curso</option>
+                        {cursosDisponibles.map((e) => {
+                          return (
+                            <option key={e.id_curso} value={e.id_curso}>
+                              {e.nombre_curso}
+                            </option>
+                          );
+                        })}
                       </select>
                       {/*  BOTON PARA AGREGAR MAS DE UN CURSO */}
                       <button

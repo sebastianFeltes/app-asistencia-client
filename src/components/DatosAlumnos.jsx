@@ -4,10 +4,14 @@ import {
   postAlumnosModificado,
 } from "../services/DatosAlumnos.services.js";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import UserContext from "../context/user.context.js";
 
 function DatosAlumnos() {
   //
+
+  const userContext = useContext(UserContext);
+  const usuario = userContext.userData;
   const { data /*isLoading, error*/ } = useQuery(["getAlumnos"], getAlumnos);
   const [modal, setModal] = useState("modal");
 
@@ -65,11 +69,10 @@ function DatosAlumnos() {
       planilla_ins: planillaIns,
       id_alumno: parseInt(id_alumno),
     };
-    console.log('funcion en el comp',data);
+    console.log("funcion en el comp", data);
     const res = await postAlumnosModificado(data);
-    alert(res.message)
-    return  setModal("modal");
-
+    alert(res.message);
+    return setModal("modal");
   }
 
   return (
@@ -152,17 +155,20 @@ function DatosAlumnos() {
 
                         {/* boton Editar del HISTORIAL ALUMNO */}
                         <td>
+                          {usuario.id_rol == 1 ? (
+                            <button
+                              className="btn max-w-xs bg-blue-600  text-white"
+                              id={e.id_alumno}
+                              onClick={(e) => mostrarModal(e)}
+                            >
+                              Editar
+                            </button>
+                          ) : (
+                            false
+                          )}
                           <button
                             className="btn max-w-xs bg-blue-600  text-white"
                             id={e.id_alumno}
-                            onClick={(e) => mostrarModal(e)}
-                          >
-                            Editar
-                          </button>
-                          <button
-                            className="btn max-w-xs bg-blue-600  text-white"
-                            id={e.id_alumno}
-                           
                           >
                             generarQR
                           </button>
