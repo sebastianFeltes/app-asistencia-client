@@ -1,10 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
+//import { useQuery } from "@tanstack/react-query";
 import {
   getAlumnos,
   postAlumnosModificado,
 } from "../services/DatosAlumnos.services.js";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 //import { UserContext } from "../context/user.context";//
 
 function DatosAlumnos() {
