@@ -9,7 +9,7 @@ export default function HomeAdmin() {
 
   const rol = userContext.userData.id_rol;
 
-  userContext.setUserState({ ...userContext, cursoId: 1 });
+  //userContext.setUserState({ ...userContext, cursoId: 1 });
 
   const { data /*  isLoading, error */ } = useQuery(
     ["mostrarCursos"],
