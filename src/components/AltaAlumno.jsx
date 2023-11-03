@@ -66,7 +66,7 @@ export default function AltaAlumno() {
     if (res == "recibido") {
       e.target.reset();
       return alert("alumno cargado exitosamente");
-    } */
+    } 
   }
 
   //TODO:FUNCION CANCELAR Y LIMPIE EL FORMULARIO

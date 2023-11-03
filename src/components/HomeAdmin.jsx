@@ -5,16 +5,17 @@ import { getMostrarCursos } from "../services/homeAdmin.services";
 import UserContext from "../context/user.context";
 
 export default function HomeAdmin() {
-const userContext = useContext(UserContext);
+  const userContext = useContext(UserContext);
 
-const rol = userContext.userData.id_rol;
+  const rol = userContext.userData.id_rol;
 
+  userContext.setUserState({ ...userContext, cursoId: 1 });
 
-  
-  const { data /*  isLoading, error */ } = useQuery( ["mostrarCursos"], getMostrarCursos
+  const { data /*  isLoading, error */ } = useQuery(
+    ["mostrarCursos"],
+    getMostrarCursos
   );
-  
- 
+
   return (
     <div className="hero min-h-screen bg-white ">
       <div className="hero-content  border-2 border-indigo-600 text-center ">
@@ -22,7 +23,9 @@ const rol = userContext.userData.id_rol;
           {rol !== 1 ? (
             <h1 className="text-3xl font-bold text-black ">Inicio Docente</h1>
           ) : (
-            <h1 className="text-3xl font-bold  text-black">Inicio Administrador</h1>
+            <h1 className="text-3xl font-bold  text-black">
+              Inicio Administrador
+            </h1>
           )}
 
           <Link to={"/app/datos-alumnos"}>
@@ -31,16 +34,17 @@ const rol = userContext.userData.id_rol;
             </button>
           </Link>
 
-          <select id="id-curso" className="select w-full max-w-xs bg-transparent rounded-full border-black"  >
-            {!data ? false :data.map((e) => ( 
-              
-            
-            <option  value={e.id_curso} key={e.id_curso}>
-            
-            {e.nombre.toUpperCase()}
-            </option>
-            
-            )) }
+          <select
+            id="id-curso"
+            className="select w-full max-w-xs bg-transparent rounded-full border-black"
+          >
+            {!data
+              ? false
+              : data.map((e) => (
+                  <option value={e.id_curso} key={e.id_curso}>
+                    {e.nombre.toUpperCase()}
+                  </option>
+                ))}
           </select>
           <Link to={"/app/asistencia-alumnos"}>
             <button className="btn bg-blue-600 text-white m-2 w-full hover:bg-blue-300 hover:text-black ">

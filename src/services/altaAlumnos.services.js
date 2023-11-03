@@ -30,6 +30,7 @@ export default async function postAltaAlumno(data) {
   } else if (`${data.nro_legajo}`.length < 4) {
     alert("legajo invalido");
   } else {
+    console.log(data)
     const response = await fetch(url, {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, *cors, same-origin
@@ -44,6 +45,7 @@ export default async function postAltaAlumno(data) {
       body: JSON.stringify(data), // body data type must match "Content-Type" header
     });
     const res = await response.json();
+    console.log(res)
     return res;
   }
 }

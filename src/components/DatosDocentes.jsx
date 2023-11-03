@@ -83,7 +83,7 @@ export function DatosDocentes() {
     <div className="bg-white min-h-screen">
       <form>
         <div className="flex justify-between">
-          <Link to={"/alta-docente"}>
+          <Link to={"/app/alta-docente"}>
             <button className="btn btn-active bg-[#0184F5] text-white">
               alta Docente
             </button>
@@ -92,7 +92,7 @@ export function DatosDocentes() {
             Datos Docentes
           </h1>
 
-          <Link to={"/historial-docente"}>
+          <Link to={"/app/historial-docente"}>
             <button className="btn btn-active bg-[#0184F5] text-white">
               Historial Docente
             </button>

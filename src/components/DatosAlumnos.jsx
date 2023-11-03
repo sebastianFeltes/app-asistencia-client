@@ -82,7 +82,7 @@ function DatosAlumnos() {
     console.log(data);
     const res = await postAlumnosModificado(data);
 
-    alert(res.message.toUpperCase());
+    res.message ? alert(res.message.toUpperCase()) : false;
     return setModal("modal");
   }
 
@@ -93,16 +93,12 @@ function DatosAlumnos() {
           <div className="flex flex-col justify-between">
             <h1 className="text-5xl font-bold">DATOS ALUMNOS</h1>
             <div className="flex justify-between w-full">
-              {/*rol == 1 ? (
-
-              <Link to="/alta-alumno">
+              <Link to="/app/alta-alumno">
                 <button className="btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black">
                   Nuevo Alumno
                 </button>
               </Link>
-             ): ( 
-              false
-             )*/}
+
               <Link to="/historial-alumno">
                 <button className="btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black">
                   Historial Alumnos
