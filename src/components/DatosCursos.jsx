@@ -1,24 +1,27 @@
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import {getDataCursos, getDataDias, postCursoModificado,} from "../services/DatosCursos.services";
+import {
+  getDataCursos,
+  getDataDias,
+  postCursoModificado,
+} from "../services/DatosCursos.services";
 import { useContext, useState } from "react";
 import { getDataDocentes } from "../services/DatosDocentes.services";
 import UserContext from "../context/user.context";
 function DataCursos() {
   const userContext = useContext(UserContext);
   const rol = userContext.userData.id_rol;
- 
+
   // eslint-disable-next-line no-unused-vars
   const { data /* isLoading, error */ } = useQuery(
     ["getCursos"],
     getDataCursos
   );
-  
- 
+
   const [modal, setModal] = useState("modal");
   const [docentes, setDocentes] = useState(undefined);
   const [dias, setDias] = useState(undefined);
-  const [diasAgregar, setDiasAgregar] = useState([]);
+  const [diasSeleccionados, setDiasSeleccionados] = useState([]);
 
   //funcion que muestra el modal
   async function mostrarModal(e) {
@@ -27,20 +30,23 @@ function DataCursos() {
     setModal("modal" + id);
     const res = await getDataDocentes();
     const dias = await getDataDias();
-     setDias(dias)
-     console.log(dias)
+    setDias(dias);
+    console.log(dias);
     return setDocentes(res);
-    
-
   }
-  
+
   function agregarDia(e) {
     e.preventDefault();
-   
-    const dia = e.target.form.nvoDia.value;
-    
-    setDiasAgregar([...diasAgregar,dia])
-    console.log(diasAgregar)
+
+    const diaSeleccionado = e.target.form.nvoDia.value;
+    const idDiaSeleccionado = diaSeleccionado.split("-")[0];
+    const nombreDiaSeleccionado = diaSeleccionado.split("-")[1];
+    const dataDiaSeleccionado = {
+      id_dia: idDiaSeleccionado,
+      nombre: nombreDiaSeleccionado,
+    };
+    setDiasSeleccionados([...diasSeleccionados, dataDiaSeleccionado]);
+    console.log(dataDiaSeleccionado)
   }
   // funcion que modifica los datos
   async function modificarDatosCursos(e) {
@@ -52,7 +58,7 @@ function DataCursos() {
     const nvoHorarioFinal = e.target.nvoHorarioFinal.value;
     const nvoCheck = e.target.nvoCheck.value;
     const idCurso = e.target.idCurso.value;
-    
+
     const data = {
       id_curso: parseInt(idCurso),
       nombre: nombre,
@@ -60,12 +66,10 @@ function DataCursos() {
       horario_inicio: nvoHorarioInicio,
       horario_final: nvoHorarioFinal,
       activo: Boolean(nvoCheck),
-      
     };
 
     const res = await postCursoModificado(data);
     if (res.message == "Curso modificado") {
-     
       alert(res.message);
     } else {
       alert("error al modificar");
@@ -73,10 +77,9 @@ function DataCursos() {
     return setModal("modal");
   }
 
-    function limpiarFormulario(e) {
-    /* e.preventDefault(); */
-    e.target.reset()
-  }  
+  function limpiarFormulario(e) {
+    e.target.reset();
+  }
   return (
     <div className="hero min-h-screen bg-slate-50 text-black tabla-data-cursos">
       <div className="hero-content text-center p-0 w-full">
@@ -175,20 +178,18 @@ function DataCursos() {
                                   >
                                     {/* DIV CONTENEDOR */}
                                     <div className="grid grid-cols-2 gap-4 m-2 ">
-                                    
-                                          <input
-                                          id="idCurso"
-                                          placeholder={e.id_curso}
-                                          defaultValue={e.id_curso}
-                                          type="number"
-                                          className="hidden"
-                                        />
+                                      <input
+                                        id="idCurso"
+                                        placeholder={e.id_curso}
+                                        defaultValue={e.id_curso}
+                                        type="number"
+                                        className="hidden"
+                                      />
                                       {/* DIV IZQUIERDO */}
                                       <div
                                         id="contenedor1"
                                         className=" border-black flex flex-col m-2 "
                                       >
-                                        
                                         <label className="label">
                                           <span className="label-text text-black">
                                             NOMBRE DEL CURSO:
@@ -201,7 +202,7 @@ function DataCursos() {
                                           type="text"
                                           className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
                                         />
-                                      
+
                                         <label className="label">
                                           <span className="label-text text-black">
                                             NOMBRE DEL DOCENTE:
@@ -231,24 +232,23 @@ function DataCursos() {
                                           </span>
                                         </label>
                                         <div className="flex m-0">
-                                        
-                                         <select
-                                          id="nvoDia"
-                                          className="select w-full max-w-xs bg-transparent rounded-full border-black"
-                                        >
-                                          {dias
-                                            ? dias.map((e) => {
-                                                return (
-                                                  <option
-                                                    value={e.id_dia}
-                                                    key={e.nombre}
-                                                  >
-                                                    {e.nombre}
-                                                  </option>
-                                                );
-                                              })
-                                            : false}
-                                        </select> 
+                                          <select
+                                            id="nvoDia"
+                                            className="select w-full max-w-xs bg-transparent rounded-full border-black"
+                                          >
+                                            {dias
+                                              ? dias.map((e) => {
+                                                  return (
+                                                    <option
+                                                      value={e.id_dia}
+                                                      key={e.id_dia}
+                                                    >
+                                                      {e.nombre}
+                                                    </option>
+                                                  );
+                                                })
+                                              : false}
+                                          </select>
                                           {/*  BOTON PARA AGREGAR MAS DE UN DIA */}
                                           <button
                                             onClick={(e) => agregarDia(e)}
@@ -257,13 +257,21 @@ function DataCursos() {
                                           >
                                             +
                                           </button>
-                                          {/* {dia.map((e)=>{
-                                            return(
-                                            <span key={e.id_dia}>
-                                                {e.nombre}
-                                            </span>
-                                            )
-                                          })} */}
+                                          <div className="ml-2">
+                                            <ul className="grid grid-cols-1 gap-2">
+                                              {/* TODO:MAP PARA AGREGAR MAS DE UN CURSO */}
+                                              {!diasSeleccionados
+                                                ? false
+                                                : diasSeleccionados.map((e) => (
+                                                    <li
+                                                      key={e.nombre}
+                                                      className="text-black text-xs"
+                                                    >
+                                                      {e.nombre}
+                                                    </li>
+                                                  ))}
+                                            </ul>
+                                          </div>
                                         </div>
                                       </div>
 
@@ -325,7 +333,7 @@ function DataCursos() {
 
                                     {/*  BOTONES DE "ACEPTAR" Y "CANCELAR" */}
                                     <div className="grid grid-cols-2 gap-4">
-                                    <div className="content-center m-2">
+                                      <div className="content-center m-2">
                                         <button
                                           type="submit"
                                           className="btn  bg-blue-600 text-white hover:bg-blue-300  hover:text-black"
@@ -335,15 +343,13 @@ function DataCursos() {
                                       </div>
                                       <div className="content-center m-2">
                                         <button
+                                          onClick={(e) => limpiarFormulario(e)}
                                           type="reset"
-                                          onReset={(e) => (limpiarFormulario(e))}
                                           className="btn  bg-blue-600 text-white hover:bg-blue-300  hover:text-black"
                                         >
                                           Cancelar
                                         </button>
                                       </div>
-
-                                      
                                     </div>
                                   </form>
                                 </div>
