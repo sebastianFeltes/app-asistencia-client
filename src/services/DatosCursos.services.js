@@ -4,8 +4,12 @@ export async function getDataCursos(){
 
     return cursos;
 }
-
-
+export async function getDataDias() {
+  const response = await fetch("http://localhost:8080/dias");
+  const dias = await response.json();
+ 
+  return dias;
+}
 
 export async function postCursoModificado( data) {
     const url = "http://localhost:8080/cursos"
