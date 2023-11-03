@@ -1,13 +1,6 @@
-import { Outlet } from "react-router-dom";
-import "./Layout.scss";
-import NavBar from "./NavBar";
+//import { Outlet } from "react-router-dom";
+import Login from "./Login";
 
-export function Layout() {
-  const logged=true
-  return (
-    <>
-      {logged?<NavBar />:false}
-      <Outlet />
-    </>
-  );
+export function Layout(){
+    return(<Login/>)
 }

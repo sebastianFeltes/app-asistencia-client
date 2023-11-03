@@ -10,14 +10,13 @@ function Login() {
 
   async function ingresar(ev) {
     ev.preventDefault();
-    console.log("aca si, func ingresar");
     let usuario = ev.target.dni.value;
     let pass = ev.target.password.value;
     let res = await postLogin(usuario, pass);
     if (res.id_docente) {
       console.log(res);
       userContext.setUserState(res);
-      return navigate("/home-admin");
+      return navigate("/app/home-admin");
     }else{
       alert(res.message)
     }

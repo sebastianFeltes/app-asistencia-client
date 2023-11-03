@@ -1,20 +1,20 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.scss";
 import Login from "./components/Login";
-import { Layout } from "./components/Layout";
+import { AppLayout } from "./components/AppLayout";
 import HomeAdmin from "./components/HomeAdmin";
 import { DatosDocentes } from "./components/DatosDocentes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import "./App.scss";
+
 import DataCursos from "./components/DatosCursos";
 import AsistenciaAlumnos from "./components/AsistenciaAlumnos";
-import "./App.scss";
 import AltaAlumno from "./components/AltaAlumno";
 import AltaDocente from "./components/AltaDocente";
 import DatosAlumnos from "./components/DatosAlumnos";
 import LectorQR from "./components/LectorQR";
 import GeneradorQR from "./components/GeneradorQR";
 import UserState from "./context/userState";
+import { Layout } from "./components/Layout";
 
 function App() {
   const queryClient = new QueryClient();
@@ -25,18 +25,22 @@ function App() {
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route index element={<Login />} />
-              <Route path="/home-admin" element={<HomeAdmin />} />
-              <Route path="/alta-alumno" element={<AltaAlumno />} />
-              <Route path="/datos-docentes" element={<DatosDocentes />} />
-              <Route path="/datos-cursos" element={<DataCursos />} />
+            </Route>
+          </Routes>
+          <Routes>
+            <Route path="/app" element={<AppLayout />}>
+              <Route path="/app/home-admin" element={<HomeAdmin />} />
+              <Route path="/app/alta-alumno" element={<AltaAlumno />} />
+              <Route path="/app/datos-docentes" element={<DatosDocentes />} />
+              <Route path="/app/datos-cursos" element={<DataCursos />} />
               <Route
-                path="/asistencia-alumnos"
+                path="/app/asistencia-alumnos"
                 element={<AsistenciaAlumnos />}
               />
-              <Route path="/alta-docente" element={<AltaDocente />} />
-              <Route path="/datos-alumnos" element={<DatosAlumnos />} />
-              <Route path="/lector-qr" element={<LectorQR />} />
-              <Route path="/generador-qr" element={<GeneradorQR />} />
+              <Route path="/app/alta-docente" element={<AltaDocente />} />
+              <Route path="/app/datos-alumnos" element={<DatosAlumnos />} />
+              <Route path="/app/lector-qr" element={<LectorQR />} />
+              <Route path="/app/generador-qr" element={<GeneradorQR />} />
             </Route>
           </Routes>
         </BrowserRouter>
