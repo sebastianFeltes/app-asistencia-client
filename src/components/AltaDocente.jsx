@@ -19,6 +19,7 @@ export default function AltaDocente() {
     const nombreDoc = e.target.nombreDoc.value;
     const apellidoDoc = e.target.apellidoDoc.value;
     const fechaNac = e.target.fechaNac.value;
+    const nroLegajo = e.target.nroLegajo.value;
     const contra = e.target.contra.value;
     const contra2 = e.target.contra2.value;
     const direc = e.target.direc.value;
@@ -38,6 +39,7 @@ export default function AltaDocente() {
       nombre: nombreDoc.toLowerCase(),
       apellido: apellidoDoc.toLowerCase(),
       fecha_nac: fechaNacFormateada,
+      nro_legajo: parseInt(nroLegajo),
       password: contra,
       direccion: direc.toLowerCase(),
       localidad: local.toLowerCase(),
@@ -157,6 +159,7 @@ export default function AltaDocente() {
                   />
 
 
+
                   <label className="label w-3/4 max-w-xs">
                     <span className="label-text  text-black">
                       FECHA DE NACIMIENTO
@@ -168,6 +171,21 @@ export default function AltaDocente() {
                     placeholder="Ingrese su apellido"
                     className="input rounded-full text-black w-full max-w-xs bg-white border-black"
                   />
+
+
+                  <label className="label w-3/4 max-w-xs">
+                    <span className="label-text  text-black">
+                     LEGAJO
+                    </span>
+                  </label>
+                  <input
+                    id="nroLegajo"
+                    type="number"
+                    placeholder="Ingrese su nro de legajo"
+                    className="input rounded-full text-black w-full max-w-xs bg-white border-black"
+                  />
+
+
 
                   <label className="label">
                     <span className="label-text text-black">CREA TU CONTRASEÑA
