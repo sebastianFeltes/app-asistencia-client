@@ -4,10 +4,13 @@ import {
   postAlumnosModificado,
 } from "../services/DatosAlumnos.services.js";
 import { Link } from "react-router-dom";
-import { useState } from "react";
-//import { UserContext } from "../context/user.context";//
+import { useContext, useEffect, useState } from "react";
+import UserContext from "../context/user.context";
 
 function DatosAlumnos() {
+  const userContext = useContext(UserContext);
+  const usuario = userContext.userData;
+
   //
   //const userContext=useContext(UserContext);
   //const rol =  userContext.userData.id_rol;
@@ -18,11 +21,13 @@ function DatosAlumnos() {
 
   async function getDataAlumnos() {
     const res = await getAlumnos();
+    console.log(res)
     return setData(res);
   }
 
-  getDataAlumnos();
-
+  useEffect(()=>{
+    getDataAlumnos()
+  },[]);
   function mostrarModal(e) {
     //funcion que muestra el modal
     e.preventDefault();
@@ -40,7 +45,7 @@ function DatosAlumnos() {
     //funcion modifica los datos del alumno una vez cambiados
     e.preventDefault();
     !modal ? e.target.reset() : true;
-    const activo = e.target.activo.checked;
+    const activo = e.target.activo.checked?"1":"0";
     const nombre = e.target.nombreAlumno.value;
     const apellido = e.target.apellidoAlumno.value;
     const tipoDNI = e.target.tipoDocumento.value;
@@ -60,7 +65,7 @@ function DatosAlumnos() {
     const id_alumno = e.target.id;
 
     const data = {
-      activo: activo ? 1 : 0,
+      activo: activo ? "1" : "0",
       nombre: nombre,
       apellido: apellido,
       tipo_dni: tipoDNI,
@@ -79,27 +84,35 @@ function DatosAlumnos() {
       planilla_ins: planillaIns ? 1 : 0,
       id_alumno: parseInt(id_alumno),
     };
-    console.log(data);
+    //console.log(data);
     const res = await postAlumnosModificado(data);
 
-    res.message ? alert(res.message.toUpperCase()) : false;
+    
+    if(res.message){
+      alert(res.message.toUpperCase())
+      getDataAlumnos();
+    }
     return setModal("modal");
   }
 
   return (
-    <div className="bg-white hero min-h-full text-black">
-      <div className="hero-content text-center ">
+    <div className="bg-white min-h-screen">
+      
         <div className="max-w-full">
           <div className="flex flex-col justify-between">
-            <h1 className="text-5xl font-bold">DATOS ALUMNOS</h1>
-            <div className="flex justify-between w-full">
-              <Link to="/app/alta-alumno">
+            <h1 className="text-5xl text-center text-black font-bold">DATOS ALUMNOS</h1>
+            <div className="flex justify-between m-2">
+            {usuario.id_rol == 1 ? 
+
+              <Link 
+              to="/app/alta-alumno">
                 <button className="btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black">
                   Nuevo Alumno
                 </button>
-              </Link>
+              </Link> : false
+            }
 
-              <Link to="/historial-alumno">
+              <Link to="/app/historial-alumnos">
                 <button className="btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black">
                   Historial Alumnos
                 </button>
@@ -108,7 +121,7 @@ function DatosAlumnos() {
           </div>
 
           <div className="overflow-x-auto">
-            <table className="text-center table w-screen">
+            <table className="table text-center text-black  bg-white">
               {/* head */}
               <thead className="text-black">
                 <tr>
@@ -134,7 +147,7 @@ function DatosAlumnos() {
               <tbody>
                 {!data
                   ? false
-                  : data.map((e) => (
+                  : data.filter((e)=> (e.activo=="1")).map((e) => (
                       <tr key={e.id_alumno} className="hover:bg-slate-200">
                         <td></td>
                         <td>{e.nro_legajo}</td>
@@ -152,11 +165,6 @@ function DatosAlumnos() {
                         <td>{e.telefono_extra}</td>
                         <td>
                           <div>
-                            {e.fotoc_analitico == true
-                              ? "ANALITICO: SI"
-                              : "ANALITICO: NO"}
-                          </div>
-                          <div>
                             {e.fotoc_dni == true ? "DNI: SI" : "DNI: NO"}
                           </div>
                           <div>
@@ -164,8 +172,13 @@ function DatosAlumnos() {
                               ? "PLANILLA: SI"
                               : "PLANILLA: NO"}
                           </div>
+                          <div>
+                            {e.fotoc_analitico == true
+                              ? "ANALITICO: SI"
+                              : "ANALITICO: NO"}
+                          </div>
                         </td>
-                        <td>{e.activo ? "SI" : false}</td>
+                        <td>{e.activo=="1" ? "ACTIVO" : "INACTIVO"}</td>
 
                         {/* boton Editar del HISTORIAL ALUMNO */}
                         <td>
@@ -242,9 +255,9 @@ function DatosAlumnos() {
                                                   Tipo DNI
                                                 </option>
                                               }
-                                              <option>DU</option>
-                                              <option>LC</option>
-                                              <option>LE</option>
+                                              <option value={"DU"} >DU</option>
+                                              <option value={"LC"}>LC</option>
+                                              <option value={"LE"}>LE</option>
                                             </select>
                                             <div className="m-0 p-0">
                                               <div className="flex m-0">
@@ -324,7 +337,7 @@ function DatosAlumnos() {
                                               type="checkbox"
                                               className="checkbox  border-black m-2"
                                               defaultChecked={
-                                                e.activo == "true"
+                                                e.activo == "1"
                                                   ? true
                                                   : false
                                               }
@@ -507,6 +520,14 @@ function DatosAlumnos() {
                                       <div className="grid grid-cols-2 gap-4">
                                         <div className="content-center m-2">
                                           <button
+                                            type="submit"
+                                            className="btn max-w-xs bg-blue-600 text-white hover:bg-blue-300  hover:text-black"
+                                          >
+                                            Aceptar
+                                          </button>
+                                        </div>
+                                        <div className="content-center m-2">
+                                          <button
                                             type="reset"
                                             className="btn  max-w-xs bg-blue-600 text-white hover:bg-blue-300  hover:text-black"
                                           >
@@ -514,14 +535,6 @@ function DatosAlumnos() {
                                           </button>
                                         </div>
 
-                                        <div className="content-center m-2">
-                                          <button
-                                            type="submit"
-                                            className="btn max-w-xs bg-blue-600 text-white hover:bg-blue-300  hover:text-black"
-                                          >
-                                            Aceptar
-                                          </button>
-                                        </div>
                                       </div>
                                     </form>
                                   </div>
@@ -536,7 +549,7 @@ function DatosAlumnos() {
             </table>
           </div>
         </div>
-      </div>
+      
     </div>
   );
 }
