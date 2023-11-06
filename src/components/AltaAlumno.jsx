@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import postAltaAlumno, {
-  getAltaAlumno,
+  getAltaAlumno, postAltaAlumnosModificado,
 } from "../services/altaAlumnos.services";
 import "./altaAlumno.scss";
 import { getMostrarCursos } from "../services/homeAdmin.services";
@@ -12,6 +12,7 @@ export default function AltaAlumno() {
   const userContext = useContext(UserContext);
   const usuario = userContext.userData;
   const [alumnoExistente, setAlumnoExistente] = useState(undefined);
+  const [alumnoNuevo, setAlumnoNuevo] = useState(true);
   const [cursosSeleccionados, setCursosSeleccionados] = useState([]);
   const { data /*  isLoading, error */ } = useQuery(["mostrarCursos"], getMostrarCursos
   );
@@ -66,8 +67,69 @@ export default function AltaAlumno() {
     if (res == "recibido") {
       e.target.reset();
       return alert("alumno cargado exitosamente");
-    } 
+    }
   }
+  async function modificarDatosAltaAlumnos(e) {
+    //funcion modifica los datos del alumno una vez cambiados
+    e.preventDefault();
+    const nombreAlumno = e.target.nombreAlumno.value;
+    const apellidoAlumno = e.target.apellidoAlumno.value;
+    const tipoDocumento = e.target.tipoDocumento.value;
+    const dniAlumno = e.target.dniAlumno.value;
+    const direccionAlumno = e.target.direccionAlumno.value;
+    const localidadAlumno = e.target.localidadAlumno.value;
+    const fechaNac = e.target.fechaNac.value;
+    const emailAlumno = e.target.emailAlumno.value;
+    const telAlumno = e.target.telAlumno.value;
+    const telCaracteristica = e.target.telCaracteristica.value;
+    const telCaracterExtra = e.target.telCaracterExtra.value;
+    const telExtra = e.target.telExtra.value;
+    const nroLegajoAlumno = e.target.nroLegajoAlumno.value;
+    const docDni = e.target.docDni.checked;
+    const docPlanilla = e.target.docPlanilla.checked;
+    const docAnalitico = e.target.docAnalitico.checked;
+    const cursoAlumno = cursosSeleccionados.map(e => e.id_curso);
+    const fechaNacFormateada = fechaNac.split("-").reverse().join("/")
+
+    const id_alumno = e.target.id;
+
+    const data = {
+      nombre: nombreAlumno.toLowerCase(),
+      apellido: apellidoAlumno.toLowerCase(),
+      tipo_dni: tipoDocumento.toLowerCase(),
+      nro_dni: parseInt(dniAlumno),
+      direccion: direccionAlumno.toLowerCase(),
+      localidad: localidadAlumno.toLowerCase(),
+      fecha_nac: fechaNacFormateada,
+      email: emailAlumno,
+      telefono: parseInt(telAlumno),
+      car_telefono: parseInt(telCaracteristica),
+      car_tel_extra: parseInt(telCaracterExtra),
+      telefono_extra: parseInt(telExtra),
+      nro_legajo: parseInt(nroLegajoAlumno),
+      fotoc_dni: docDni ? 1 : 0,
+      planilla_ins: docPlanilla ? 1 : 0,
+      fotoc_analitico: docAnalitico ? 1 : 0,
+      cursos: cursoAlumno,
+      id_alumno: parseInt(id_alumno),
+    };
+    /* if(alumnoNuevo==true){
+      const res = await postAltaAlumnosModificado(data)
+      res.message ? alert(res.message.toUpperCase()) : false;
+    }else{
+      setAlumnoNuevo(modificarDatosAltaAlumnos)
+ */
+    }
+    
+  }
+
+  /* function Modificar(){
+    if(alumnoNuevo==true){
+     post
+    }else{
+      setAlumnoNuevo(postAltaAlumnosModificado)
+    }
+  } */
 
   //TODO:FUNCION CANCELAR Y LIMPIE EL FORMULARIO
   function limpiarFormulario(e) {
@@ -83,6 +145,7 @@ export default function AltaAlumno() {
     if (res) {
       setAlumnoExistente(res);
     }
+    console.log(res)
     return res;
 
   }
@@ -107,7 +170,7 @@ export default function AltaAlumno() {
     usuario.id_rol == 1 ?
       <div className="hero min-h-screen bg-white overflow-hidden h-full">
         <div className="hero-content text-center m-4 border-4 border-black w-full rounded-3xl ">
-          <div className=" w-full ">
+          <div className=" w-10/12">
             <div className=" border-black w-full ">
               <h2 className="text-black text-4xl font-bold mb-8 justify-center">
                 ALTA ALUMNO
@@ -116,7 +179,7 @@ export default function AltaAlumno() {
               {/* FORMULARIO */}
               <form onSubmit={(e) => post(e)}>
                 {/* DIV CONTENEDOR PADRE */}
-                <div className="grid grid-cols-2 w-full gap-4 m-2 ">
+                <div className="grid grid-cols-2 w-full gap-4 m-6 ">
                   {/* DIV CONTENEDOR HIJO IZQUIERDO */}
                   <div
                     id="contenedor1"
@@ -378,7 +441,7 @@ export default function AltaAlumno() {
                             {/* TODO:MAP PARA AGREGAR MAS DE UN CURSO */}
                             {!cursosSeleccionados ? false : cursosSeleccionados.map((e) => (
                               <li key={e.id_curso} className="text-black text-xs">
-                                {e.nombre_curso}
+                                {"•" + e.nombre_curso}
                               </li>
                             ))}
                           </ul>
@@ -449,7 +512,7 @@ export default function AltaAlumno() {
                   <div className="content-center m-2">
                     {/* TODO:BOTON CANCELAR LINKEADO A /datos-alumnos */}
 
-                    <Link to={"/datos-alumnos"}> <button
+                    <Link to={"/app/datos-alumnos"}> <button
                       onClick={(e) => limpiarFormulario(e)}
                       type="reset"
                       className="btn  bg-blue-600 text-white rounded-full w-48 border-none hover:bg-blue-300 hover:text-black "
@@ -459,9 +522,9 @@ export default function AltaAlumno() {
                   </div>
                 </div>
               </form>
-              
+
               {/* TODO:BOTON DE GENERAR QR */}
-              <Link to={"/generador-qr"}><button className="text-blue-600 ">GENERAR QR</button></Link>
+              <Link to={"/app/generador-qr"}><button className="text-blue-600 ">GENERAR QR</button></Link>
             </div>
           </div>
         </div>

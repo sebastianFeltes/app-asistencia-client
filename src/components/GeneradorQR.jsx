@@ -9,7 +9,7 @@ export default function GeneradorQR() {
         setIdAlumno(alumno.id_alumno + ".")
     }
     const alumno = {
-        id_alumno: 102,
+   id_alumno: 102,
         nro_legajo: 1023,
         nombre: "Sebastian",
         apellido: "Feltes",
@@ -20,7 +20,7 @@ export default function GeneradorQR() {
     return (
         <div className="hero min-h-screen w-full border border-yellow-500 bg-white ">
             <div className="hero-content min-w-full m-0 p-0 border border-blue-400 text-center">
-                <div className="w-full flex flex-col border border-cyan-400 w-full  overflow-scroll ">
+                <div className="w-full flex flex-col border border-cyan-400 overflow-scroll ">
                     <h1 className="text-5xl font-bold">Datos Alumnos</h1>
 
                     <table className="table">
