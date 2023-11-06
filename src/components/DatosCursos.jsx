@@ -31,7 +31,7 @@ function DataCursos() {
     const res = await getDataDocentes();
     const dias = await getDataDias();
     setDias(dias);
-    console.log(dias);
+
     return setDocentes(res);
   }
 
@@ -46,8 +46,8 @@ function DataCursos() {
       nombre: nombreDiaSeleccionado,
     };
     setDiasSeleccionados([...diasSeleccionados, dataDiaSeleccionado]);
-    console.log(dataDiaSeleccionado)
   }
+
   // funcion que modifica los datos
   async function modificarDatosCursos(e) {
     e.preventDefault();
@@ -78,7 +78,7 @@ function DataCursos() {
   }
 
   function limpiarFormulario(e) {
-    e.target.reset();
+    e.target.form.reset();
   }
   return (
     <div className="hero min-h-screen bg-slate-50 text-black tabla-data-cursos">
@@ -87,7 +87,7 @@ function DataCursos() {
           <h1 className="text-5xl font-bold">Datos Cursos</h1>
           <div className=" flex flex-row justify-between">
             {rol == 1 ? (
-              <Link to={"/alta-curso"}>
+              <Link to={"/app/alta-curso"}>
                 {" "}
                 <button className="btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black ">
                   Nuevo Curso
@@ -241,7 +241,7 @@ function DataCursos() {
                                                   return (
                                                     <option
                                                       value={e.id_dia}
-                                                      key={e.id_dia}
+                                                      key={e.nombre}
                                                     >
                                                       {e.nombre}
                                                     </option>
@@ -258,53 +258,125 @@ function DataCursos() {
                                             +
                                           </button>
                                           <div className="ml-2">
-                                            <ul className="grid grid-cols-1 gap-2">
-                                              {/* TODO:MAP PARA AGREGAR MAS DE UN CURSO */}
+                                            {/*  <ul className="grid grid-cols-1 gap-2">
+                                              
                                               {!diasSeleccionados
                                                 ? false
                                                 : diasSeleccionados.map((e) => (
                                                     <li
-                                                      key={e.nombre}
+                                                      key={e.id_dia}
                                                       className="text-black text-xs"
                                                     >
                                                       {e.nombre}
                                                     </li>
                                                   ))}
-                                            </ul>
+                                            </ul> */}
                                           </div>
                                         </div>
                                       </div>
 
                                       {/* DIV DERECHO */}
                                       <div className=" border-black flex flex-col m-2 ">
-                                        <label className="label">
-                                          <span className="label-text text-black">
-                                            HORARIO INICIO:
-                                          </span>
-                                        </label>
-                                        <label className="label ">
-                                          <span></span>
-                                        </label>
-                                        <input
-                                          id="nvoHorarioInicio"
-                                          placeholder={e.horario_inicio}
-                                          defaultValue={e.horario_inicio}
-                                          type="text"
-                                          className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
-                                        />
+                                      
+                                      <label className="label">
+                                            <span className="label-text text-black">
+                                             HORARIO DE INICIO:
+                                            </span>
+                                          </label>
+                                        <div className=" flex">
+                                          <label className="label ">
+                                            <p className="label-text ms-2 text-black">
+                                              hora:
+                                            </p>
+                                          </label>
+                                          <label className="label">
+                                            <p className="label-text ms-20 text-black">
+                                             minuto:
+                                              
+                                            </p>
+                                          </label>
+                                        </div>
 
-                                        <label className="label ">
-                                          <span className="label-text text-black">
-                                            HORARIO FINAL:
-                                          </span>
-                                        </label>
+                                       
+                                        <div className="form-control flex flex-row">
+                                          <input
+                                            id="hora1"
+                                            type="number"
+                                            placeholder=""
+                                            maxLength="2"
+                                            className="input rounded-full text-black  w-28 bg-white border-black"
+                                          />
+
+                                          <input
+                                            id="minutos1"
+                                            type="number"
+                                            placeholder=""
+                                            className="input rounded-full text-black  w-28 bg-white border-black"
+                                          />
+                                        </div>
+                                        <label className="label">
+                                            <span className="label-text text-black">
+                                             HORARIO FINAL:
+                                            </span>
+                                          </label>
+                                          <div className=" flex">
+                                          <label className="label ">
+                                            <p className="label-text ms-2 text-black">
+                                              hora:
+                                            </p>
+                                          </label>
+                                          <label className="label">
+                                            <p className="label-text ms-20 text-black">
+                                             minuto:
+                                              
+                                            </p>
+                                          </label>
+                                        </div>
+                                        
+                                        <div className="form-control flex flex-row">
+                                          <input
+                                            id=""
+                                            type="number"
+                                            placeholder=""
+                                            className="input rounded-full text-black  w-28 bg-white border-black"
+                                          />
+
+                                          <input
+                                            id=""
+                                            type="number"
+                                            placeholder=""
+                                            className="input rounded-full text-black  w-28 bg-white border-black"
+                                          />
+                                        </div>
+
+                                        <div className=" flex">
+                                          <label className="label ">
+                                          <span className="label-text  text-black">
+                                            FECHA DE INICIO:
+                                            </span>
+                                          </label>
+                                          <label className="label">
+                                          <span className="label-text ms-14 text-black">
+                                            FECHA DE INICIO:
+                                            </span>
+                                          </label>
+                                        </div>
+                                        <div className="form-control flex flex-row"> 
+
                                         <input
-                                          id="nvoHorarioFinal"
-                                          type="text"
-                                          placeholder={e.horario_final}
-                                          defaultValue={e.horario_final}
-                                          className="rounded-full input input-info w-full max-w-xs  bg-white border-black"
-                                        />
+                                          id=""
+                                          type="date"
+                                          placeholder=""
+                                          className="rounded-full input input-bordered text-black  input-info max-w-xs w-40 bg-white border-black"
+                                          />
+                                        
+                                        <input
+                                          id=""
+                                          type="date"
+                                          placeholder=""
+                                          className="rounded-full input input-bordered text-black  input-info max-w-xs w-40 bg-white border-black"
+                                          />
+                                          </div>
 
                                         {/*   DIV DOCUMENTACION */}
                                         <div className="form-control flex flex-row">
