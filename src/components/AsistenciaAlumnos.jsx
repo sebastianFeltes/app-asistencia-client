@@ -38,9 +38,11 @@ function AsistenciaAlumnos() {
 						<table >
 							<thead >
                                
-								<tr >
-									<th  className="   mr-2 p-1   border-solid  border-2 border-black text-black">Nombre</th>
-									<th className="  p-2  border-solid border-2 border-black text-black ">Apellido</th>
+								<tr  className="">
+								
+							
+									<th  className="   w-full   border-solid  border-2 border-black text-black  sticky left-0  z-50  bg-white">Nombre</th>
+									<th className="   border-solid border-2 border-black text-black  sticky  left-16	  bg-white">Apellido</th>
 									{uniqueDates.map((date, index) => (
 										<th className=" p-1  border-solid border-2 border-black  text-black" key={index}>{date.split("",5)}</th>
 									))}
@@ -48,13 +50,16 @@ function AsistenciaAlumnos() {
 								
 
 							</thead>
-							<tbody >
+							<tbody  >
 								{uniqueStudents.map((student) => (
 									<tr className=" hover:bg-slate-200" key={student.id_alumno}>
 										
 
-										<td className="border  border-black bg-white " >{student.nombre.split(" ")[0]}</td>
-										<td  className=" border  border-black">{student.apellido}</td>
+										
+
+										<td className="w-full border border-black sticky left-0 z-50 bg-white" >{student.nombre.split(" ")[0]}</td>
+										<td  className="w-full border border-black sticky left-16	 z-50  bg-white">{student.apellido}</td>
+										
 										
 										
 										{uniqueDates.map((date, index) => {
