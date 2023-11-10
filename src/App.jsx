@@ -27,8 +27,7 @@ function App() {
             <Route path="/" element={<Layout />}>
               <Route index element={<Login />} />
             </Route>
-          </Routes>
-          <Routes>
+
             <Route path="/app" element={<AppLayout />}>
               <Route path="/app/home-admin" element={<HomeAdmin />} />
               <Route path="/app/alta-alumno" element={<AltaAlumno />} />

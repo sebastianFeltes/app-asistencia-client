@@ -65,7 +65,7 @@ function DatosAlumnos() {
     const id_alumno = e.target.id;
 
     const data = {
-      activo: activo ? "1" : "0",
+      activo: activo,
       nombre: nombre,
       apellido: apellido,
       tipo_dni: tipoDNI,
@@ -84,13 +84,15 @@ function DatosAlumnos() {
       planilla_ins: planillaIns ? 1 : 0,
       id_alumno: parseInt(id_alumno),
     };
-    //console.log(data);
+    console.log(data);
     const res = await postAlumnosModificado(data);
 
     
+    console.log(res)
     if(res.message){
       alert(res.message.toUpperCase())
       getDataAlumnos();
+      return setModal("modal");
     }
     return setModal("modal");
   }

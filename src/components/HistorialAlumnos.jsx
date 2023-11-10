@@ -93,7 +93,7 @@ import {
         
           <div className="max-w-full">
             <div className="flex flex-col justify-between">
-              <h1 className="text-5xl text-center text-black font-bold">DATOS ALUMNOS</h1>
+              <h1 className="text-5xl text-center text-black font-bold">HISTORIAL ALUMNOS</h1>
               <div className="flex justify-between m-2">
               {usuario.id_rol == 1 ? 
   
@@ -105,9 +105,9 @@ import {
                 </Link> : false
               }
   
-                <Link to="/app/historial-alumnos">
+                <Link to="/app/datos-alumnos">
                   <button className="btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black">
-                    Historial Alumnos
+                    Datos Alumnos
                   </button>
                 </Link>
               </div>
