@@ -15,6 +15,7 @@ import LectorQR from "./components/LectorQR";
 import GeneradorQR from "./components/GeneradorQR";
 import UserState from "./context/userState";
 import { Layout } from "./components/Layout";
+import {HistorialDocentes} from "./components/HistorialDocente";
 
 function App() {
   const queryClient = new QueryClient();
@@ -32,6 +33,7 @@ function App() {
               <Route path="/app/home-admin" element={<HomeAdmin />} />
               <Route path="/app/alta-alumno" element={<AltaAlumno />} />
               <Route path="/app/datos-docentes" element={<DatosDocentes />} />
+              <Route path="/app/historial-docente" element={<HistorialDocentes/>}/>
               <Route path="/app/datos-cursos" element={<DataCursos />} />
               <Route
                 path="/app/asistencia-alumnos"
