@@ -47,7 +47,7 @@ export default function AltaDocente() {
       telefono: parseInt(tele),
       car_tel_extra: parseInt(codi2),
       telefono_extra: parseInt(telex),
-      id_rol: rol == "ADMIN" ? 1 : 2,
+      id_rol:parseInt(rol) ,
       email: correo,
       activo: true,
       rol_creador: usuario.id_rol
@@ -324,8 +324,8 @@ export default function AltaDocente() {
                   </label>
                   <select id="rol" defaultValue={"Tipo de Rol"} className="select rounded-full bg-white text-black border border-black select-ghost w-full max-w-xs">
                     <option>Tipo de Rol</option>
-                    <option>Admin</option>
-                    <option>Docente</option>
+                    <option value={1}>Admin</option>
+                    <option value={2}>Docente</option>
 
                   </select>
 
