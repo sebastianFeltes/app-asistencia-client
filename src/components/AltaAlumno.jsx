@@ -7,18 +7,19 @@ import postAltaAlumno, {
 import "./altaAlumno.scss";
 import { getMostrarCursos } from "../services/homeAdmin.services";
 import UserContext from "../context/user.context";
+
 export default function AltaAlumno() {
 
   const userContext = useContext(UserContext);
   const usuario = userContext.userData;
-  const [alumnoExistente, setAlumnoExistente] = useState(undefined);
-  const [alumnoNuevo, setAlumnoNuevo] = useState(true);
-  const [cursosSeleccionados, setCursosSeleccionados] = useState([]);
+  const [alumnoExistente, setAlumnoExistente] = useState(undefined);//TODO:useState para traer los datos de los alumnos si existen en la Db
+  const [alumnoNuevo, setAlumnoNuevo] = useState(true); //TODO: useState para que elija que funcion post ejecutar
+  const [cursosSeleccionados, setCursosSeleccionados] = useState([]);//TODO:useState para guardar mas de un curso
   const { data /*  isLoading, error */ } = useQuery(["mostrarCursos"], getMostrarCursos
   );
 
 
-  //TODO:FUNCION PARA ENVIAR DATOS(POST)
+  //TODO:FUNCION PARA CARGAR UN ALUMNO NUEVO(POST)
 
   async function post(e) {
     e.preventDefault();
@@ -39,7 +40,8 @@ export default function AltaAlumno() {
     const docPlanilla = e.target.docPlanilla.checked;
     const docAnalitico = e.target.docAnalitico.checked;
     const cursoAlumno = cursosSeleccionados.map(e => e.id_curso);
-    const fechaNacFormateada = fechaNac.split("-").reverse().join("/")
+    const fechaNacFormateada = fechaNac.split("-").reverse().join("/");
+
 
     //PAQUETE DE DATOS PARA EL POST
     const data = {
@@ -62,74 +64,26 @@ export default function AltaAlumno() {
       cursos: cursoAlumno,
     };
 
-    //LIMPIAR FORMULARIO CUANDO EL ALUMNO SE CARGUE EXITOSAMENTE
-    const res = await postAltaAlumno(data);
-    if (res == "recibido") {
-      e.target.reset();
-      return alert("alumno cargado exitosamente");
+
+    if (!alumnoNuevo) {
+      const id_alumno =alumnoExistente.id_alumno ? alumnoExistente.id_alumno : undefined;
+
+      const res = await postAltaAlumnosModificado({...data,id_alumno : id_alumno})
+      if (res == "alumno modificado") {
+        e.target.reset();
+        return alert("alumno modificado exitosamente");
+      }
+
+    } else {
+      //LIMPIAR FORMULARIO CUANDO EL ALUMNO SE CARGUE EXITOSAMENTE
+      const res = await postAltaAlumno(data);
+      if (res == "recibido") {
+        e.target.reset();
+        return alert("alumno cargado exitosamente");
+      }
     }
   }
-  async function modificarDatosAltaAlumnos(e) {
-    //funcion modifica los datos del alumno una vez cambiados
-    e.preventDefault();
-    const nombreAlumno = e.target.nombreAlumno.value;
-    const apellidoAlumno = e.target.apellidoAlumno.value;
-    const tipoDocumento = e.target.tipoDocumento.value;
-    const dniAlumno = e.target.dniAlumno.value;
-    const direccionAlumno = e.target.direccionAlumno.value;
-    const localidadAlumno = e.target.localidadAlumno.value;
-    const fechaNac = e.target.fechaNac.value;
-    const emailAlumno = e.target.emailAlumno.value;
-    const telAlumno = e.target.telAlumno.value;
-    const telCaracteristica = e.target.telCaracteristica.value;
-    const telCaracterExtra = e.target.telCaracterExtra.value;
-    const telExtra = e.target.telExtra.value;
-    const nroLegajoAlumno = e.target.nroLegajoAlumno.value;
-    const docDni = e.target.docDni.checked;
-    const docPlanilla = e.target.docPlanilla.checked;
-    const docAnalitico = e.target.docAnalitico.checked;
-    const cursoAlumno = cursosSeleccionados.map(e => e.id_curso);
-    const fechaNacFormateada = fechaNac.split("-").reverse().join("/")
 
-    const id_alumno = e.target.id;
-
-    const data = {
-      nombre: nombreAlumno.toLowerCase(),
-      apellido: apellidoAlumno.toLowerCase(),
-      tipo_dni: tipoDocumento.toLowerCase(),
-      nro_dni: parseInt(dniAlumno),
-      direccion: direccionAlumno.toLowerCase(),
-      localidad: localidadAlumno.toLowerCase(),
-      fecha_nac: fechaNacFormateada,
-      email: emailAlumno,
-      telefono: parseInt(telAlumno),
-      car_telefono: parseInt(telCaracteristica),
-      car_tel_extra: parseInt(telCaracterExtra),
-      telefono_extra: parseInt(telExtra),
-      nro_legajo: parseInt(nroLegajoAlumno),
-      fotoc_dni: docDni ? 1 : 0,
-      planilla_ins: docPlanilla ? 1 : 0,
-      fotoc_analitico: docAnalitico ? 1 : 0,
-      cursos: cursoAlumno,
-      id_alumno: parseInt(id_alumno),
-    };
-    /* if(alumnoNuevo==true){
-      const res = await postAltaAlumnosModificado(data)
-      res.message ? alert(res.message.toUpperCase()) : false;
-    }else{
-      setAlumnoNuevo(modificarDatosAltaAlumnos)
- */
-    }
-    
-  }
-
-  /* function Modificar(){
-    if(alumnoNuevo==true){
-     post
-    }else{
-      setAlumnoNuevo(postAltaAlumnosModificado)
-    }
-  } */
 
   //TODO:FUNCION CANCELAR Y LIMPIE EL FORMULARIO
   function limpiarFormulario(e) {
@@ -144,6 +98,7 @@ export default function AltaAlumno() {
     const res = await getAltaAlumno(dni);
     if (res) {
       setAlumnoExistente(res);
+      setAlumnoNuevo(false);
     }
     console.log(res)
     return res;
@@ -436,11 +391,11 @@ export default function AltaAlumno() {
                         >
                           +
                         </button>
-                        <div className="ml-2">
+                        <div className="ml-2 w-10">
                           <ul className="grid grid-cols-1 gap-2">
                             {/* TODO:MAP PARA AGREGAR MAS DE UN CURSO */}
                             {!cursosSeleccionados ? false : cursosSeleccionados.map((e) => (
-                              <li key={e.id_curso} className="text-black text-xs">
+                              <li key={e.id_curso} className="text-black text-xs flex ">
                                 {"•" + e.nombre_curso}
                               </li>
                             ))}
