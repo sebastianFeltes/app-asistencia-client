@@ -1,10 +1,24 @@
-import { useQuery } from "@tanstack/react-query";
 import { getAsistencia, postJustificada } from "../services/AsistenciaAlumnos.services";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import UserContext from "../context/user.context";
 
+//TODO:hacer la descripcion de la asistencia fp y fm 
+
 function AsistenciaAlumnos() {
-	const { data, isLoading, error } = useQuery(["getAsistencia"], getAsistencia);
+
+	const [data,setData] = useState(undefined)
+	async function obtenerAsistenciaCurso (){
+		//const id_curso = window.localStorage.id_curso
+		const id_curso=2
+		const res =await getAsistencia (id_curso)
+		setData(res)
+	}
+	useEffect(()=>{
+		obtenerAsistenciaCurso()
+	},[]
+	)
+
+	// const { data, isLoading, error } = useQuery(["getAsistencia"], getAsistencia);
 
 	/* 	function justificarFalta(e) {
 		e.preventDefault();
@@ -18,8 +32,16 @@ function AsistenciaAlumnos() {
 
 	const uniqueDates = [...new Set(data.map((item) => item.fecha))];
 	const uniqueStudents = [...new Map(data.map((item) => [item.id_alumno, item])).values()];
+	
+	
+	const calcularFaltas = (alumnoId) => {
+		return data.filter(item => item.id_alumno === alumnoId && item.descripcion.toUpperCase() === "A").length;
+	};
+	console.log ()
 
 	return (
+		
+		
 		<div className="hero min-h-screen w-full bg-white">
 			<div className="hero-content h-full text-center  items-start">
 				<div className="w-full">
@@ -46,6 +68,8 @@ function AsistenciaAlumnos() {
 									{uniqueDates.map((date, index) => (
 										<th className=" p-1  border-solid border-2 border-black  text-black" key={index}>{date.split("",5)}</th>
 									))}
+									<td className="w-full border-2 border-black  text-black font-bold  right-0 ">Faltas</td>
+                                        
 								</tr>
 								
 
@@ -67,17 +91,29 @@ function AsistenciaAlumnos() {
 												(item) => item.fecha === date && item.id_alumno === student.id_alumno
 											);
 											return (
-												<td  className=" border border-black" key={index}>
+												<td  className={  attendanceRecord.descripcion.split("")[0].toUpperCase()=="A"?"text-red-600 font-bold border border-black ":attendanceRecord.descripcion.split("")[0].toUpperCase()=="P"?" text-green-600 font-bold border border-black ":attendanceRecord.descripcion.split("")[0].toUpperCase()=="J"?" text-orange-600 font-bold border border-black":attendanceRecord.descripcion.split("")[0].toUpperCase()=="M"?" text-blue-600 border border-black font-bold ":false} key={index}>
 													{attendanceRecord
 														? attendanceRecord.descripcion.split("")[0].toUpperCase()
 														: "N/A"}
 												</td>
+												
+												
+												
+												
+												
 											);
+											
+
 										})}
+                                        <td className="w-full border border-black  right-0	 z-50  ">{calcularFaltas(student.alumnoId)}</td>
+									
+										
 										
 									</tr>
 								))}
+								
 							</tbody>
+							
 						</table>
 					</div>
 				</div>
