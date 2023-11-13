@@ -16,18 +16,20 @@ function DatosAlumnos() {
   //const rol =  userContext.userData.id_rol;
   //console.log(rol)
   const [data, setData] = useState(undefined);
+  const [dataFetch, setDataFetch] = useState(undefined);
   //const { data /*isLoading, error*/ } = useQuery({queryKey:"getAlumnos", queryFn:getAlumnos});
   const [modal, setModal] = useState("modal");
 
   async function getDataAlumnos() {
     const res = await getAlumnos();
-    console.log(res)
+    console.log(res);
+    setDataFetch(res);
     return setData(res);
   }
 
-  useEffect(()=>{
-    getDataAlumnos()
-  },[]);
+  useEffect(() => {
+    getDataAlumnos();
+  }, []);
   function mostrarModal(e) {
     //funcion que muestra el modal
     e.preventDefault();
@@ -35,6 +37,45 @@ function DatosAlumnos() {
 
     console.log(id);
     setModal("modal" + id);
+  }
+
+  function filtrar(e, tipoDeFiltro) {
+    e.preventDefault();
+    const value = e.target.value;
+    let valorABuscar;
+
+    if (isNaN(value)) {
+      if (!value) {
+        valorABuscar = "";
+      } else {
+        valorABuscar = value.toUpperCase();
+      }
+    } else {
+      valorABuscar = value;
+    }
+    // console.log(valorABuscar)
+
+    if (tipoDeFiltro == "nombre") {
+      const dataFiltrada = dataFetch.filter((alumno) =>
+        String(alumno.nombre.toUpperCase()).includes(valorABuscar)
+      );
+      setData(dataFiltrada);
+    } else if (tipoDeFiltro == "nroLegajo") {
+      const dataFiltrada = dataFetch
+        .filter((alumno) => String(alumno.nro_legajo))
+        .includes(valorABuscar);
+      setData(dataFiltrada);
+    } else if (tipoDeFiltro == "apellido") {
+      const dataFiltrada = dataFetch
+        .filter((alumno) => String(alumno.apellido.toUpperCase()))
+        .includes(valorABuscar);
+      setData(dataFiltrada);
+    } else  if (tipoDeFiltro == "dni")  {
+      const dataFiltrada = dataFetch
+        .filter((alumno) => String(alumno.nro_dni))
+        .includes(valorABuscar);
+      setData(dataFiltrada);
+    }
   }
 
   /*function limpiarFormulario(e) {
@@ -45,7 +86,7 @@ function DatosAlumnos() {
     //funcion modifica los datos del alumno una vez cambiados
     e.preventDefault();
     !modal ? e.target.reset() : true;
-    const activo = e.target.activo.checked?"1":"0";
+    const activo = e.target.activo.checked ? "1" : "0";
     const nombre = e.target.nombreAlumno.value;
     const apellido = e.target.apellidoAlumno.value;
     const tipoDNI = e.target.tipoDocumento.value;
@@ -87,10 +128,9 @@ function DatosAlumnos() {
     console.log(data);
     const res = await postAlumnosModificado(data);
 
-    
-    console.log(res)
-    if(res.message){
-      alert(res.message.toUpperCase())
+    console.log(res);
+    if (res.message) {
+      alert(res.message.toUpperCase());
       getDataAlumnos();
       return setModal("modal");
     }
@@ -99,57 +139,98 @@ function DatosAlumnos() {
 
   return (
     <div className="bg-white min-h-screen">
-      
-        <div className="max-w-full">
-          <div className="flex flex-col justify-between">
-            <h1 className="text-5xl text-center text-black font-bold">DATOS ALUMNOS</h1>
-            <div className="flex justify-between m-2">
-            {usuario.id_rol == 1 ? 
+      <div className="max-w-full">
+        <div className="flex flex-col justify-between">
+          <h1 className="text-5xl text-center text-black font-bold">
+            DATOS ALUMNOS
+          </h1>
 
-              <Link 
-              to="/app/alta-alumno">
+          <div className="flex flex-row ">
+            <input
+              onChange={(e) => filtrar(e, "nroLegajo")}
+              id="nroLegajo"
+              placeholder={"LEGAJO"}
+              defaultValue={""}
+              type="number"
+              className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
+            />
+
+            <input
+              onChange={(e) => filtrar(e, "nombre")}
+              id="nombre"
+              placeholder={"NOMBRE"}
+              defaultValue={""}
+              type="text"
+              className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
+            />
+
+            <input
+              onChange={(e) => filtrar(e, "apellido")}
+              id="apellido"
+              placeholder={"APELLIDO"}
+              defaultValue={""}
+              type="text"
+              className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
+            />
+
+            <input
+              onChange={(e) => filtrar(e, "dni")}
+              id="dni"
+              placeholder={"DNI"}
+              defaultValue={""}
+              type="number"
+              className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
+            />
+          </div>
+          <div className="flex justify-between m-2">
+            {usuario.id_rol == 1 ? (
+              <Link to="/app/alta-alumno">
                 <button className="btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black">
                   Nuevo Alumno
                 </button>
-              </Link> : false
-            }
-
-              <Link to="/app/historial-alumnos">
-                <button className="btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black">
-                  Historial Alumnos
-                </button>
               </Link>
-            </div>
-          </div>
+            ) : (
+              false
+            )}
 
-          <div className="overflow-x-auto">
-            <table className="table text-center text-black  bg-white">
-              {/* head */}
-              <thead className="text-black">
-                <tr>
-                  <th></th>
-                  <th>LEGAJO ALUMNO</th>
-                  <th>NOMBRE ALUMNO</th>
-                  <th>APELLIDO ALUMNO</th>
-                  <th>TIPO D.N.I. ALUMNO</th>
-                  <th>N° D.N.I. ALUMNO</th>
-                  <th>FECHA DE NACIMIENTO</th>
-                  <th>DIRECCIÓN ALUMNO</th>
-                  <th>LOCALIDAD</th>
-                  <th>COD. AREA TEL. ALUMNO</th>
-                  <th>TELEFONO ALUMNO</th>
-                  <th>EMAIL ALUMNO</th>
-                  <th>COD. AREA TEL. EXTRA</th>
-                  <th>TELEFONO EXTRA</th>
-                  <th>DOCUMENTACIÓN</th>
-                  <th>ACTIVO</th>
-                  <th>BOTONES</th>
-                </tr>
-              </thead>
-              <tbody>
-                {!data
-                  ? false
-                  : data.filter((e)=> (e.activo=="1")).map((e) => (
+            <Link to="/app/historial-alumnos">
+              <button className="btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black">
+                Historial Alumnos
+              </button>
+            </Link>
+          </div>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="table text-center text-black  bg-white">
+            {/* head */}
+            <thead className="text-black">
+              <tr>
+                <th></th>
+                <th>LEGAJO ALUMNO</th>
+                <th>NOMBRE ALUMNO</th>
+                <th>APELLIDO ALUMNO</th>
+                <th>TIPO D.N.I. ALUMNO</th>
+                <th>N° D.N.I. ALUMNO</th>
+                <th>FECHA DE NACIMIENTO</th>
+                <th>DIRECCIÓN ALUMNO</th>
+                <th>LOCALIDAD</th>
+                <th>COD. AREA TEL. ALUMNO</th>
+                <th>TELEFONO ALUMNO</th>
+                <th>EMAIL ALUMNO</th>
+                <th>COD. AREA TEL. EXTRA</th>
+                <th>TELEFONO EXTRA</th>
+                <th>DOCUMENTACIÓN</th>
+                <th>ACTIVO</th>
+                <th>BOTONES</th>
+              </tr>
+            </thead>
+            <tbody>
+              {!data
+                ? false
+                : data
+                    .filter((e) => e.activo == "1")
+                    .map((e) => (
                       <tr key={e.id_alumno} className="hover:bg-slate-200">
                         <td></td>
                         <td>{e.nro_legajo}</td>
@@ -180,7 +261,7 @@ function DatosAlumnos() {
                               : "ANALITICO: NO"}
                           </div>
                         </td>
-                        <td>{e.activo=="1" ? "ACTIVO" : "INACTIVO"}</td>
+                        <td>{e.activo == "1" ? "ACTIVO" : "INACTIVO"}</td>
 
                         {/* boton Editar del HISTORIAL ALUMNO */}
                         <td>
@@ -257,7 +338,7 @@ function DatosAlumnos() {
                                                   Tipo DNI
                                                 </option>
                                               }
-                                              <option value={"DU"} >DU</option>
+                                              <option value={"DU"}>DU</option>
                                               <option value={"LC"}>LC</option>
                                               <option value={"LE"}>LE</option>
                                             </select>
@@ -339,9 +420,7 @@ function DatosAlumnos() {
                                               type="checkbox"
                                               className="checkbox  border-black m-2"
                                               defaultChecked={
-                                                e.activo == "1"
-                                                  ? true
-                                                  : false
+                                                e.activo == "1" ? true : false
                                               }
                                             />
                                           </span>
@@ -536,7 +615,6 @@ function DatosAlumnos() {
                                             Cancelar
                                           </button>
                                         </div>
-
                                       </div>
                                     </form>
                                   </div>
@@ -547,11 +625,10 @@ function DatosAlumnos() {
                         </td>
                       </tr>
                     ))}
-              </tbody>
-            </table>
-          </div>
+            </tbody>
+          </table>
         </div>
-      
+      </div>
     </div>
   );
 }
