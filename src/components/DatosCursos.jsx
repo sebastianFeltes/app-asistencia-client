@@ -8,6 +8,7 @@ import {
 import { useContext, useState } from "react";
 import { getDataDocentes } from "../services/DatosDocentes.services";
 import UserContext from "../context/user.context";
+
 function DataCursos() {
   const userContext = useContext(UserContext);
   const rol = userContext.userData.id_rol;
@@ -38,14 +39,15 @@ function DataCursos() {
   function agregarDia(e) {
     e.preventDefault();
 
-    const diaSeleccionado = e.target.form.nvoDia.value;
-    const idDiaSeleccionado = diaSeleccionado.split("-")[0];
-    const nombreDiaSeleccionado = diaSeleccionado.split("-")[1];
+    const idDiaSeleccionado = e.target.form.nvoDia.value.split(" ")[0];
+
+    const nombreDiaSeleccionado = e.target.form.nvoDia.value.split(" ")[1];
     const dataDiaSeleccionado = {
       id_dia: idDiaSeleccionado,
       nombre: nombreDiaSeleccionado,
     };
     setDiasSeleccionados([...diasSeleccionados, dataDiaSeleccionado]);
+    console.log(diasSeleccionados);
   }
 
   // funcion que modifica los datos
@@ -53,21 +55,29 @@ function DataCursos() {
     e.preventDefault();
     !modal ? e.target.reset() : true;
     const nombre = e.target.nvoNombreCurso.value;
-    const docente = e.target.nvoDocente.value;
-    const nvoHorarioInicio = e.target.nvoHorarioInicio.value;
-    const nvoHorarioFinal = e.target.nvoHorarioFinal.value;
+    const nvoDocente = e.target.nvoDocente.value;
+    const minInicio = e.target.minInicio.value;
+    const nvoHorarioInicio = `${e.target.nvoHorarioInicio.value}:${minInicio}:00`;
+    const minFinal = e.target.minFinal.value;
+    const nvoHorarioFinal = `${e.target.nvoHorarioFinal.value}:${minFinal}.00 `;
     const nvoCheck = e.target.nvoCheck.value;
     const idCurso = e.target.idCurso.value;
-
+    const diasCursos = diasSeleccionados.map((e) => e.id_dia);
+    const fechaInicio=e.target.fechaInicio.value;
+    const fechaFinalizacion=e.target.fechaFinalizacion.value;
     const data = {
       id_curso: parseInt(idCurso),
       nombre: nombre,
-      id_docente: parseInt(docente),
+      id_docente: parseInt(nvoDocente),
       horario_inicio: nvoHorarioInicio,
       horario_final: nvoHorarioFinal,
       activo: Boolean(nvoCheck),
-    };
+      id_dia: diasCursos,
+      fecha_inicio:fechaInicio,
+      fecha_finalizacion:fechaFinalizacion
 
+    };
+    console.log(data);
     const res = await postCursoModificado(data);
     if (res.message == "Curso modificado") {
       alert(res.message);
@@ -79,6 +89,7 @@ function DataCursos() {
 
   function limpiarFormulario(e) {
     e.target.form.reset();
+    setDiasSeleccionados([]);
   }
   return (
     <div className="hero min-h-screen bg-slate-50 text-black tabla-data-cursos">
@@ -114,8 +125,8 @@ function DataCursos() {
                 <th>DIAS</th>
                 <th>HORARIO INICIO</th>
                 <th>HORARIO FINAL</th>
-
-                <th>CANTIDAD DE ALUMNOS ACTIVOS</th>
+                <th>FECHA INICIO</th>
+                <th>FECHA FINALIZACION</th>
                 <th>ACTIVAR/DESACTIVAR CURSO</th>
                 <th></th>
               </tr>
@@ -131,8 +142,8 @@ function DataCursos() {
                       <td>DIAS</td>
                       <td>{e.horario_inicio}</td>
                       <td>{e.horario_final}</td>
-
-                      <td></td>
+                      <td>{e.fecha_inicio}</td>
+                      <td>{e.fecha_finalizacion}</td>
                       <td>
                         <input
                           id="nvoCheck"
@@ -240,7 +251,11 @@ function DataCursos() {
                                               ? dias.map((e) => {
                                                   return (
                                                     <option
-                                                      value={e.id_dia}
+                                                      value={
+                                                        e.id_dia +
+                                                        " " +
+                                                        e.nombre
+                                                      }
                                                       key={e.nombre}
                                                     >
                                                       {e.nombre}
@@ -258,31 +273,33 @@ function DataCursos() {
                                             +
                                           </button>
                                           <div className="ml-2">
-                                            {/*  <ul className="grid grid-cols-1 gap-2">
-                                              
-                                              {!diasSeleccionados
-                                                ? false
-                                                : diasSeleccionados.map((e) => (
-                                                    <li
-                                                      key={e.id_dia}
-                                                      className="text-black text-xs"
-                                                    >
-                                                      {e.nombre}
-                                                    </li>
-                                                  ))}
-                                            </ul> */}
+                                            {
+                                              <ul className="grid grid-cols-1 gap-2">
+                                                {!diasSeleccionados
+                                                  ? false
+                                                  : diasSeleccionados.map(
+                                                      (e) => (
+                                                        <li
+                                                          key={e.id_dia}
+                                                          className="text-black text-xs"
+                                                        >
+                                                          {e.nombre}
+                                                        </li>
+                                                      )
+                                                    )}
+                                              </ul>
+                                            }
                                           </div>
                                         </div>
                                       </div>
 
                                       {/* DIV DERECHO */}
                                       <div className=" border-black flex flex-col m-2 ">
-                                      
-                                      <label className="label">
-                                            <span className="label-text text-black">
-                                             HORARIO DE INICIO:
-                                            </span>
-                                          </label>
+                                        <label className="label">
+                                          <span className="label-text text-black">
+                                            HORARIO DE INICIO:
+                                          </span>
+                                        </label>
                                         <div className=" flex">
                                           <label className="label ">
                                             <p className="label-text ms-2 text-black">
@@ -291,35 +308,33 @@ function DataCursos() {
                                           </label>
                                           <label className="label">
                                             <p className="label-text ms-20 text-black">
-                                             minuto:
-                                              
+                                              minuto:
                                             </p>
                                           </label>
                                         </div>
 
-                                       
                                         <div className="form-control flex flex-row">
                                           <input
-                                            id="hora1"
+                                            id="nvoHorarioInicio"
                                             type="number"
                                             placeholder=""
                                             maxLength="2"
                                             className="input rounded-full text-black  w-28 bg-white border-black"
                                           />
-
+                                          <span className="">:</span>
                                           <input
-                                            id="minutos1"
+                                            id="minInicio"
                                             type="number"
                                             placeholder=""
                                             className="input rounded-full text-black  w-28 bg-white border-black"
                                           />
                                         </div>
                                         <label className="label">
-                                            <span className="label-text text-black">
-                                             HORARIO FINAL:
-                                            </span>
-                                          </label>
-                                          <div className=" flex">
+                                          <span className="label-text text-black">
+                                            HORARIO FINAL:
+                                          </span>
+                                        </label>
+                                        <div className=" flex">
                                           <label className="label ">
                                             <p className="label-text ms-2 text-black">
                                               hora:
@@ -327,22 +342,21 @@ function DataCursos() {
                                           </label>
                                           <label className="label">
                                             <p className="label-text ms-20 text-black">
-                                             minuto:
-                                              
+                                              minuto:
                                             </p>
                                           </label>
                                         </div>
-                                        
+
                                         <div className="form-control flex flex-row">
                                           <input
-                                            id=""
+                                            id="nvoHorarioFinal"
                                             type="number"
                                             placeholder=""
                                             className="input rounded-full text-black  w-28 bg-white border-black"
                                           />
 
                                           <input
-                                            id=""
+                                            id="minFinal"
                                             type="number"
                                             placeholder=""
                                             className="input rounded-full text-black  w-28 bg-white border-black"
@@ -351,32 +365,31 @@ function DataCursos() {
 
                                         <div className=" flex">
                                           <label className="label ">
-                                          <span className="label-text  text-black">
-                                            FECHA DE INICIO:
+                                            <span className="label-text  text-black">
+                                              FECHA DE INICIO:
                                             </span>
                                           </label>
                                           <label className="label">
-                                          <span className="label-text ms-14 text-black">
-                                            FECHA DE INICIO:
+                                            <span className="label-text ms-14 text-black">
+                                              FECHA DE FINALIZACION:
                                             </span>
                                           </label>
                                         </div>
-                                        <div className="form-control flex flex-row"> 
+                                        <div className="form-control flex flex-row">
+                                          <input
+                                            id="fechaInicio"
+                                            type="date"
+                                            defaultValue={e.fecha_inicio}
+                                            className="rounded-full input input-bordered text-black  input-info max-w-xs w-40 bg-white border-black"
+                                          />
 
-                                        <input
-                                          id=""
-                                          type="date"
-                                          placeholder=""
-                                          className="rounded-full input input-bordered text-black  input-info max-w-xs w-40 bg-white border-black"
+                                          <input
+                                            id="fechaFinalizacion"
+                                            type="date"
+                                            defaultValue={e.fecha_finalizacion}
+                                            className="rounded-full input input-bordered text-black  input-info max-w-xs w-40 bg-white border-black"
                                           />
-                                        
-                                        <input
-                                          id=""
-                                          type="date"
-                                          placeholder=""
-                                          className="rounded-full input input-bordered text-black  input-info max-w-xs w-40 bg-white border-black"
-                                          />
-                                          </div>
+                                        </div>
 
                                         {/*   DIV DOCUMENTACION */}
                                         <div className="form-control flex flex-row">

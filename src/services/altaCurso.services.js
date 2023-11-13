@@ -3,6 +3,7 @@ import { data } from "autoprefixer";
 export async function getDataDias() {
   const response = await fetch("http://localhost:8080/dias");
   const dias = await response.json();
+  console.log(dias)
  
   return dias;
 }

@@ -1,12 +1,39 @@
-import { postAltaCurso } from "../services/altaCurso.services";
+import { useState } from "react";
+ import {  postAltaCurso } from "../services/altaCurso.services";
+/* import { getDataDocentes } from "../services/DatosDocentes.services";
+import { useQuery } from "@tanstack/react-query"; */
 
 
 
-
+ 
 
 
 function AltaCurso (){
+
+ 
+  const [diasSeleccionados, setDiasSeleccionados] = useState([]);
+  
+
+  
+  function agregarDia(e) {
+    e.preventDefault();
+
+    const idDiaSeleccionado = e.target.form.nvoDia.value.split(" ")[0];
+    
+    const nombreDiaSeleccionado =e.target.form.nvoDia.value.split(" ")[1];
+    const dataDiaSeleccionado = {
+      id_dia: idDiaSeleccionado,
+      nombre: nombreDiaSeleccionado,
+    };
+   setDiasSeleccionados([...diasSeleccionados, dataDiaSeleccionado]);
+   console.log(diasSeleccionados)
+  }
+
+
+
+
  async function post (e){
+  
     e.preventDefault();
     const nombreCurso =e.target.nombreCurso.value;
     const nombreDocente = e.target.docente.value;
@@ -88,11 +115,11 @@ return(
                   </span>
                 </label>
                 <div className="flex m-0">
-                 {/*  <select
+                {/*   <select
                     id="nvoDia"
                     className="select w-full max-w-xs bg-transparent rounded-full border-black"
                   >
-                    {dias
+                    {d
                       ? dias.map((e) => {
                           return (
                             <option
@@ -103,11 +130,11 @@ return(
                             </option>
                           );
                         })
-                      : false}
+                      : false} 
                   </select>  */}
                   {/*  BOTON PARA AGREGAR MAS DE UN DIA */}
                   <button
-                 /*    onClick={(e) => agregarDia(e)}  */
+                     onClick={(e) => agregarDia(e)}  
                     type="button"
                     className="btn ml-2 bg-blue-600 text-black rounded-full w-12 border-none"
                   >
@@ -213,7 +240,7 @@ return(
                   </label>
                   <label className="label">
                   <span className="label-text ms-14 text-black">
-                    FECHA DE INICIO:
+                    FECHA DE FINALIZACION:
                     </span>
                   </label>
                 </div>
