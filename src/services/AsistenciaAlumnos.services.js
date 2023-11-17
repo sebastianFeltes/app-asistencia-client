@@ -1,7 +1,7 @@
 const url = "http://localhost:8080";
 
 export async function getAsistencia() {
-	//const url = "http://192.168.33.31:8080/asistencia-alumnos"
+	//const url = `http://192.168.33.31:8080/asistencia-alumnos
 	const response = await fetch(`${url}/asistencia-alumnos/2`);
 	const asistAlumn = await response.json();
 	console.log(asistAlumn);

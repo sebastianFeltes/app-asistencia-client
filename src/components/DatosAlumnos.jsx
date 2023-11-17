@@ -4,7 +4,7 @@ import {
   postAlumnosModificado,
 } from "../services/DatosAlumnos.services.js";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 //import { UserContext } from "../context/user.context";//
 
 function DatosAlumnos() {
@@ -12,16 +12,21 @@ function DatosAlumnos() {
   //const userContext=useContext(UserContext);
   //const rol =  userContext.userData.id_rol;
   //console.log(rol)
+
   const [data, setData] = useState(undefined);
+  const [dataFetch, setDataFetch] = useState(undefined);
   //const { data /*isLoading, error*/ } = useQuery({queryKey:"getAlumnos", queryFn:getAlumnos});
   const [modal, setModal] = useState("modal");
 
   async function getDataAlumnos() {
     const res = await getAlumnos();
-    return setData(res);
+    setData(res);
+    return setDataFetch(res);
   }
 
-  getDataAlumnos();
+  useEffect(() => {
+    getDataAlumnos();
+  }, []);
 
   function mostrarModal(e) {
     //funcion que muestra el modal
@@ -86,6 +91,46 @@ function DatosAlumnos() {
     return setModal("modal");
   }
 
+  function filtrar(e, tipoDeFiltro) {
+    e.preventDefault();
+    const value = e.target.value;
+    let valorABuscar;
+
+    if (isNaN(value)) {
+      if (!value) {
+        valorABuscar = "";
+      } else {
+        valorABuscar = value.toUpperCase();
+      }
+    } else {
+      valorABuscar = value;
+    }
+
+    console.log(valorABuscar);
+    /*  isNaN(e.target.value) ? e.target.value.toUpperCase() : e.target.value; */
+    if (tipoDeFiltro == "nombre") {
+      const dataFiltrada = dataFetch.filter((alumno) =>
+        String(alumno.nombre.toUpperCase()).includes(valorABuscar)
+      );
+      setData(dataFiltrada);
+    } else if (tipoDeFiltro == "nroLegajo") {
+      const dataFiltrada = dataFetch.filter((alumno) =>
+        String(alumno.nro_legajo).includes(valorABuscar)
+      );
+      setData(dataFiltrada);
+    } else if (tipoDeFiltro == "nroDni") {
+      const dataFiltrada = dataFetch.filter((alumno) =>
+        String(alumno.nro_dni).includes(valorABuscar)
+      );
+      setData(dataFiltrada);
+    } else {
+      const dataFiltrada = dataFetch.filter((alumno) =>
+        String(alumno.apellido.toUpperCase()).includes(valorABuscar)
+      );
+      setData(dataFiltrada);
+    }
+  }
+
   return (
     <div className="bg-white hero min-h-full text-black">
       <div className="hero-content text-center ">
@@ -111,6 +156,63 @@ function DatosAlumnos() {
             <table className="text-center table w-screen">
               {/* head */}
               <thead className="text-black">
+                <tr>
+                  <th></th>
+                  <th>
+                    <input
+                      onChange={(e) => filtrar(e, "nroLegajo")}
+                      id="filtroLegajo"
+                      type="number"
+                      placeholder={""}
+                      defaultValue={""}
+                      className="w-full h-8 ms-0.5 rounded-full input input-bordered input-info  max-w-xs  bg-white border-black"
+                    />
+                  </th>
+                  <th>
+                    <input
+                      onChange={(e) => filtrar(e, "nombre")}
+                      id="filtroNombre"
+                      type="text"
+                      placeholder={""}
+                      defaultValue={""}
+                      className="w-full h-8 ms-0.5 rounded-full input input-bordered input-info  max-w-xs  bg-white border-black"
+                    />
+                  </th>
+                  <th>
+                    {" "}
+                    <input
+                      onChange={(e) => filtrar(e, "apellido")}
+                      id="filtroApellido"
+                      type="text"
+                      placeholder={""}
+                      defaultValue={""}
+                      className="w-full h-8 ms-0.5 rounded-full input input-bordered input-info  max-w-xs  bg-white border-black"
+                    />
+                  </th>
+                  <th>TIPO D.N.I. ALUMNO</th>
+                  <th>
+                    {" "}
+                    <input
+                      onChange={(e) => filtrar(e, "nroDni")}
+                      id="filtroNroDni"
+                      type="text"
+                      placeholder={""}
+                      defaultValue={""}
+                      className="w-full h-8 ms-0.5 rounded-full input input-bordered input-info  max-w-xs  bg-white border-black"
+                    />
+                  </th>
+                  <th>FECHA DE NACIMIENTO</th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th>DOCUMENTACIÓN</th>
+                  <th></th>
+                  <th></th>
+                </tr>
                 <tr>
                   <th></th>
                   <th>LEGAJO ALUMNO</th>

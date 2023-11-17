@@ -4,6 +4,14 @@ import { getAsistencia, postJustificada } from "../services/AsistenciaAlumnos.se
 function AsistenciaAlumnos() {
 	const { data, isLoading, error } = useQuery(["getAsistencia"], getAsistencia);
 
+	function obtenerAsistencia(){
+		const id_curso = window.localStorage.id_curso;
+		getAsistencia(id_curso)
+		//console.log(id_curso)
+	}
+	obtenerAsistencia()
+
+
 	/* 	function justificarFalta(e) {
 		e.preventDefault();
 		let dni = e.target.id;

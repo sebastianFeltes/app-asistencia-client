@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getMostrarCursos } from "../services/homeAdmin.services";
@@ -9,7 +9,20 @@ export default function HomeAdmin() {
 
   const rol = userContext.userData.id_rol;
 
+  const [storage, setStorage] = useState(undefined);
+
+  function setLocalStorage() {
+    window.localStorage.setItem("Usuario", "Pepe");
+  }
+
+  function borrarLocalStorage() {
+    window.localStorage.removeItem("Usuario");
+  }
   //userContext.setUserState({ ...userContext, cursoId: 1 });
+function mostrarAsistenciaDelCurso(e){
+  const id_curso = 1;
+  window.localStorage.setItem("id_curso", id_curso)
+}
 
   const { data /*  isLoading, error */ } = useQuery(
     ["mostrarCursos"],
@@ -27,13 +40,11 @@ export default function HomeAdmin() {
               Inicio Administrador
             </h1>
           )}
-
           <Link to={"/app/datos-alumnos"}>
             <button className="btn bg-blue-600 text-white m-2 w-full hover:bg-blue-300 hover:text-black ">
               Alumnos
             </button>
           </Link>
-
           <select
             id="id-curso"
             className="select w-full max-w-xs bg-transparent rounded-full border-black"
@@ -41,17 +52,16 @@ export default function HomeAdmin() {
             {!data
               ? false
               : data.map((e) => (
-                  <option value={e.id_curso} key={e.id_curso}>
+                  <option  value={e.id_curso} key={e.id_curso}>
                     {e.nombre.toUpperCase()}
                   </option>
                 ))}
           </select>
-          <Link to={"/app/asistencia-alumnos"}>
-            <button className="btn bg-blue-600 text-white m-2 w-full hover:bg-blue-300 hover:text-black ">
+          <Link onClick={mostrarAsistenciaDelCurso} to={"/app/asistencia-alumnos"}>
+            <button   className="btn bg-blue-600 text-white m-2 w-full hover:bg-blue-300 hover:text-black ">
               Asistencia
             </button>
           </Link>
-
           <Link to={"/app/datos-cursos"}>
             <button className="btn bg-blue-600 text-white m-2 w-full hover:bg-blue-300 hover:text-black ">
               Cursos
@@ -66,6 +76,8 @@ export default function HomeAdmin() {
           ) : (
             false
           )}
+          <button onClick={setLocalStorage}>Setear storage</button>{" "}
+          <button onClick={borrarLocalStorage}>Eliminar storage</button>
         </div>
       </div>
     </div>
