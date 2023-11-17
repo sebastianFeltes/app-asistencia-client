@@ -1,19 +1,19 @@
 import { Link } from "react-router-dom";
 import {
-  docenteModificado,
-  getDataDocentes,
-} from "../services/DatosDocentes.services";
+ HistorialDocente,
+  getHistorialDocente,
+} from "../services/HistorialDocente.services";
 import { useQuery } from "@tanstack/react-query";
 import { useState, useContext } from "react";
 import UserContext from "../context/user.context";
 /* import { BtnEditarDocente } from "./EditarDocentes"; */
 
-export function DatosDocentes() {
+export function HistorialDocentes() {
   const userContext = useContext(UserContext);
   const usuario = userContext.userData;
   const { data /*  isLoading, error */ } = useQuery(
     ["docentes"],
-    getDataDocentes
+    getHistorialDocente
   );
   const [modal, setModal] = useState("modal");
 
@@ -68,7 +68,7 @@ export function DatosDocentes() {
       //password: password,
     };
 console.log(docenteData)
-    const res = await docenteModificado(docenteData);
+    const res = await HistorialDocente(docenteData);
     console.log(res)
    alert(res.message);
     setModal("modal");
@@ -80,28 +80,28 @@ console.log(docenteData)
     e.target.reset();
   }
   return usuario && usuario.id_rol == 1 ? (
-    <div className="bg-white min-h-screen">
+    <div className="bg-white min-h-screen  ">
       <form>
-        <div className="flex justify-between">
+        <div className="flex justify-between ">
           <Link to={"/app/alta-docente"}>
-            <button className="btn btn-active bg-[#0184F5] text-white">
+            <button className="btn btn-active m-2 bg-[#0184F5] text-white">
               alta Docente
             </button>
           </Link>
-          <h1 className="text-4xl text-center italic text-slate-950">
-            Datos Docentes
+          <h1 className="text-4xl m-2  text-slate-700">
+            Historial de Docentes
           </h1>
 
-          <Link to={"/app/historial-docente"}>
-            <button className="btn btn-active bg-[#0184F5] text-white">
-              Historial Docente
+          <Link to={"/app/datos-docentes"}>
+            <button className="btn btn-active m-2 bg-[#0184F5] text-white">
+              Datos Docente
             </button>
           </Link>
         </div>
       </form>
 
       <div className="overflow-x-auto">
-        <table className="table text-center text-black  bg-white ">
+        <table className="table  text-center text-black bg-slate-200">
           {/* head */}
           <thead>
             <tr className="text-black">
@@ -122,7 +122,7 @@ console.log(docenteData)
 
               <th>ROL</th>
 
-              <th>EDITAR</th>
+          {/*     <th>EDITAR</th> */}
             </tr>
           </thead>
           <tbody>
@@ -131,9 +131,9 @@ console.log(docenteData)
                 <td>Cargando</td>
               </tr>
             ) : (
-              data.filter(e=>e.activo=="1").map((e) => (
+              data.filter(e=>e.activo=="0").map((e) => (
                 <tr
-                  className=" hover:bg-slate-200 capitalize"
+                  className=" hover:bg-slate-500 capitalize"
                   key={e.nro_legajo}
                 >
                   <td>{e.activo === "1" ? "activo" : "inactivo"} </td>
@@ -153,13 +153,13 @@ console.log(docenteData)
                   <td className="hover:italic">{e.descripcion}</td>
 
                   <td>
-                    <button
+                    {/* <button
                       className="btn bg-[#0184F5] text-white"
                       id={e.nro_legajo}
                       onClick={(e) => mostrarModal(e)}
                     >
                       Editar
-                    </button>
+                    </button> */}
                     <div
                       id={`modal${e.nro_legajo}`}
                       className={
@@ -184,7 +184,7 @@ console.log(docenteData)
                               id="contenedor1"
                               className="flex flex-col grow-2 w-1/3 m-2 text-center "
                             >
-                              <div className="">
+                              <div className="border border-violet-400">
                                 <label className="label">
                                   <span className="label-text  text-black">
                                     Tipo De Doc
@@ -201,7 +201,7 @@ console.log(docenteData)
                                   <option>LE</option>
                                 </select>
                               </div>
-                              <div className="">
+                              <div className="border border-violet-400">
                                 <label className="label">
                                   <span className="label-text text-black">
                                     Documento
@@ -218,7 +218,7 @@ console.log(docenteData)
                                   className="input rounded-full w-full text-black bg-white border-black"
                                 />
                               </div>
-                              <div className="">
+                              <div className="border border-violet-400">
                                 <label className="label">
                                   <span className="label-text  text-black">
                                     Nombre Docente
@@ -232,7 +232,7 @@ console.log(docenteData)
                                   className="input rounded-full w-full text-black  bg-white border-black"
                                 />
                               </div>
-                              <div className="">
+                              <div className="border border-violet-400">
                                 <label className="label">
                                   <span className="label-text  text-black">
                                     Apellido Docente
@@ -246,7 +246,7 @@ console.log(docenteData)
                                   className="input rounded-full text-black w-full  bg-white border-black"
                                 />
                               </div>
-                              <div className="">
+                              <div className="border border-violet-400">
                                 <label className="label">
                                   <span className="label-text text-black">
                                     Localidad
@@ -260,7 +260,7 @@ console.log(docenteData)
                                   className="input rounded-full w-full text-black bg-white border-black"
                                 />
                               </div>
-                              <div className="">
+                              <div className="border border-violet-400">
                                 <label className="label">
                                   <span className="label-text text-black">
                                     Direccion
@@ -278,11 +278,11 @@ console.log(docenteData)
 
                             <div
                               id="contenedor2"
-                              className=" flex flex-col grow-2 w-1/3 m-2 text-center "
+                              className=" flex flex-col grow-2 w-1/3 m-2 text-center border border-orange-400"
                             >
                               <div>
                                 <div className="flex flex-row">
-                                  <div className="flex flex-col w-1/4 ">
+                                  <div className="flex flex-col w-1/4 border border-blue-600">
                                     <label className="label">
                                       <span className="label-text  text-black">
                                         Cod. de area{" "}
@@ -297,7 +297,7 @@ console.log(docenteData)
                                       className="input rounded-full text-black  bg-white border-black"
                                     />
                                   </div>
-                                  <div className="flex flex-col w-3/4 ">
+                                  <div className="flex flex-col w-3/4 border border-blue-600">
                                     <label className="label">
                                       <span className="label-text  text-black">
                                         Telefono
@@ -320,7 +320,7 @@ console.log(docenteData)
                                 </div>
 
                                 <div className="flex flex-row">
-                                  <div className="flex flex-col w-1/4 ">
+                                  <div className="flex flex-col w-1/4 border border-blue-600">
                                     <label className="label">
                                       <span className="label-text  text-black ">
                                         Cod. de area{" "}
@@ -334,7 +334,7 @@ console.log(docenteData)
                                       className="input rounded-full text-black bg-white border-black"
                                     />
                                   </div>
-                                  <div className="flex flex-col w-3/4 ">
+                                  <div className="flex flex-col w-3/4 border border-blue-600">
                                     <label className="label">
                                       <span className="label-text  text-black">
                                         Tel Extra
