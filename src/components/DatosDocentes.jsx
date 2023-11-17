@@ -184,7 +184,7 @@ console.log(docenteData)
                               id="contenedor1"
                               className="flex flex-col grow-2 w-1/3 m-2 text-center "
                             >
-                              <div className="border border-violet-400">
+                              <div className="">
                                 <label className="label">
                                   <span className="label-text  text-black">
                                     Tipo De Doc
@@ -201,7 +201,7 @@ console.log(docenteData)
                                   <option>LE</option>
                                 </select>
                               </div>
-                              <div className="border border-violet-400">
+                              <div className="">
                                 <label className="label">
                                   <span className="label-text text-black">
                                     Documento
@@ -218,7 +218,7 @@ console.log(docenteData)
                                   className="input rounded-full w-full text-black bg-white border-black"
                                 />
                               </div>
-                              <div className="border border-violet-400">
+                              <div className="">
                                 <label className="label">
                                   <span className="label-text  text-black">
                                     Nombre Docente
@@ -232,7 +232,7 @@ console.log(docenteData)
                                   className="input rounded-full w-full text-black  bg-white border-black"
                                 />
                               </div>
-                              <div className="border border-violet-400">
+                              <div className="">
                                 <label className="label">
                                   <span className="label-text  text-black">
                                     Apellido Docente
@@ -246,7 +246,7 @@ console.log(docenteData)
                                   className="input rounded-full text-black w-full  bg-white border-black"
                                 />
                               </div>
-                              <div className="border border-violet-400">
+                              <div className="">
                                 <label className="label">
                                   <span className="label-text text-black">
                                     Localidad
@@ -260,7 +260,7 @@ console.log(docenteData)
                                   className="input rounded-full w-full text-black bg-white border-black"
                                 />
                               </div>
-                              <div className="border border-violet-400">
+                              <div className="">
                                 <label className="label">
                                   <span className="label-text text-black">
                                     Direccion
@@ -278,11 +278,11 @@ console.log(docenteData)
 
                             <div
                               id="contenedor2"
-                              className=" flex flex-col grow-2 w-1/3 m-2 text-center border border-orange-400"
+                              className=" flex flex-col grow-2 w-1/3 m-2 text-center "
                             >
                               <div>
                                 <div className="flex flex-row">
-                                  <div className="flex flex-col w-1/4 border border-blue-600">
+                                  <div className="flex flex-col w-1/4 ">
                                     <label className="label">
                                       <span className="label-text  text-black">
                                         Cod. de area{" "}
@@ -297,7 +297,7 @@ console.log(docenteData)
                                       className="input rounded-full text-black  bg-white border-black"
                                     />
                                   </div>
-                                  <div className="flex flex-col w-3/4 border border-blue-600">
+                                  <div className="flex flex-col w-3/4 ">
                                     <label className="label">
                                       <span className="label-text  text-black">
                                         Telefono
@@ -320,7 +320,7 @@ console.log(docenteData)
                                 </div>
 
                                 <div className="flex flex-row">
-                                  <div className="flex flex-col w-1/4 border border-blue-600">
+                                  <div className="flex flex-col w-1/4 ">
                                     <label className="label">
                                       <span className="label-text  text-black ">
                                         Cod. de area{" "}
@@ -334,7 +334,7 @@ console.log(docenteData)
                                       className="input rounded-full text-black bg-white border-black"
                                     />
                                   </div>
-                                  <div className="flex flex-col w-3/4 border border-blue-600">
+                                  <div className="flex flex-col w-3/4 ">
                                     <label className="label">
                                       <span className="label-text  text-black">
                                         Tel Extra

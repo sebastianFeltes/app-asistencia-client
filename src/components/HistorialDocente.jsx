@@ -101,7 +101,7 @@ console.log(docenteData)
       </form>
 
       <div className="overflow-x-auto">
-        <table className="table  text-center text-white bg-slate-600">
+        <table className="table  text-center text-black bg-slate-200">
           {/* head */}
           <thead>
             <tr className="text-black">
