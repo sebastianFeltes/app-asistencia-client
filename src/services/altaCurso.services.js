@@ -1,4 +1,4 @@
-import { data } from "autoprefixer";
+
 
 export async function getDataDias() {
   const response = await fetch("http://localhost:8080/dias");
@@ -7,8 +7,8 @@ export async function getDataDias() {
  
   return dias;
 }
-export async function postAltaCurso(){
-    const url = "http://localhost:8080/cursos"
+export async function postAltaCurso(data){
+    const url = "http://localhost:8080/alta-curso"
 
    
     // Default options are marked with *

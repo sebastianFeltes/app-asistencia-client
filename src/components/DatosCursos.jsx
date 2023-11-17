@@ -18,6 +18,7 @@ function DataCursos() {
     ["getCursos"],
     getDataCursos
   );
+  console.log(data);
 
   const [modal, setModal] = useState("modal");
   const [docentes, setDocentes] = useState(undefined);
@@ -63,8 +64,8 @@ function DataCursos() {
     const nvoCheck = e.target.nvoCheck.value;
     const idCurso = e.target.idCurso.value;
     const diasCursos = diasSeleccionados.map((e) => e.id_dia);
-    const fechaInicio=e.target.fechaInicio.value;
-    const fechaFinalizacion=e.target.fechaFinalizacion.value;
+    const fechaInicio = e.target.fechaInicio.value;
+    const fechaFinalizacion = e.target.fechaFinalizacion.value;
     const data = {
       id_curso: parseInt(idCurso),
       nombre: nombre,
@@ -73,9 +74,8 @@ function DataCursos() {
       horario_final: nvoHorarioFinal,
       activo: Boolean(nvoCheck),
       id_dia: diasCursos,
-      fecha_inicio:fechaInicio,
-      fecha_finalizacion:fechaFinalizacion
-
+      fecha_inicio: fechaInicio,
+      fecha_finalizacion: fechaFinalizacion,
     };
     console.log(data);
     const res = await postCursoModificado(data);
@@ -146,10 +146,10 @@ function DataCursos() {
                       <td>{e.fecha_finalizacion}</td>
                       <td>
                         <input
-                          id="nvoCheck"
+                          id="activo"
                           type="checkbox"
-                          className={`toggle toggle-info bg-white text-black border border-blue-400 `}
-                          defaultChecked={e.activo ? true : false}
+                          className="checkbox border-black m-2 "
+                          checked={e.activo == "1" ? true : false}
                         />
                       </td>
                       {/* MODAL QUE MODIFICA LOS DATOS DE LOS CURSOS */}
@@ -315,6 +315,9 @@ function DataCursos() {
 
                                         <div className="form-control flex flex-row">
                                           <input
+                                            defaultValue={
+                                              e.horario_inicio.split(":")[0]
+                                            }
                                             id="nvoHorarioInicio"
                                             type="number"
                                             placeholder=""
@@ -323,6 +326,9 @@ function DataCursos() {
                                           />
                                           <span className="">:</span>
                                           <input
+                                            defaultValue={
+                                              e.horario_inicio.split(":")[1]
+                                            }
                                             id="minInicio"
                                             type="number"
                                             placeholder=""
@@ -349,6 +355,9 @@ function DataCursos() {
 
                                         <div className="form-control flex flex-row">
                                           <input
+                                            defaultValue={
+                                              e.horario_final.split(":")[0]
+                                            }
                                             id="nvoHorarioFinal"
                                             type="number"
                                             placeholder=""
@@ -356,6 +365,9 @@ function DataCursos() {
                                           />
 
                                           <input
+                                            defaultValue={
+                                              e.horario_inicio.split(":")[1]
+                                            }
                                             id="minFinal"
                                             type="number"
                                             placeholder=""
@@ -379,14 +391,28 @@ function DataCursos() {
                                           <input
                                             id="fechaInicio"
                                             type="date"
-                                            defaultValue={e.fecha_inicio}
+                                            defaultValue={
+                                              e.fecha_inicio
+                                                ? e.fecha_inicio
+                                                    .split("/")
+                                                    .reverse()
+                                                    .join("-")
+                                                : false
+                                            }
                                             className="rounded-full input input-bordered text-black  input-info max-w-xs w-40 bg-white border-black"
                                           />
 
                                           <input
                                             id="fechaFinalizacion"
                                             type="date"
-                                            defaultValue={e.fecha_finalizacion}
+                                            defaultValue={
+                                              e.fecha_finalizacion
+                                                ? e.fecha_finalizacion
+                                                    .split("/")
+                                                    .reverse()
+                                                    .join("-")
+                                                : false
+                                            }
                                             className="rounded-full input input-bordered text-black  input-info max-w-xs w-40 bg-white border-black"
                                           />
                                         </div>
@@ -404,11 +430,9 @@ function DataCursos() {
                                             <input
                                               id="nvoCheck"
                                               type="checkbox"
-                                              className="checkbox border-black m-2 "
+                                              className={`toggle toggle-info bg-white text-black border border-blue-400 `}
                                               defaultChecked={
-                                                e.activo == "true"
-                                                  ? true
-                                                  : false
+                                                e.activo == "1" ? true : false
                                               }
                                             />
                                           </label>
