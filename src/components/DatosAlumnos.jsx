@@ -53,7 +53,7 @@ function DatosAlumnos() {
     } else {
       valorABuscar = value;
     }
-    // console.log(valorABuscar)
+    console.log(valorABuscar);
 
     if (tipoDeFiltro == "nombre") {
       const dataFiltrada = dataFetch.filter((alumno) =>
@@ -61,19 +61,19 @@ function DatosAlumnos() {
       );
       setData(dataFiltrada);
     } else if (tipoDeFiltro == "nroLegajo") {
-      const dataFiltrada = dataFetch
-        .filter((alumno) => String(alumno.nro_legajo))
-        .includes(valorABuscar);
+      const dataFiltrada = dataFetch.filter((alumno) =>
+        String(alumno.nro_legajo).includes(valorABuscar)
+      );
       setData(dataFiltrada);
     } else if (tipoDeFiltro == "apellido") {
-      const dataFiltrada = dataFetch
-        .filter((alumno) => String(alumno.apellido.toUpperCase()))
-        .includes(valorABuscar);
+      const dataFiltrada = dataFetch.filter((alumno) =>
+        String(alumno.apellido.toUpperCase()).includes(valorABuscar)
+      );
       setData(dataFiltrada);
-    } else  if (tipoDeFiltro == "dni")  {
-      const dataFiltrada = dataFetch
-        .filter((alumno) => String(alumno.nro_dni))
-        .includes(valorABuscar);
+    } else if (tipoDeFiltro == "dni") {
+      const dataFiltrada = dataFetch.filter((alumno) =>
+        String(alumno.nro_dni).includes(valorABuscar)
+      );
       setData(dataFiltrada);
     }
   }
@@ -138,52 +138,10 @@ function DatosAlumnos() {
   }
 
   return (
-    <div className="bg-white min-h-screen">
+    <div className="bg-white pt-4 min-h-screen">
       <div className="max-w-full">
-        <div className="flex flex-col justify-between">
-          <h1 className="text-5xl text-center text-black font-bold">
-            DATOS ALUMNOS
-          </h1>
-
-          <div className="flex flex-row ">
-            <input
-              onChange={(e) => filtrar(e, "nroLegajo")}
-              id="nroLegajo"
-              placeholder={"LEGAJO"}
-              defaultValue={""}
-              type="number"
-              className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
-            />
-
-            <input
-              onChange={(e) => filtrar(e, "nombre")}
-              id="nombre"
-              placeholder={"NOMBRE"}
-              defaultValue={""}
-              type="text"
-              className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
-            />
-
-            <input
-              onChange={(e) => filtrar(e, "apellido")}
-              id="apellido"
-              placeholder={"APELLIDO"}
-              defaultValue={""}
-              type="text"
-              className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
-            />
-
-            <input
-              onChange={(e) => filtrar(e, "dni")}
-              id="dni"
-              placeholder={"DNI"}
-              defaultValue={""}
-              type="number"
-              className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
-            />
-          </div>
-          <div className="flex justify-between m-2">
-            {usuario.id_rol == 1 ? (
+        <div className="flex flex-row justify-between px-8">
+        {usuario.id_rol == 1 ? (
               <Link to="/app/alta-alumno">
                 <button className="btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black">
                   Nuevo Alumno
@@ -192,14 +150,57 @@ function DatosAlumnos() {
             ) : (
               false
             )}
+          <h1 className="text-5xl text-center text-black font-bold">
+            DATOS ALUMNOS
+          </h1>
+          
+            
 
             <Link to="/app/historial-alumnos">
               <button className="btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black">
                 Historial Alumnos
               </button>
             </Link>
-          </div>
+          
+          
         </div>
+        <div className="flex flex-row px-16 pt-8">
+            <input
+              onChange={(e) => filtrar(e, "nroLegajo")}
+              id="nroLegajo"
+              placeholder={"LEGAJO"}
+              defaultValue={""}
+              type="number"
+              className="rounded-full input input-bordered input-info mx-1 w-full max-w-xs bg-white border-black"
+            />
+
+            <input
+              onChange={(e) => filtrar(e, "nombre")}
+              id="nombre"
+              placeholder={"NOMBRE"}
+              defaultValue={""}
+              type="text"
+              className="rounded-full input input-bordered input-info mx-1 w-full max-w-xs bg-white border-black"
+            />
+
+            <input
+              onChange={(e) => filtrar(e, "apellido")}
+              id="apellido"
+              placeholder={"APELLIDO"}
+              defaultValue={""}
+              type="text"
+              className="rounded-full input input-bordered input-info mx-1 w-full max-w-xs bg-white border-black"
+            />
+
+            <input
+              onChange={(e) => filtrar(e, "dni")}
+              id="dni"
+              placeholder={"DNI"}
+              defaultValue={""}
+              type="number"
+              className="rounded-full input input-bordered input-info mx-1 w-full max-w-xs bg-white border-black"
+            />
+          </div>
 
         <div className="overflow-x-auto">
           <table className="table text-center text-black  bg-white">
@@ -207,19 +208,55 @@ function DatosAlumnos() {
             <thead className="text-black">
               <tr>
                 <th></th>
-                <th>LEGAJO ALUMNO</th>
-                <th>NOMBRE ALUMNO</th>
-                <th>APELLIDO ALUMNO</th>
-                <th>TIPO D.N.I. ALUMNO</th>
-                <th>N° D.N.I. ALUMNO</th>
-                <th>FECHA DE NACIMIENTO</th>
-                <th>DIRECCIÓN ALUMNO</th>
+                <th>
+                  {" "}
+                  <p>LEGAJO</p> <p>ALUMNO</p>
+                </th>
+                <th>
+                  {" "}
+                  <p>NOMBRE</p> <p>ALUMNO</p>
+                </th>
+                <th>
+                  {" "}
+                  <p>APELLIDO</p> <p>ALUMNO</p>
+                </th>
+                <th>
+                  {" "}
+                  <p>TIPO D.N.I.</p> <p>ALUMNO</p>
+                </th>
+                <th>
+                  {" "}
+                  <p>N° D.N.I.</p> <p>ALUMNO</p>
+                </th>
+                <th>
+                  {" "}
+                  <p>FECHA DE</p> <p>NACIMIENTO</p>
+                </th>
+                <th>
+                  {" "}
+                  <p>DIRECCIÓN</p> <p>ALUMNO</p>
+                </th>
                 <th>LOCALIDAD</th>
-                <th>COD. AREA TEL. ALUMNO</th>
-                <th>TELEFONO ALUMNO</th>
-                <th>EMAIL ALUMNO</th>
-                <th>COD. AREA TEL. EXTRA</th>
-                <th>TELEFONO EXTRA</th>
+                <th>
+                  {" "}
+                  <p>COD.TEL.</p> <p>ALUMNO</p>
+                </th>
+                <th>
+                  {" "}
+                  <p>TELEFONO</p> <p>ALUMNO</p>
+                </th>
+                <th>
+                  {" "}
+                  <p>EMAIL</p> <p>ALUMNO</p>
+                </th>
+                <th>
+                  {" "}
+                  <p>COD.TEL.EXTRA</p> <p>ALUMNO</p>
+                </th>
+                <th>
+                  {" "}
+                  <p>TEL. EXTRA</p> <p>ALUMNO</p>
+                </th>
                 <th>DOCUMENTACIÓN</th>
                 <th>ACTIVO</th>
                 <th>BOTONES</th>
