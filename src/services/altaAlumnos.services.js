@@ -4,31 +4,31 @@ export default async function postAltaAlumno(data) {
   //VALIDACIONES DEL LADO DEL CLIENTE
 
   if (data.tipo_dni == "Tipo de Documento") {
-    alert("seleccione un tipo de Documento");
+    alert("Seleccione un tipo de Documento");
   } else if (`${data.nro_dni}`.length < 7) {
-    alert("Dni incompleto");
+    alert("DNI incompleto");
   } else if (data.nombre.length < 4) {
-    alert("nombre invalido");
+    alert("Nombre invalido");
   } else if (data.apellido.length < 4) {
-    alert("apellido invalido");
+    alert("Apellido invalido");
   } else if (!data.fecha_nac) {
-    alert("complete el campo fecha nac");
+    alert("Complete el campo fecha nac");
   } else if (data.localidad.length < 1) {
-    alert("complete el campo en localidad");
+    alert("Complete el campo en localidad");
   } else if (data.direccion.length < 1) {
-    alert(" complete el campo en direccion");
+    alert("Complete el campo en dirección");
   } else if (`${data.car_telefono}`.length < 3) {
-    alert("complete el codigo de area en telefono");
+    alert("Complete el codigo de area en teléfono");
   } else if (`${data.telefono}`.length < 7) {
-    alert(" telefono incompleto");
+    alert("Teléfono incompleto");
   } else if (`${data.car_tel_extra}`.length < 3) {
-    alert("complete el codigo de area en teleExt");
+    alert("Complete el codigo de area en teleExt");
   } else if (`${data.telefono_extra}`.length < 7) {
-    alert(" telEtx incompleto");
+    alert("TelEtx incompleto");
   } else if (`${data.nro_legajo}`.length < 4) {
-    alert("legajo invalido");
+    alert("Legajo invalido");
   } else if (!data.email) {
-    alert("complete el campo email");
+    alert("Complete el campo Email");
   } else {
     console.log(data);
     const response = await fetch(url, {
@@ -52,31 +52,31 @@ export default async function postAltaAlumno(data) {
 
 export async function postAltaAlumnosModificado(data) {
   if (data.tipo_dni == "Tipo de Documento") {
-    alert("seleccione un tipo de Documento");
+    alert("Seleccione un tipo de Documento");
   } else if (`${data.nro_dni}`.length < 7) {
-    alert("Dni incompleto");
+    alert("DNI incompleto");
   } else if (data.nombre.length < 4) {
-    alert("nombre invalido");
+    alert("Nombre invalido");
   } else if (data.apellido.length < 4) {
-    alert("apellido invalido");
+    alert("Apellido invalido");
   } else if (!data.fecha_nac) {
-    alert("complete el campo fecha nac");
+    alert("Complete el campo fecha nac");
   } else if (data.localidad.length < 1) {
-    alert("complete el campo en localidad");
+    alert("Complete el campo en localidad");
   } else if (data.direccion.length < 1) {
-    alert(" complete el campo en direccion");
+    alert("Complete el campo en dirección");
   } else if (`${data.car_telefono}`.length < 3) {
-    alert("complete el codigo de area en telefono");
+    alert("Complete el codigo de area en teléfono");
   } else if (`${data.telefono}`.length < 7) {
-    alert(" telefono incompleto");
+    alert("Teléfono incompleto");
   } else if (`${data.car_tel_extra}`.length < 3) {
-    alert("complete el codigo de area en teleExt");
+    alert("Complete el codigo de area en teleExt");
   } else if (`${data.telefono_extra}`.length < 7) {
-    alert(" telEtx incompleto");
+    alert("TelEtx incompleto");
   } else if (`${data.nro_legajo}`.length < 4) {
-    alert("legajo invalido");
+    alert("Legajo invalido");
   } else if (!data.email) {
-    alert("complete el campo email");
+    alert("Complete el campo Email");
   } else {
     const url = `http://localhost:8080/app/alta-alumno/${data.id_alumno}`;
 

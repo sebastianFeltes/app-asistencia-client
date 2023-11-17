@@ -42,7 +42,6 @@ export default function AltaAlumno() {
     const cursoAlumno = cursosSeleccionados.map(e => e.id_curso);
     const fechaNacFormateada = fechaNac.split("-").reverse().join("/");
 
-
     //PAQUETE DE DATOS PARA EL POST
     const data = {
       nombre: nombreAlumno.toLowerCase(),
@@ -62,16 +61,19 @@ export default function AltaAlumno() {
       planilla_ins: docPlanilla ? 1 : 0,
       fotoc_analitico: docAnalitico ? 1 : 0,
       cursos: cursoAlumno,
+      activo: true,
     };
 
-
+    //CONDICIONAL DE SI EL ALUMNO EXISTE EN LA DB MODIFIQUE LOS DATOS Y SI ES NUEVO LO CREE 
     if (!alumnoNuevo) {
-      const id_alumno =alumnoExistente.id_alumno ? alumnoExistente.id_alumno : undefined;
+      const id_alumno = alumnoExistente.id_alumno ? alumnoExistente.id_alumno : undefined;
 
-      const res = await postAltaAlumnosModificado({...data,id_alumno : id_alumno})
+
+      //LIMPIAR FORMULARIO CUANDO EL ALUMNO SE MODIFIQUE EXITOSAMENTE
+      const res = await postAltaAlumnosModificado({ ...data, id_alumno: id_alumno })
       if (res == "alumno modificado") {
-        e.target.reset();
-        return alert("alumno modificado exitosamente");
+        e.target.reset(e);
+        return alert("Alumno modificado exitosamente");
       }
 
     } else {
@@ -79,7 +81,7 @@ export default function AltaAlumno() {
       const res = await postAltaAlumno(data);
       if (res == "recibido") {
         e.target.reset();
-        return alert("alumno cargado exitosamente");
+        return alert("Alumno cargado exitosamente");
       }
     }
   }
@@ -100,7 +102,6 @@ export default function AltaAlumno() {
       setAlumnoExistente(res);
       setAlumnoNuevo(false);
     }
-    console.log(res)
     return res;
 
   }
@@ -124,9 +125,9 @@ export default function AltaAlumno() {
   return (
     usuario.id_rol == 1 ?
       <div className="hero min-h-screen bg-white overflow-hidden h-full">
-        <div className="hero-content text-center m-4 border-4 border-black w-full rounded-3xl ">
+        <div className="hero-content text-center m-4 border-4 border-black w-screen rounded-3xl ">
           <div className=" w-10/12">
-            <div className=" border-black w-full ">
+            <div className=" border-black w- ">
               <h2 className="text-black text-4xl font-bold mb-8 justify-center">
                 ALTA ALUMNO
               </h2>
@@ -159,6 +160,7 @@ export default function AltaAlumno() {
                     <div className="form-control flex flex-row w-full">{/* DIV DE INPUTS "TIPO DNI Y DNI" */}
                       <select
                         id="tipoDocumento"
+                        selected={alumnoExistente ? alumnoExistente.tipo_dni : ""}
                         className=" m-0 w-40 select max-w-xs text-black  bg-transparent rounded-full border-black"
                       >
                         {
@@ -218,7 +220,7 @@ export default function AltaAlumno() {
                     <input
                       id="fechaNac"
                       defaultValue={
-                        alumnoExistente ? alumnoExistente.fecha_nac : ""
+                        alumnoExistente ? alumnoExistente.fecha_nac.split("/").reverse().join("-") : ""
                       }
                       type="date"
                       placeholder="Ingrese fecha de nacimiento"
@@ -239,7 +241,7 @@ export default function AltaAlumno() {
                     />
 
                     <label className="label">
-                      <span className="label-text text-black">DIRECCION:</span>
+                      <span className="label-text text-black">DIRECCIÓN:</span>
                     </label>
                     <input
                       id="direccionAlumno"
@@ -247,7 +249,7 @@ export default function AltaAlumno() {
                         alumnoExistente ? alumnoExistente.direccion : ""
                       }
                       type="text"
-                      placeholder="Ingrese Domicilio"
+                      placeholder="Ingrese domicilio"
                       className="rounded-full input text-black  input-bordered input-info w-full max-w-xs bg-white border-black"
                     />
 
@@ -403,14 +405,18 @@ export default function AltaAlumno() {
                         </div>
                       </div>
                       {/*   DIV DOCUMENTACION */}
-                      <div className="form-control flex flex-row mt-7">
+                      <div className="form-control flex flex-row ">
                         <label className="label">
                           <span className="label-text text-black">
-                            DOCUMENTACION:
+                            DOCUMENTACIÓN:
                           </span>
                         </label>
+                      </div>
 
-                        <label className="label cursor-pointer">
+                      <div className="flex  border  border-black w-80 rounded-full h-12">
+
+
+                        <label className="label cursor-pointer ml-3">
                           <span className=" text-black label-text">DNI</span>
                           <input
                             defaultValue={
@@ -423,7 +429,7 @@ export default function AltaAlumno() {
                         </label>
 
                         <label className="label cursor-pointer">
-                          <span className=" text-black label-text">Planilla</span>
+                          <span className=" text-black label-text">PLANILLA</span>
                           <input
                             defaultValue={
                               alumnoExistente ? alumnoExistente.planilla_ins : ""
@@ -435,7 +441,7 @@ export default function AltaAlumno() {
                         </label>
 
                         <label className="label cursor-pointer">
-                          <span className="label-text text-black">Analitico</span>
+                          <span className="label-text text-black">ANALíTICO</span>
                           <input
                             defaultValue={
                               alumnoExistente ? alumnoExistente.fotoc_analitico
@@ -447,6 +453,7 @@ export default function AltaAlumno() {
                           />
                         </label>
                       </div>
+
                     </div>
                   </div>
                 </div>
