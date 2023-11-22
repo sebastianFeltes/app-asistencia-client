@@ -1,16 +1,25 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAsistencia, postJustificada } from "../services/AsistenciaAlumnos.services";
+import { getAsistencia, getCurso, postJustificada } from "../services/AsistenciaAlumnos.services";
+import { useEffect, useState } from "react";
 
 function AsistenciaAlumnos() {
-	const { data, isLoading, error } = useQuery(["getAsistencia"], getAsistencia);
+	const [data, setData] = useState(undefined);
+	const [dataCurso, setDataCurso] = useState(undefined);
 
-	function obtenerAsistencia(){
+	async function obtenerAsistencia() {
 		const id_curso = window.localStorage.id_curso;
-		getAsistencia(id_curso)
-		//console.log(id_curso)
+		const res = await getAsistencia(id_curso);
+		const cursoRes = await getCurso(id_curso);
+		cursoRes ? setDataCurso(cursoRes) : false;
+		res.length > 0 ? setData(res) : false;
+		console.log(data);
+		console.log(cursoRes);
+		dataCurso.dias.map((e) => console.log(e.nombre_dia));
 	}
-	obtenerAsistencia()
 
+	useEffect(() => {
+		obtenerAsistencia();
+	}, []);
 
 	/* 	function justificarFalta(e) {
 		e.preventDefault();
@@ -30,13 +39,26 @@ function AsistenciaAlumnos() {
 			<div className="hero-content h-full text-center border border-yellow-400 items-start">
 				<div className="w-full">
 					<div className="flex flex-row w-full justify-between text-black">
-						<h1 className="  p-3  font-normal  border-b border-blue-600 rounded-lg ">Nombre del curso:</h1>
-						<h2 className=" p-3 font-normal  border-b border-blue-600 rounded-lg">Nombre del profesor:</h2>
+						<h1 className="  p-3  font-normal border-b border-blue-600 rounded-lg ">
+							Nombre del curso: {dataCurso.data ? dataCurso.data.nombre.toUpperCase() : false}
+						</h1>
+						<h2 className=" p-3 font-normal  border-b border-blue-600 rounded-lg">
+							Nombre del profesor:{" "}
+							{dataCurso.data
+								? `${dataCurso.data.nombre_docente.toUpperCase()} ${dataCurso.data.apellido_docente.toUpperCase()} `
+								: false}
+						</h2>
 						<h2 className=" border-solid p-3 font-normal  border-b border-blue-600 rounded-lg  ">
-							<span>Dias:</span>
+							<span>
+								Dias:{" "}
+								{dataCurso.dias
+									? dataCurso.dias.map((e) => <span key={e}>{e.nombre_dia.toUpperCase()} </span>)
+									: false}
+							</span>
 						</h2>
 						<h2 className=" border-solid p-3 font-normal  border-b border-blue-600 rounded-lg ">
-							Horarios:
+							Horarios:{" "}
+							<span>{`${dataCurso.data.horario_inicio} a ${dataCurso.data.horario_final}`}</span>
 						</h2>
 						<h2 className=" p-3 font-normal   border-b border-blue-600 rounded-lg">Cantidad de alumnos:</h2>
 					</div>
