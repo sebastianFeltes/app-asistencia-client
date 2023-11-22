@@ -7,6 +7,7 @@ export async function tryAltaDocente(data) {
   else if (data.nombre.length < 4) { alert("nombre invalido") }
   else if (data.apellido.length < 4) { alert("apellido invalido") }
   else if (!data.fecha_nac) {alert("complete el campo de fecha de nacimiento")}
+  else if (!data.nro_legajo) {alert("numero de legajo incompleto")}
   else if (data.password.length < 8) { alert("contraseña minimo 8 caracteres") }
   else if (data.localidad.length < 1) { alert("complete el campo en localidad") }
   else if (data.direccion.length < 1) { alert(" complete el campo en direccion") }
