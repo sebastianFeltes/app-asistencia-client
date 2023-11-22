@@ -15,6 +15,8 @@ import LectorQR from "./components/LectorQR";
 import GeneradorQR from "./components/GeneradorQR";
 import UserState from "./context/userState";
 import { Layout } from "./components/Layout";
+import AltaCurso from "./components/altaCurso";
+
 import HistorialAlumnos from "./components/HistorialAlumnos";
 import { HistorialDocentes } from "./components/HistorialDocente";
 
@@ -32,6 +34,7 @@ function App() {
 						<Route path="/app" element={<AppLayout />}>
 							<Route path="/app/home-admin" element={<HomeAdmin />} />
 							<Route path="/app/alta-alumno" element={<AltaAlumno />} />
+							<Route path="/app/alta-curso" element={<AltaCurso />} />
 							<Route path="/app/datos-docentes" element={<DatosDocentes />} />
 							<Route path="/app/historial-docente" element={<HistorialDocentes />} />
 							<Route path="/app/datos-cursos" element={<DataCursos />} />

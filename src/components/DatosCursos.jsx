@@ -1,24 +1,29 @@
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import {getDataCursos, getDataDias, postCursoModificado,} from "../services/DatosCursos.services";
+import {
+  getDataCursos,
+  getDataDias,
+  postCursoModificado,
+} from "../services/DatosCursos.services";
 import { useContext, useState } from "react";
 import { getDataDocentes } from "../services/DatosDocentes.services";
 import UserContext from "../context/user.context";
+
 function DataCursos() {
   const userContext = useContext(UserContext);
   const rol = userContext.userData.id_rol;
- 
+
   // eslint-disable-next-line no-unused-vars
   const { data /* isLoading, error */ } = useQuery(
     ["getCursos"],
     getDataCursos
   );
-  
- 
+  console.log(data);
+
   const [modal, setModal] = useState("modal");
   const [docentes, setDocentes] = useState(undefined);
   const [dias, setDias] = useState(undefined);
-  const [diasAgregar, setDiasAgregar] = useState([]);
+  const [diasSeleccionados, setDiasSeleccionados] = useState([]);
 
   //funcion que muestra el modal
   async function mostrarModal(e) {
@@ -27,45 +32,54 @@ function DataCursos() {
     setModal("modal" + id);
     const res = await getDataDocentes();
     const dias = await getDataDias();
-     setDias(dias)
-     console.log(dias)
-    return setDocentes(res);
-    
+    setDias(dias);
 
+    return setDocentes(res);
   }
-  
+
   function agregarDia(e) {
     e.preventDefault();
-   
-    const dia = e.target.form.nvoDia.value;
-    
-    setDiasAgregar([...diasAgregar,dia])
-    console.log(diasAgregar)
+
+    const idDiaSeleccionado = e.target.form.nvoDia.value.split(" ")[0];
+
+    const nombreDiaSeleccionado = e.target.form.nvoDia.value.split(" ")[1];
+    const dataDiaSeleccionado = {
+      id_dia: idDiaSeleccionado,
+      nombre: nombreDiaSeleccionado,
+    };
+    setDiasSeleccionados([...diasSeleccionados, dataDiaSeleccionado]);
+    console.log(diasSeleccionados);
   }
+
   // funcion que modifica los datos
   async function modificarDatosCursos(e) {
     e.preventDefault();
     !modal ? e.target.reset() : true;
     const nombre = e.target.nvoNombreCurso.value;
-    const docente = e.target.nvoDocente.value;
-    const nvoHorarioInicio = e.target.nvoHorarioInicio.value;
-    const nvoHorarioFinal = e.target.nvoHorarioFinal.value;
+    const nvoDocente = e.target.nvoDocente.value;
+    const minInicio = e.target.minInicio.value;
+    const nvoHorarioInicio = `${e.target.nvoHorarioInicio.value}:${minInicio}:00`;
+    const minFinal = e.target.minFinal.value;
+    const nvoHorarioFinal = `${e.target.nvoHorarioFinal.value}:${minFinal}.00 `;
     const nvoCheck = e.target.nvoCheck.value;
     const idCurso = e.target.idCurso.value;
-    
+    const diasCursos = diasSeleccionados.map((e) => e.id_dia);
+    const fechaInicio = e.target.fechaInicio.value;
+    const fechaFinalizacion = e.target.fechaFinalizacion.value;
     const data = {
       id_curso: parseInt(idCurso),
       nombre: nombre,
-      id_docente: parseInt(docente),
+      id_docente: parseInt(nvoDocente),
       horario_inicio: nvoHorarioInicio,
       horario_final: nvoHorarioFinal,
       activo: Boolean(nvoCheck),
-      
+      id_dia: diasCursos,
+      fecha_inicio: fechaInicio,
+      fecha_finalizacion: fechaFinalizacion,
     };
-
+    console.log(data);
     const res = await postCursoModificado(data);
     if (res.message == "Curso modificado") {
-     
       alert(res.message);
     } else {
       alert("error al modificar");
@@ -73,10 +87,10 @@ function DataCursos() {
     return setModal("modal");
   }
 
-    function limpiarFormulario(e) {
-    /* e.preventDefault(); */
-    e.target.reset()
-  }  
+  function limpiarFormulario(e) {
+    e.target.form.reset();
+    setDiasSeleccionados([]);
+  }
   return (
     <div className="hero min-h-screen bg-slate-50 text-black tabla-data-cursos">
       <div className="hero-content text-center p-0 w-full">
@@ -84,7 +98,7 @@ function DataCursos() {
           <h1 className="text-5xl font-bold">Datos Cursos</h1>
           <div className=" flex flex-row justify-between">
             {rol == 1 ? (
-              <Link to={"/alta-curso"}>
+              <Link to={"/app/alta-curso"}>
                 {" "}
                 <button className="btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black ">
                   Nuevo Curso
@@ -111,8 +125,8 @@ function DataCursos() {
                 <th>DIAS</th>
                 <th>HORARIO INICIO</th>
                 <th>HORARIO FINAL</th>
-
-                <th>CANTIDAD DE ALUMNOS ACTIVOS</th>
+                <th>FECHA INICIO</th>
+                <th>FECHA FINALIZACION</th>
                 <th>ACTIVAR/DESACTIVAR CURSO</th>
                 <th></th>
               </tr>
@@ -128,14 +142,14 @@ function DataCursos() {
                       <td>DIAS</td>
                       <td>{e.horario_inicio}</td>
                       <td>{e.horario_final}</td>
-
-                      <td></td>
+                      <td>{e.fecha_inicio}</td>
+                      <td>{e.fecha_finalizacion}</td>
                       <td>
                         <input
-                          id="nvoCheck"
+                          id="activo"
                           type="checkbox"
-                          className={`toggle toggle-info bg-white text-black border border-blue-400 `}
-                          defaultChecked={e.activo ? true : false}
+                          className="checkbox border-black m-2 "
+                          checked={e.activo == "1" ? true : false}
                         />
                       </td>
                       {/* MODAL QUE MODIFICA LOS DATOS DE LOS CURSOS */}
@@ -175,20 +189,18 @@ function DataCursos() {
                                   >
                                     {/* DIV CONTENEDOR */}
                                     <div className="grid grid-cols-2 gap-4 m-2 ">
-                                    
-                                          <input
-                                          id="idCurso"
-                                          placeholder={e.id_curso}
-                                          defaultValue={e.id_curso}
-                                          type="number"
-                                          className="hidden"
-                                        />
+                                      <input
+                                        id="idCurso"
+                                        placeholder={e.id_curso}
+                                        defaultValue={e.id_curso}
+                                        type="number"
+                                        className="hidden"
+                                      />
                                       {/* DIV IZQUIERDO */}
                                       <div
                                         id="contenedor1"
                                         className=" border-black flex flex-col m-2 "
                                       >
-                                        
                                         <label className="label">
                                           <span className="label-text text-black">
                                             NOMBRE DEL CURSO:
@@ -201,7 +213,7 @@ function DataCursos() {
                                           type="text"
                                           className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
                                         />
-                                      
+
                                         <label className="label">
                                           <span className="label-text text-black">
                                             NOMBRE DEL DOCENTE:
@@ -231,24 +243,27 @@ function DataCursos() {
                                           </span>
                                         </label>
                                         <div className="flex m-0">
-                                        
-                                         <select
-                                          id="nvoDia"
-                                          className="select w-full max-w-xs bg-transparent rounded-full border-black"
-                                        >
-                                          {dias
-                                            ? dias.map((e) => {
-                                                return (
-                                                  <option
-                                                    value={e.id_dia}
-                                                    key={e.nombre}
-                                                  >
-                                                    {e.nombre}
-                                                  </option>
-                                                );
-                                              })
-                                            : false}
-                                        </select> 
+                                          <select
+                                            id="nvoDia"
+                                            className="select w-full max-w-xs bg-transparent rounded-full border-black"
+                                          >
+                                            {dias
+                                              ? dias.map((e) => {
+                                                  return (
+                                                    <option
+                                                      value={
+                                                        e.id_dia +
+                                                        " " +
+                                                        e.nombre
+                                                      }
+                                                      key={e.nombre}
+                                                    >
+                                                      {e.nombre}
+                                                    </option>
+                                                  );
+                                                })
+                                              : false}
+                                          </select>
                                           {/*  BOTON PARA AGREGAR MAS DE UN DIA */}
                                           <button
                                             onClick={(e) => agregarDia(e)}
@@ -257,13 +272,24 @@ function DataCursos() {
                                           >
                                             +
                                           </button>
-                                          {/* {dia.map((e)=>{
-                                            return(
-                                            <span key={e.id_dia}>
-                                                {e.nombre}
-                                            </span>
-                                            )
-                                          })} */}
+                                          <div className="ml-2">
+                                            {
+                                              <ul className="grid grid-cols-1 gap-2">
+                                                {!diasSeleccionados
+                                                  ? false
+                                                  : diasSeleccionados.map(
+                                                      (e) => (
+                                                        <li
+                                                          key={e.id_dia}
+                                                          className="text-black text-xs"
+                                                        >
+                                                          {e.nombre}
+                                                        </li>
+                                                      )
+                                                    )}
+                                              </ul>
+                                            }
+                                          </div>
                                         </div>
                                       </div>
 
@@ -271,32 +297,125 @@ function DataCursos() {
                                       <div className=" border-black flex flex-col m-2 ">
                                         <label className="label">
                                           <span className="label-text text-black">
-                                            HORARIO INICIO:
+                                            HORARIO DE INICIO:
                                           </span>
                                         </label>
-                                        <label className="label ">
-                                          <span></span>
-                                        </label>
-                                        <input
-                                          id="nvoHorarioInicio"
-                                          placeholder={e.horario_inicio}
-                                          defaultValue={e.horario_inicio}
-                                          type="text"
-                                          className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
-                                        />
+                                        <div className=" flex">
+                                          <label className="label ">
+                                            <p className="label-text ms-2 text-black">
+                                              hora:
+                                            </p>
+                                          </label>
+                                          <label className="label">
+                                            <p className="label-text ms-20 text-black">
+                                              minuto:
+                                            </p>
+                                          </label>
+                                        </div>
 
-                                        <label className="label ">
+                                        <div className="form-control flex flex-row">
+                                          <input
+                                            defaultValue={
+                                              e.horario_inicio.split(":")[0]
+                                            }
+                                            id="nvoHorarioInicio"
+                                            type="number"
+                                            placeholder=""
+                                            maxLength="2"
+                                            className="input rounded-full text-black  w-28 bg-white border-black"
+                                          />
+                                          <span className="">:</span>
+                                          <input
+                                            defaultValue={
+                                              e.horario_inicio.split(":")[1]
+                                            }
+                                            id="minInicio"
+                                            type="number"
+                                            placeholder=""
+                                            className="input rounded-full text-black  w-28 bg-white border-black"
+                                          />
+                                        </div>
+                                        <label className="label">
                                           <span className="label-text text-black">
                                             HORARIO FINAL:
                                           </span>
                                         </label>
-                                        <input
-                                          id="nvoHorarioFinal"
-                                          type="text"
-                                          placeholder={e.horario_final}
-                                          defaultValue={e.horario_final}
-                                          className="rounded-full input input-info w-full max-w-xs  bg-white border-black"
-                                        />
+                                        <div className=" flex">
+                                          <label className="label ">
+                                            <p className="label-text ms-2 text-black">
+                                              hora:
+                                            </p>
+                                          </label>
+                                          <label className="label">
+                                            <p className="label-text ms-20 text-black">
+                                              minuto:
+                                            </p>
+                                          </label>
+                                        </div>
+
+                                        <div className="form-control flex flex-row">
+                                          <input
+                                            defaultValue={
+                                              e.horario_final.split(":")[0]
+                                            }
+                                            id="nvoHorarioFinal"
+                                            type="number"
+                                            placeholder=""
+                                            className="input rounded-full text-black  w-28 bg-white border-black"
+                                          />
+
+                                          <input
+                                            defaultValue={
+                                              e.horario_inicio.split(":")[1]
+                                            }
+                                            id="minFinal"
+                                            type="number"
+                                            placeholder=""
+                                            className="input rounded-full text-black  w-28 bg-white border-black"
+                                          />
+                                        </div>
+
+                                        <div className=" flex">
+                                          <label className="label ">
+                                            <span className="label-text  text-black">
+                                              FECHA DE INICIO:
+                                            </span>
+                                          </label>
+                                          <label className="label">
+                                            <span className="label-text ms-14 text-black">
+                                              FECHA DE FINALIZACION:
+                                            </span>
+                                          </label>
+                                        </div>
+                                        <div className="form-control flex flex-row">
+                                          <input
+                                            id="fechaInicio"
+                                            type="date"
+                                            defaultValue={
+                                              e.fecha_inicio
+                                                ? e.fecha_inicio
+                                                    .split("/")
+                                                    .reverse()
+                                                    .join("-")
+                                                : false
+                                            }
+                                            className="rounded-full input input-bordered text-black  input-info max-w-xs w-40 bg-white border-black"
+                                          />
+
+                                          <input
+                                            id="fechaFinalizacion"
+                                            type="date"
+                                            defaultValue={
+                                              e.fecha_finalizacion
+                                                ? e.fecha_finalizacion
+                                                    .split("/")
+                                                    .reverse()
+                                                    .join("-")
+                                                : false
+                                            }
+                                            className="rounded-full input input-bordered text-black  input-info max-w-xs w-40 bg-white border-black"
+                                          />
+                                        </div>
 
                                         {/*   DIV DOCUMENTACION */}
                                         <div className="form-control flex flex-row">
@@ -311,11 +430,9 @@ function DataCursos() {
                                             <input
                                               id="nvoCheck"
                                               type="checkbox"
-                                              className="checkbox border-black m-2 "
+                                              className={`toggle toggle-info bg-white text-black border border-blue-400 `}
                                               defaultChecked={
-                                                e.activo == "true"
-                                                  ? true
-                                                  : false
+                                                e.activo == "1" ? true : false
                                               }
                                             />
                                           </label>
@@ -325,7 +442,7 @@ function DataCursos() {
 
                                     {/*  BOTONES DE "ACEPTAR" Y "CANCELAR" */}
                                     <div className="grid grid-cols-2 gap-4">
-                                    <div className="content-center m-2">
+                                      <div className="content-center m-2">
                                         <button
                                           type="submit"
                                           className="btn  bg-blue-600 text-white hover:bg-blue-300  hover:text-black"
@@ -335,15 +452,13 @@ function DataCursos() {
                                       </div>
                                       <div className="content-center m-2">
                                         <button
+                                          onClick={(e) => limpiarFormulario(e)}
                                           type="reset"
-                                          onReset={(e) => (limpiarFormulario(e))}
                                           className="btn  bg-blue-600 text-white hover:bg-blue-300  hover:text-black"
                                         >
                                           Cancelar
                                         </button>
                                       </div>
-
-                                      
                                     </div>
                                   </form>
                                 </div>
