@@ -15,40 +15,39 @@ import LectorQR from "./components/LectorQR";
 import GeneradorQR from "./components/GeneradorQR";
 import UserState from "./context/userState";
 import { Layout } from "./components/Layout";
-import {HistorialDocentes} from "./components/HistorialDocente";
+import HistorialAlumnos from "./components/HistorialAlumnos";
+import { HistorialDocentes } from "./components/HistorialDocente";
 
 function App() {
-  const queryClient = new QueryClient();
-  return (
-    <UserState>
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route index element={<Login />} />
-            </Route>
-          </Routes>
-          <Routes>
-            <Route path="/app" element={<AppLayout />}>
-              <Route path="/app/home-admin" element={<HomeAdmin />} />
-              <Route path="/app/alta-alumno" element={<AltaAlumno />} />
-              <Route path="/app/datos-docentes" element={<DatosDocentes />} />
-              <Route path="/app/historial-docente" element={<HistorialDocentes/>}/>
-              <Route path="/app/datos-cursos" element={<DataCursos />} />
-              <Route
-                path="/app/asistencia-alumnos"
-                element={<AsistenciaAlumnos />}
-              />
-              <Route path="/app/alta-docente" element={<AltaDocente />} />
-              <Route path="/app/datos-alumnos" element={<DatosAlumnos />} />
-              <Route path="/app/lector-qr" element={<LectorQR />} />
-              <Route path="/app/generador-qr" element={<GeneradorQR />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </QueryClientProvider>
-    </UserState>
-  );
+	const queryClient = new QueryClient();
+	return (
+		<UserState>
+			<QueryClientProvider client={queryClient}>
+				<BrowserRouter>
+					<Routes>
+						<Route path="/" element={<Layout />}>
+							<Route index element={<Login />} />
+						</Route>
+
+						<Route path="/app" element={<AppLayout />}>
+							<Route path="/app/home-admin" element={<HomeAdmin />} />
+							<Route path="/app/alta-alumno" element={<AltaAlumno />} />
+							<Route path="/app/datos-docentes" element={<DatosDocentes />} />
+							<Route path="/app/historial-docente" element={<HistorialDocentes />} />
+							<Route path="/app/datos-cursos" element={<DataCursos />} />
+							<Route path="/app/asistencia-alumnos" element={<AsistenciaAlumnos />} />
+							<Route path="/app/alta-docente" element={<AltaDocente />} />
+							<Route path="/app/datos-alumnos" element={<DatosAlumnos />} />
+							<Route path="/app/historial-alumnos" element={<HistorialAlumnos />} />
+
+							<Route path="/app/lector-qr" element={<LectorQR />} />
+							<Route path="/app/generador-qr" element={<GeneradorQR />} />
+						</Route>
+					</Routes>
+				</BrowserRouter>
+			</QueryClientProvider>
+		</UserState>
+	);
 }
 
 export default App;
