@@ -1,83 +1,57 @@
 import { QRCodeSVG } from "qrcode.react";
-import { useState } from "react";
+import { useRef } from "react";
+import { useReactToPrint } from "react-to-print";
 
-export default function GeneradorQR() {
-    const [mostrarQR, setMostrarQR] = useState(false);
-    const [idAlumno, setIdAlumno] = useState(0);
-    const generarQR = () => {
-        setMostrarQR(!mostrarQR);
-        setIdAlumno(alumno.id_alumno + ".")
-    }
-    const alumno = {
-   id_alumno: 102,
-        nro_legajo: 1023,
-        nombre: "Sebastian",
-        apellido: "Feltes",
-        tipo_dni: "DU",
-        nro_dni: 35954987
-    }
+export default function GeneradorQR({ alumno }) {
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
 
-    return (
-        <div className="hero min-h-screen w-full border border-yellow-500 bg-white ">
-            <div className="hero-content min-w-full m-0 p-0 border border-blue-400 text-center">
-                <div className="w-full flex flex-col border border-cyan-400 overflow-scroll ">
-                    <h1 className="text-5xl font-bold">Datos Alumnos</h1>
+  return (
+    <div>
+      <div
+        ref={componentRef}
+        className="w-1/2 h-full mt-2 p-4 ml-auto mr-auto bg-white text-center flex flex-col rounded-3xl border border-black"
+      >
+        <div>
+          <h2 className="text-2xl font-semibold border-b w-full border-blue-700 rounded-3xl pb-2">
+            CENTRO DE FORMACIÓN LABORAL 404 BERISSO
+          </h2>
+          <h2 className="text-xl font-semibold underline ">
+            Datos del alumno:
+          </h2>
+          <div className=" w-1/2 text-lg font-normal my-2  ml-auto mr-auto  rounded-lg">
+            Apellido:{" "}
+          </div>
+          <div className=" w-1/2 text-lg my-2  ml-auto mr-auto font-bold rounded-lg">
+            {alumno.apellido ? alumno.apellido.toUpperCase() : false}
+          </div>
 
-                    <table className="table">
-                        {/* head */}
-                        <thead className="text-black">
-                            <tr>
-                                <th></th>
-                                <th>Legajo Alumno</th>
-                                <th>Nombre Alumno</th>
-                                <th>Apellido Alumno</th>
-                                <th>Tipo D.N.I. Alumno</th>
-                                <th>N° D.N.I. Alumno</th>
-
-                                <th>Editar</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td></td>
-                                <td>{alumno.nro_legajo}</td>
-                                <td>{alumno.nombre}</td>
-                                <td>{alumno.apellido}</td>
-                                <td>{alumno.tipo_dni}</td>
-                                <td>{alumno.nro_dni}</td>
-                                <td>
-                                    <button className="btn btn-primary" onClick={generarQR}>Generar QR</button>
-                                </td>
-
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <div>
-                    </div >
-                    <div className={!mostrarQR ? `hidden` : `absolute top-0 z-50 w-full h-screen bg-blue-600`}>
-                        <button className="btn btn-alert fixed top-0 left-0" onClick={() => setMostrarQR(!mostrarQR)}>X</button>
-                        <div className="w-1/2 h-full ml-auto mr-auto bg-white flex flex-col " >
-                            <h2 className="text-5xl font-semibold">
-                                Datos del alumno
-                            </h2>
-                            <span className=" w-1/2 p-3 font-normal my-4  ml-auto mr-auto  border-b border-blue-600 rounded-lg">
-                                {alumno.apellido}
-                            </span><span className=" w-1/2 p-3 my-4 font-normal  ml-auto mr-auto   border-b border-blue-600 rounded-lg">
-                                {alumno.nombre}
-                            </span>
-                            <span className=" w-1/2 p-3 font-normal my-4  ml-auto mr-auto  border-b border-blue-600 rounded-lg">
-                                {alumno.nro_dni}
-                            </span>
-
-                            <QRCodeSVG size={256} className="rounded-lg  m-8  ml-auto mr-auto" value={idAlumno} />
-                            <button className="m-4 btn btn-primary">Descargar código QR</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          <div className=" w-1/2 text-lg my-2 font-normal  ml-auto mr-auto rounded-lg">
+            Nombre:{" "}
+          </div>
+          <div className=" w-1/2 text-lg my-2 font-bold  ml-auto mr-auto rounded-lg">
+            <span className="font-bold">
+              {alumno.nombre ? alumno.nombre.toUpperCase() : false}
+            </span>
+          </div>
+          <div className=" w-1/2 text-lg font-normal my-2  ml-auto mr-auto rounded-lg">
+            Nro de DNI:
+          </div>
+          <div className=" w-1/2 text-lg my-2  ml-auto mr-auto rounded-lg font-bold">
+            {alumno.nro_dni}
+          </div>
+          <QRCodeSVG
+            size={256}
+            className="rounded-lg  m-4  ml-auto mr-auto border border-black"
+            value={`${alumno.id_alumno}.`}
+          />
         </div>
-    );
-
-
+      </div>
+      <button onClick={handlePrint} className="btn btn-primary m-4">
+        Descargar código QR
+      </button>
+    </div>
+  );
 }

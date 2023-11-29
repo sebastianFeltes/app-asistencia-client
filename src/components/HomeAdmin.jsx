@@ -34,11 +34,11 @@ export default function HomeAdmin() {
 							Alumnos
 						</button>
 					</Link>
-					<div className=" my-1 border-2 border-transparent  rounded-3xl p-2 hover:border-2 hover:border-blue-600">
+					<div className=" my-1 border-2 border-blue-300  rounded-sm p-1 hover:border-2 hover:border-blue-600">
 						<h2 className="text-black text-md underline decoration-blue-600">Asistencia</h2>
 						<select
 							id="idCurso"
-							className="select text-black my-1 w-full max-w-xs bg-white rounded-full border-black"
+							className="select text-black my-1 w-full bg-white rounded-full border-black"
 						>
 							{!data
 								? false
