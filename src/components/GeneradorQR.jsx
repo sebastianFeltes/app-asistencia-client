@@ -12,7 +12,7 @@ export default function GeneradorQR({ alumno }) {
     <div>
       <div
         ref={componentRef}
-        className="w-1/2 h-full mt-2 p-4 ml-auto mr-auto bg-white text-center flex flex-col rounded-3xl border border-black"
+        className="w-1/2 h-full p-4 ml-auto mr-auto mt-6 bg-white text-center flex flex-col rounded-3xl border border-black"
       >
         <div>
           <h2 className="text-2xl font-semibold border-b w-full border-blue-700 rounded-3xl pb-2">
@@ -44,13 +44,13 @@ export default function GeneradorQR({ alumno }) {
           </div>
           <QRCodeSVG
             size={256}
-            className="rounded-lg  m-4  ml-auto mr-auto border border-black"
+            className="rounded-lg  m-2  ml-auto mr-auto border border-black"
             value={`${alumno.id_alumno}.`}
           />
         </div>
       </div>
-      <button onClick={handlePrint} className="btn btn-primary m-4">
-        Descargar código QR
+      <button onClick={handlePrint} className="btn btn-info bg-blue-400 text-white hover:text-black hover:bg-blue-100 border border-white m-4 absolute top-0 left-0">
+        Descargar
       </button>
     </div>
   );

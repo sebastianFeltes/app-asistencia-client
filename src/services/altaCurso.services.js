@@ -10,7 +10,6 @@ export async function getDataDias() {
 export async function postAltaCurso(data){
     const url = "http://localhost:8080/alta-curso"
 
-   
     // Default options are marked with *
     const response = await fetch(url, {
       method: "POST", // *GET, POST, PUT, DELETE, etc.

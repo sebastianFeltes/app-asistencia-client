@@ -6,16 +6,16 @@ import { getDataDias } from "../services/DatosCursos.services";
 function AltaCurso() {
   const [diasSeleccionados, setDiasSeleccionados] = useState([]);
   const [dataDocentes, setDataDocentes] = useState([]);
-  const [dataDias, setDataDias]=useState([])
+  const [dataDias, setDataDias] = useState([]);
   async function getDocentes() {
     const res = await getDataDocentes();
     res.length > 0 ? setDataDocentes(res) : false;
     console.log(res);
   }
-  async function getDias(){
+  async function getDias() {
     const res = await getDataDias();
-    res.length > 0 ? setDataDias(): false ;
-    console.log(res)
+    res.length > 0 ? setDataDias(res) : false;
+    console.log(res);
   }
 
   useEffect(() => {
@@ -40,7 +40,7 @@ function AltaCurso() {
   async function post(e) {
     e.preventDefault();
     const nombreCurso = e.target.nombreCurso.value;
-    const nombreDocente = e.target.docente.value;
+    const nombreDocente = parseInt(e.target.docente.value);
     const diasCursos = diasSeleccionados.map((e) => e.id_dia);
     const minInicio = e.target.minInicio.value;
     const horarioInicio = `${e.target.horaInicio.value}:${minInicio}:00`;
@@ -51,12 +51,14 @@ function AltaCurso() {
     const data = {
       nombre: nombreCurso,
       id_docente: nombreDocente,
-      horario_incio: horarioInicio,
+      horario_inicio: horarioInicio,
       horario_final: horarioFinal,
       dias: diasCursos,
       fecha_inicio: fechaInicio,
-      fecha_finalizacion: fechaFinalizacion,
+      fecha_final: fechaFinalizacion,
+      activo:1
     };
+    console.log(data)
     const res = await postAltaCurso(data);
     if (res == "recibido") {
       e.target.reset();
@@ -89,7 +91,7 @@ function AltaCurso() {
                     </span>
                   </label>
                   <input
-                    id="NombreCurso"
+                    id="nombreCurso"
                     type="text"
                     className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
                   />
@@ -101,7 +103,7 @@ function AltaCurso() {
                   </label>
                   <span className="label-text text-black"></span>
                   <select
-                    id="nvoDocente"
+                    id="docente"
                     className="select w-full max-w-xs bg-transparent rounded-full border-black"
                   >
                     {dataDocentes
@@ -118,27 +120,23 @@ function AltaCurso() {
                     <span className="label-text text-black">NUEVO DIA:</span>
                   </label>
                   <div className="flex m-0">
-                  <select
-                                            id="nvoDia"
-                                            className="select w-full max-w-xs bg-transparent rounded-full border-black"
-                                          >
-                                            {dataDias
-                                              ? dataDias.map((e) => {
-                                                  return (
-                                                    <option
-                                                      value={
-                                                        e.id_dia +
-                                                        " " +
-                                                        e.nombre
-                                                      }
-                                                      key={e.id_dia}
-                                                    >
-                                                      {e.nombre}
-                                                    </option>
-                                                  );
-                                                })
-                                              : false}
-                                          </select>
+                    <select
+                      id="nvoDia"
+                      className="select w-full max-w-xs bg-transparent rounded-full border-black"
+                    >
+                      {dataDias
+                        ? dataDias.map((e) => {
+                            return (
+                              <option
+                                value={e.id_dia + " " + e.nombre}
+                                key={e.id_dia}
+                              >
+                                {e.nombre}
+                              </option>
+                            );
+                          })
+                        : false}
+                    </select>
                     {/*  BOTON PARA AGREGAR MAS DE UN DIA */}
                     <button
                       onClick={(e) => agregarDia(e)}
@@ -149,18 +147,14 @@ function AltaCurso() {
                     </button>
                     <div className="ml-2">
                       <ul className="grid grid-cols-1 gap-2">
-                      
-                      {!diasSeleccionados
-                        ? false
-                        : diasSeleccionados.map((e) => (
-                            <li
-                              key={e.id_dia}
-                              className="text-black text-xs"
-                            >
-                              {e.nombre}
-                            </li>
-                          ))}
-                    </ul>  
+                        {!diasSeleccionados
+                          ? false
+                          : diasSeleccionados.map((e) => (
+                              <li key={e.id_dia} className="text-black text-xs">
+                                {e.nombre}
+                              </li>
+                            ))}
+                      </ul>
                     </div>
                   </div>
                 </div>
@@ -257,9 +251,9 @@ function AltaCurso() {
 
                   {/*   DIV DOCUMENTACION */}
                   <div className="form-control flex flex-row">
-                    <label className="label">
+                    {/* <label className="label">
                       <span className="label-text text-black">ACTIVO:</span>
-                    </label>
+                    </label> */}
                   </div>
                 </div>
               </div>

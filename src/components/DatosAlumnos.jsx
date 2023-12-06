@@ -366,7 +366,7 @@ function DatosAlumnos() {
                           <div
                             className={
                               modalQR==`codigo_qr${e.id_alumno}`
-                                ? `fixed top-0 pt-10 left-0 z-50 w-full h-screen bg-blue-600`
+                                ? `fixed top-0 overflow-scroll left-0 z-50 w-full h-screen bg-blue-600`
                                 : `hidden`
                             }
                           >

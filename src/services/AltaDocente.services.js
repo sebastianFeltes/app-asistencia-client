@@ -1,5 +1,5 @@
 export async function tryAltaDocente(data) {
-  const url = "http://localhost:8080/alta-docente"
+  const url = "http://localhost:8080/alta-docente"  
 
   if (`${data.nro_legajo}`.length < 4) { alert("legajo invalido") }
   else if (data.tipo_dni == "Tipo de Documento") { alert("seleccione un tipo de Documento") }

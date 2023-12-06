@@ -49,10 +49,10 @@ export default function AltaDocente() {
       telefono_extra: parseInt(telex),
       id_rol:parseInt(rol) ,
       email: correo,
-      activo: true,
+      activo: 1,
       rol_creador: usuario.id_rol
     };
-    console.log(data)
+    //console.log(data)
 
 
 
@@ -60,9 +60,10 @@ export default function AltaDocente() {
       const res = await tryAltaDocente(data);
 
       if (res.message) {
-
         e.target.reset();
         return alert(res.message)
+      }else{
+        console.log(res)
       }
 
 
