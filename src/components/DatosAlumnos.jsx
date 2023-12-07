@@ -318,7 +318,7 @@ function DatosAlumnos() {
                         <td>{e.nro_legajo}</td>
                         <td>{e.nombre.toUpperCase()}</td>
                         <td>{e.apellido.toUpperCase()}</td>
-                        <td>{e.tipo_dni}</td>
+                        <td>{e.tipo_dni.toUpperCase()}</td>
                         <td>{e.nro_dni}</td>
                         <td>{e.fecha_nac}</td>
                         <td>{e.direccion.toUpperCase()}</td>

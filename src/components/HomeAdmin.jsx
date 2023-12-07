@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getMostrarCursos } from "../services/homeAdmin.services";
@@ -19,6 +19,12 @@ export default function HomeAdmin() {
 	}
 
 	const { data /*  isLoading, error */ } = useQuery(["mostrarCursos"], getMostrarCursos);
+	const [cursos, setCursos] = useState();
+	//console.log(data);
+	useEffect(() => {
+		console.log(data);
+		data ? setCursos(data.dataCursos) : false;
+	}, [data]);
 
 	return (
 		<div className="hero min-h-screen bg-white ">
@@ -40,9 +46,9 @@ export default function HomeAdmin() {
 							id="idCurso"
 							className="select text-black my-1 w-full bg-white rounded-full border-black"
 						>
-							{!data
+							{!cursos
 								? false
-								: data.map((e) => (
+								: cursos.map((e) => (
 										<option value={e.id_curso} key={e.id_curso}>
 											{e.nombre.toUpperCase()}
 										</option>
