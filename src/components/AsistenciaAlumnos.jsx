@@ -156,6 +156,7 @@ function AsistenciaAlumnos() {
 													}
 													key={index}
 												>
+													{/* TODO: QUE SE PUEDA CAMBIAR TAMBIEN EL JUSTIFICADO */}
 													<div className="border border-black">
 														{attendanceRecord ? (
 															attendanceRecord.descripcion.split("")[0].toUpperCase() ==
@@ -167,13 +168,13 @@ function AsistenciaAlumnos() {
 																>
 																	<option
 																		className="bg-transparent font-bold"
-																		value={3}
+																		value={4}
 																	>
 																		A
 																	</option>
 																	<option
 																		className="text-orange-400 font-bold"
-																		value={4}
+																		value={5}
 																	>
 																		J
 																	</option>

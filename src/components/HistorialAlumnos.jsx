@@ -261,7 +261,7 @@ function DatosAlumnos() {
               {!data
                 ? false
                 : data
-                    .filter((e) => e.activo == "1")
+                    .filter((e) => e.activo == 0)
                     .map((e) => (
                       <tr key={e.id_alumno} className="hover:bg-slate-200">
                         <td></td>

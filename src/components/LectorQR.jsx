@@ -22,6 +22,9 @@ export default function LectorQR() {
           setInputValue("");
         }, 5000);
       } else {
+        if(res.detalle){
+          alert(res.detalle)
+        }
         setAlumno(await res);
 
         console.log(!res.error);

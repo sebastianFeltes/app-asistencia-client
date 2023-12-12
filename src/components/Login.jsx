@@ -1,4 +1,4 @@
-import Logo from "../assets/logocfl.png";
+import Logo from "../assets/logo-CFL404-color.png";
 import { Link, useNavigate } from "react-router-dom";
 import { postLogin } from "../services/Login.services";
 import { useContext, useState } from "react";
@@ -17,8 +17,8 @@ function Login() {
       console.log(res);
       userContext.setUserState(res);
       return navigate("/app/home-admin");
-    }else{
-      alert(res.message)
+    } else {
+      alert(res.message);
     }
   }
 
@@ -31,7 +31,6 @@ function Login() {
     } else {
       setDniOk(false);
     }
-
   }
   const [passOk, setPassOk] = useState(false);
   function passChecker(e) {
@@ -42,70 +41,73 @@ function Login() {
     } else {
       setPassOk(false);
     }
-
   }
 
   return (
-    <>
-      <div className="hero min-h-screen bg-[#093F7C]">
-        <div className="hero-content flex-col lg:flex-row-reverse">
-          <div className="card flex-shrink-0 w-full max-w-sm  bg-transparent">
-            <form onSubmit={(ev) => ingresar(ev)}>
-              <div className="card-body">
-                <div className="flex flex-row justify-center">
-                  <img src={Logo} className="w-36 rounded-full " />
-                </div>
-                <div className="flex justify-center text-white">
-                  <h1>REGISTRO ASISTENCIA CFL 404</h1>
-                </div>
-                <div className="form-control">
-                  <label className="label"></label>
-                  <span className="">
-                    <input
-                      onChange={(e) => dniChecker(e)}
-                      id="dni"
-                      type="number"
-                      placeholder="Ingrese su DNI"
-                      className={`input input-bordered rounded-full bg-white w-64 ${dniOk ? "focus:border-2 focus:border-sky-400" : "focus:border-2 focus:border-red-600"}`}
-                    />{" "}
-
-                  </span>
-                </div>
-                <div className="form-control">
-                  <label className="label"></label>
-                  <span>
-                    <input
-                      onChange={(e) => passChecker(e)}
-                      id="password"
-                      type="password"
-                      placeholder="Ingrese su contraseña"
-                      className={`input input-bordered rounded-full bg-white w-64 ${passOk ? "focus:border-2 focus:border-sky-400" : "focus:border-2 focus:border-red-600"}`}
-                    />{" "}
-
-                  </span>
-                  <label className="label">
-                    <span className="label-text-alt"></span>
-                    <Link to={"/recuperar-contraseña"}>
-                      <span className="label-text-alt text-gray-300 decoration underline hover:text-white">
-                        Recuperar contraseña
-                      </span>
-                    </Link>
-                  </label>
-                </div>
-                <div className="flex flex-row justify-center form-control mt-6">
-                  <button
-                    type="submit"
-                    className="btn btn-wide btn-primary rounded-full bg-[#0184F5]"
-                  >
-                    INGRESAR
-                  </button>
-                </div>
+    <div className="hero min-h-screen bg-[#093F7C]">
+      <div className="hero-content flex-col lg:flex-row-reverse">
+        <div className="card flex-shrink-0 w-full max-w-sm  bg-transparent">
+          <form onSubmit={(ev) => ingresar(ev)}>
+            <div className="card-body">
+              <div className="flex flex-row justify-center">
+                <img src={Logo} className="w-full" />
               </div>
-            </form>
-          </div>
+              {/*                 <div className="flex justify-center text-white">
+                  <h1>REGISTRO ASISTENCIA CFL 404</h1>
+                </div> */}
+              <div className="form-control justify-center">
+                <label className="label"></label>
+                <span className="">
+                  <input
+                    onChange={(e) => dniChecker(e)}
+                    id="dni"
+                    type="number"
+                    placeholder="Ingrese su DNI"
+                    className={`input input-bordered rounded-full bg-white w-full ${
+                      dniOk
+                        ? "focus:border-2 focus:border-sky-400"
+                        : "focus:border-2 focus:border-red-600"
+                    }`}
+                  />{" "}
+                </span>
+              </div>
+              <div className="form-control justify-center">
+                <label className="label"></label>
+                <span>
+                  <input
+                    onChange={(e) => passChecker(e)}
+                    id="password"
+                    type="password"
+                    placeholder="Ingrese su contraseña"
+                    className={`input input-bordered w-full rounded-full bg-white ${
+                      passOk
+                        ? "focus:border-2 focus:border-sky-400"
+                        : "focus:border-2 focus:border-red-600"
+                    }`}
+                  />{" "}
+                </span>
+                <label className="label">
+                  <span className="label-text-alt"></span>
+                  <Link to={"/recuperar-contraseña"}>
+                    <span className="label-text-alt text-gray-300 decoration underline hover:text-white">
+                      Recuperar contraseña
+                    </span>
+                  </Link>
+                </label>
+              </div>
+              <div className="flex flex-row justify-center form-control mt-6">
+                <button
+                  type="submit"
+                  className="btn btn-wide btn-primary rounded-full bg-[#0184F5]"
+                >
+                  INGRESAR
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
