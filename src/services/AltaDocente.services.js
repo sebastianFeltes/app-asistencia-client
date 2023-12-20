@@ -1,5 +1,6 @@
+import { url } from "./url"
 export async function tryAltaDocente(data) {
-  const url = "http://localhost:8080/alta-docente"  
+  const altaDocenteUrl = `${url}/alta-docente`  
 
   if (`${data.nro_legajo}`.length < 4) { alert("legajo invalido") }
   else if (data.tipo_dni == "Tipo de Documento") { alert("seleccione un tipo de Documento") }
@@ -21,7 +22,7 @@ export async function tryAltaDocente(data) {
 
 
     // Default options are marked with *
-    const response = await fetch(url, {
+    const response = await fetch(altaDocenteUrl, {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, *cors, same-origin
       cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached

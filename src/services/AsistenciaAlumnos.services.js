@@ -1,4 +1,4 @@
-const url = "http://localhost:8080";
+import { url } from "./url";
 
 export async function getAsistencia(id_curso) {
 	//const url = `http://192.168.33.31:8080/asistencia-alumnos

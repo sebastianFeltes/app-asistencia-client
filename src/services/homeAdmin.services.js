@@ -1,5 +1,6 @@
+import { url } from "./url";
 export async function getMostrarCursos(){
-    const response = await fetch('http://localhost:8080/cursos');
+    const response = await fetch(`${url}/cursos`);
      const cursos = await response.json();
  
      return cursos;

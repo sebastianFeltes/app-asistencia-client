@@ -1,5 +1,6 @@
+import { url } from "./url";
 export default async function postAltaAlumno(data) {
-  const url = "http://localhost:8080/app/alta-alumno";
+  const altaAlumnoUrl = `${url}/alta-alumno`;
 
   //VALIDACIONES DEL LADO DEL CLIENTE
 
@@ -30,8 +31,8 @@ export default async function postAltaAlumno(data) {
   } else if (!data.email) {
     alert("Complete el campo Email");
   } else {
-    console.log(data);
-    const response = await fetch(url, {
+    //console.log(data);
+    const response = await fetch(altaAlumnoUrl, {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, *cors, same-origin
       cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -45,7 +46,7 @@ export default async function postAltaAlumno(data) {
       body: JSON.stringify(data), // body data type must match "Content-Type" header
     });
     const res = await response.json();
-    console.log(res);
+    //console.log(res);
     return res;
   }
 }
@@ -78,10 +79,10 @@ export async function postAltaAlumnosModificado(data) {
   } else if (!data.email) {
     alert("Complete el campo Email");
   } else {
-    const url = `http://localhost:8080/app/alta-alumno/${data.id_alumno}`;
+    const altaAlumnoExistenteUrl = `${url}/alta-alumno/${data.id_alumno}`;
 
     // Default options are marked with *
-    const response = await fetch(url, {
+    const response = await fetch(altaAlumnoExistenteUrl, {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, *cors, same-origin
       cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -95,14 +96,14 @@ export async function postAltaAlumnosModificado(data) {
       body: JSON.stringify(data), // body data type must match "Content-Type" header
     });
     const res = await response.json(); // parses JSON response into native JavaScript objects
-    console.log(res);
+    //console.log(res);
     return res;
   }
 }
 
 export async function getAltaAlumno(dni) {
-  const url = "http://localhost:8080/app/alta-alumno";
-  const response = await fetch(url + "/" + dni);
+  const getAlumnoUrl = `${url}alta-alumno`;
+  const response = await fetch(getAlumnoUrl + "/" + dni);
   const res = await response.json();
   return res;
 }

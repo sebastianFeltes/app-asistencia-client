@@ -1,18 +1,19 @@
+import { url } from "./url";
 export async function getDataCursos(){
-   const response = await fetch('http://localhost:8080/cursos');
+   const response = await fetch(`${url}/cursos`);
     const cursos = await response.json();
 
     return cursos;
 }
 export async function getDataDias() {
-  const response = await fetch("http://localhost:8080/dias");
+  const response = await fetch(`${url}/dias`);
   const dias = await response.json();
  
   return dias;
 }
 
 export async function postCursoModificado( data) {
-    const url = "http://localhost:8080/cursos"
+    const url = `${url}/cursos`
 
    
     // Default options are marked with *

@@ -22,8 +22,8 @@ export default function LectorQR() {
           setInputValue("");
         }, 5000);
       } else {
-        if(res.detalle){
-          alert(res.detalle)
+        if (res.detalle) {
+          alert(res.detalle);
         }
         setAlumno(await res);
 
@@ -84,18 +84,18 @@ export default function LectorQR() {
                 <span className="label-text">Alumno</span>
                 <span className="label-text-alt"></span>
               </label>
-              <span className=" w-full p-1 font-normal text-black my-2  ml-auto mr-auto  border-b border-blue-600 rounded-lg">
+              <span className=" w-full font-normal text-black my-2  ml-auto mr-auto  border-b border-blue-600 rounded-lg">
                 {alumno
-                  ? alumno.data_alumno_curso.apellido_alumno +
+                  ? alumno.data_alumno_curso.apellido_alumno.toUpperCase() +
                     " " +
-                    alumno.data_alumno_curso.nombre_alumno
+                    alumno.data_alumno_curso.nombre_alumno.toUpperCase()
                   : false}
               </span>
               <label className="label">
                 <span className="label-text">Nro DNI</span>
                 <span className="label-text-alt"></span>
               </label>
-              <span className=" w-full p-1 font-normal my-2  text-black  ml-auto mr-auto  border-b border-blue-600 rounded-lg">
+              <span className=" w-full font-normal my-2  text-black  ml-auto mr-auto  border-b border-blue-600 rounded-lg">
                 {alumno ? alumno.data_alumno_curso.dni_alumno : false}
               </span>
 
@@ -103,24 +103,41 @@ export default function LectorQR() {
                 <span className="label-text">Curso</span>
                 <span className="label-text-alt"></span>
               </label>
-              <span className=" w-full p-1 font-normal my-2  text-black  ml-auto mr-auto  border-b border-blue-600 rounded-lg">
-                {alumno ? alumno.data_alumno_curso.nombre_curso : false}
+              <span className=" w-full font-normal my-2  text-black  ml-auto mr-auto  border-b border-blue-600 rounded-lg">
+                {alumno ? alumno.data_alumno_curso.nombre_curso.toUpperCase() : false}
               </span>
               <label className="label">
                 <span className="label-text">Horario de Ingreso</span>
                 <span className="label-text-alt"></span>
               </label>
-              <span className=" w-full p-1 font-normal my-2  text-black  ml-auto mr-auto  border-b border-blue-600 rounded-lg">
-                {alumno.hora_ingreso}
+              <span className=" w-full font-normal my-2  text-black  ml-auto mr-auto  border-b border-blue-600 rounded-lg">
+                {alumno?alumno.hora_ingreso:false}
               </span>
 
               <label className="label">
                 <span className="label-text">Registro de Asistencia</span>
                 <span className="label-text-alt"></span>
               </label>
-              <span className=" w-full p-1 font-normal my-2  text-black  ml-auto mr-auto  border-b border-blue-600 rounded-lg">
-                {alumno ? alumno.cod_asistencia.descripcion : false}
+              <span className=" w-full font-normal my-2  text-black  ml-auto mr-auto  border-b border-blue-600 rounded-lg">
+                {alumno ? alumno.cod_asistencia.descripcion.toUpperCase() : false}
               </span>
+
+                <label className="label">
+                  <span className="label-text">Ausencias Restantes</span>
+                  <span className="label-text-alt"></span>
+                </label>
+                <span className={`w-full font-bold my-2  text-black  ml-auto mr-auto  border-b border-blue-600 rounded-lg ${alumno?(Math.round(
+                        alumno.data_alumno_curso.clases_totales * 0.2
+                      ) - alumno.cantidad_inasistencias) <= (Math.round(
+                        alumno.data_alumno_curso.clases_totales * 0.2
+                      ) - alumno.cantidad_inasistencias)/2 ? "text-red-700"
+                    : "text-black":false}`}>
+                  {alumno
+                    ? Math.round(
+                        alumno.data_alumno_curso.clases_totales * 0.2
+                      ) - alumno.cantidad_inasistencias
+                    : false}
+                </span>
             </div>
           </div>
           <div className={mostrarError ? "block" : "hidden"}>

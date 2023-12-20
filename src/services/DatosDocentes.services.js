@@ -1,5 +1,6 @@
+import { url } from "./url";
 export async function getDataDocentes() {
-  const response = await fetch("http://localhost:8080/docentes");
+  const response = await fetch(`${url}/docentes`);
   const docentes = await response.json();
  /* console.log(docentes); */
   return docentes;
@@ -15,7 +16,7 @@ export async function altaAlumno(data){
 
 export async function post(data, path) {
 console.log(data)
-  const response = await fetch(`http://localhost:8080/${path}`, {
+  const response = await fetch(`${url}/${path}`, {
     method: "POST", // *GET, POST, PUT, DELETE, etc.
     mode: "cors", // no-cors, *cors, same-origin
     cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached

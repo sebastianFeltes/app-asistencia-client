@@ -6,7 +6,8 @@ import UserContext from "../context/user.context";
 export default function NavBar() {
   const navigate = useNavigate();
   const userContext = useContext(UserContext);
-  const nombre = userContext.userData.nombre.toUpperCase();
+  const userData = userContext.userData;
+  const avatar = `${userData.nombre.split("")[0]}${userData.apellido.split("")[0]}`;
   //const apellido = userContext.apellidoUsuario.toUpperCase().split("", 1);
   function logOut(e) {
     e.preventDefault();
@@ -36,8 +37,8 @@ export default function NavBar() {
         </form>
         <div className="dropdown dropdown-end">
           <label tabIndex={0} className="">
-            <div className="text-white border border-white rounded-full p-2">
-              {nombre}
+            <div className="text-gray-100 w-12 h-12 text-center rounded-full m-0 p-1 text-2xl bg-blue-600 hover:bg-[#274c6d] hover:text-white">
+              {avatar}
             </div>
           </label>
 

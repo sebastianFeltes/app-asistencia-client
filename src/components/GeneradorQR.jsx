@@ -12,7 +12,7 @@ export default function GeneradorQR({ alumno }) {
     <div>
       <div
         ref={componentRef}
-        className="w-1/2 h-full p-4 ml-auto mr-auto mt-6 bg-white text-center flex flex-col rounded-3xl border border-black"
+        className="w-1/2 h-1/2 p-4 ml-auto mr-auto mt-10 bg-white text-center flex flex-col rounded-3xl border border-black"
       >
         <div>
           <h2 className="text-2xl font-semibold border-b w-full border-blue-700 rounded-3xl pb-2">
@@ -43,7 +43,7 @@ export default function GeneradorQR({ alumno }) {
             {alumno.nro_dni}
           </div>
           <QRCodeSVG
-            size={256}
+            size={128}
             className="rounded-lg  m-2  ml-auto mr-auto border border-black"
             value={`${alumno.id_alumno}.`}
           />

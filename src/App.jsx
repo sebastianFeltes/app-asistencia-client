@@ -42,7 +42,6 @@ function App() {
 							<Route path="/app/alta-docente" element={<AltaDocente />} />
 							<Route path="/app/datos-alumnos" element={<DatosAlumnos />} />
 							<Route path="/app/historial-alumnos" element={<HistorialAlumnos />} />
-
 							<Route path="/app/lector-qr" element={<LectorQR />} />
 							<Route path="/app/generador-qr" element={<GeneradorQR />} />
 						</Route>

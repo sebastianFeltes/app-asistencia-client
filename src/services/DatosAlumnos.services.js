@@ -1,5 +1,6 @@
+import { url } from "./url";
 export async function getAlumnos() {
-  const response = await fetch("http://localhost:8080/datos-alumnos");
+  const response = await fetch(`${url}/datos-alumnos`);
   const alumnos = await response.json();
 
   return alumnos;
@@ -7,7 +8,7 @@ export async function getAlumnos() {
 
 // Example POST method implementation:
 export async function postAlumnosModificado(data) {
-  const url = "http://localhost:8080/datos-alumnos";
+  const url = `${url}/datos-alumnos`;
 
   // Default options are marked with *
   const response = await fetch(url, {
