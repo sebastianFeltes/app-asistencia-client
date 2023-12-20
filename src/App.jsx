@@ -32,6 +32,7 @@ function App() {
 						</Route>
 
 						<Route path="/app" element={<AppLayout />}>
+							<Route path="/app/lector-qr" element={<LectorQR />} />
 							<Route path="/app/home-admin" element={<HomeAdmin />} />
 							<Route path="/app/alta-alumno" element={<AltaAlumno />} />
 							<Route path="/app/alta-curso" element={<AltaCurso />} />
@@ -42,7 +43,6 @@ function App() {
 							<Route path="/app/alta-docente" element={<AltaDocente />} />
 							<Route path="/app/datos-alumnos" element={<DatosAlumnos />} />
 							<Route path="/app/historial-alumnos" element={<HistorialAlumnos />} />
-							<Route path="/app/lector-qr" element={<LectorQR />} />
 							<Route path="/app/generador-qr" element={<GeneradorQR />} />
 						</Route>
 					</Routes>

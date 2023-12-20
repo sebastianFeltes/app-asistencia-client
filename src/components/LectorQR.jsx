@@ -62,7 +62,7 @@ export default function LectorQR() {
           </div>
 
           <h1 className="text-5xl m-8 font-bold">
-            {mostrarData ? "Datos del alumno" : "Escanee su código.."}
+            {mostrarData ? "Datos del alumno" : "Escanee su código..."}
           </h1>
           <input
             disabled={mostrarData || mostrarError ? true : false}
