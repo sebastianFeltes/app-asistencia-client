@@ -5,6 +5,7 @@ import Logo from "../assets/logo-CFL404-color.png";
 export default function LectorQR() {
   const [mostrarData, setMostrarData] = useState(false);
   const [mostrarError, setMostrarError] = useState(false);
+  const [relectura, setRelectura] = useState(false);
   const [alumno, setAlumno] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const inputRef = useRef(null);
@@ -23,7 +24,10 @@ export default function LectorQR() {
         }, 5000);
       } else {
         if (res.detalle) {
-          alert(res.detalle);
+          setRelectura(true);
+          setTimeout(()=>{
+            setRelectura(false)
+          }, 1000)
         }
         setAlumno(await res);
 
@@ -32,7 +36,7 @@ export default function LectorQR() {
         setTimeout(() => {
           setMostrarData(false);
           setInputValue("");
-        }, 5000);
+        }, 6000);
       }
     }
   };
@@ -104,14 +108,16 @@ export default function LectorQR() {
                 <span className="label-text-alt"></span>
               </label>
               <span className=" w-full font-normal my-2  text-black  ml-auto mr-auto  border-b border-blue-600 rounded-lg">
-                {alumno ? alumno.data_alumno_curso.nombre_curso.toUpperCase() : false}
+                {alumno
+                  ? alumno.data_alumno_curso.nombre_curso.toUpperCase()
+                  : false}
               </span>
               <label className="label">
                 <span className="label-text">Horario de Ingreso</span>
                 <span className="label-text-alt"></span>
               </label>
               <span className=" w-full font-normal my-2  text-black  ml-auto mr-auto  border-b border-blue-600 rounded-lg">
-                {alumno?alumno.hora_ingreso:false}
+                {alumno ? alumno.hora_ingreso : false}
               </span>
 
               <label className="label">
@@ -119,25 +125,37 @@ export default function LectorQR() {
                 <span className="label-text-alt"></span>
               </label>
               <span className=" w-full font-normal my-2  text-black  ml-auto mr-auto  border-b border-blue-600 rounded-lg">
-                {alumno ? alumno.cod_asistencia.descripcion.toUpperCase() : false}
+                {alumno
+                  ? alumno.cod_asistencia.descripcion.toUpperCase()
+                  : false}
               </span>
 
-                <label className="label">
-                  <span className="label-text">Ausencias Restantes</span>
-                  <span className="label-text-alt"></span>
-                </label>
-                <span className={`w-full font-bold my-2  text-black  ml-auto mr-auto  border-b border-blue-600 rounded-lg ${alumno?(Math.round(
-                        alumno.data_alumno_curso.clases_totales * 0.2
-                      ) - alumno.cantidad_inasistencias) <= (Math.round(
-                        alumno.data_alumno_curso.clases_totales * 0.2
-                      ) - alumno.cantidad_inasistencias)/2 ? "text-red-700"
-                    : "text-black":false}`}>
-                  {alumno
+              <label className="label">
+                <span className="label-text">Ausencias Restantes</span>
+                <span className="label-text-alt"></span>
+              </label>
+              <span
+                className={`w-full font-bold my-2  text-black  ml-auto mr-auto  border-b border-blue-600 rounded-lg ${
+                  alumno
                     ? Math.round(
                         alumno.data_alumno_curso.clases_totales * 0.2
-                      ) - alumno.cantidad_inasistencias
-                    : false}
-                </span>
+                      ) -
+                        alumno.cantidad_inasistencias <=
+                      (Math.round(
+                        alumno.data_alumno_curso.clases_totales * 0.2
+                      ) -
+                        alumno.cantidad_inasistencias) /
+                        2
+                      ? "text-red-700"
+                      : "text-black"
+                    : false
+                }`}
+              >
+                {alumno
+                  ? Math.round(alumno.data_alumno_curso.clases_totales * 0.2) -
+                    alumno.cantidad_inasistencias
+                  : false}
+              </span>
             </div>
           </div>
           <div className={mostrarError ? "block" : "hidden"}>
@@ -148,6 +166,17 @@ export default function LectorQR() {
               </span>
             </div>
           </div>
+          {relectura ? (
+            <div className="block">
+              <div className="fixed top-0 left-0 w-screen h-screen ml-auto mr-auto bg-white flex flex-col justify-center align-middle border border-cyan-400">
+                <span className="border border-red-500 text-red-600 text-3xl p-8 ">
+                  Ud ya a cargado su asistencia el día de hoy...
+                </span>
+              </div>
+            </div>
+          ) : (
+            false
+          )}
         </div>
       </div>
     </div>

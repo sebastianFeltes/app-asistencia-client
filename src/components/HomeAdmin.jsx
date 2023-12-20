@@ -89,9 +89,11 @@ export default function HomeAdmin() {
             false
           )}
           {rol == 1 ? (
-            <button className="btn my-1 bg-blue-600 text-white w-full hover:bg-blue-300 hover:text-black ">
-              <Link to={"/app/lector-qr"}>Lector QR</Link>
-            </button>
+            <Link to={"/app/lector-qr"}>
+              <button className="btn my-1 bg-blue-600 text-white w-full hover:bg-blue-300 hover:text-black ">
+                Lector QR
+              </button>
+            </Link>
           ) : (
             false
           )}
