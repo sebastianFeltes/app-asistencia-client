@@ -55,12 +55,12 @@ export default function AltaAlumno() {
 
     //PAQUETE DE DATOS PARA EL POST
     const data = {
-      nombre: nombreAlumno.toLowerCase(),
-      apellido: apellidoAlumno.toLowerCase(),
-      tipo_dni: tipoDocumento.toLowerCase(),
+      nombre: nombreAlumno.toUpperCase(),
+      apellido: apellidoAlumno.toUpperCase(),
+      tipo_dni: tipoDocumento.toUpperCase(),
       nro_dni: parseInt(dniAlumno),
-      direccion: direccionAlumno.toLowerCase(),
-      localidad: localidadAlumno.toLowerCase(),
+      direccion: direccionAlumno.toUpperCase(),
+      localidad: localidadAlumno.toUpperCase(),
       fecha_nac: fechaNacFormateada,
       email: emailAlumno,
       telefono: parseInt(telAlumno),
@@ -92,10 +92,14 @@ export default function AltaAlumno() {
       }
     } else {
       //LIMPIAR FORMULARIO CUANDO EL ALUMNO SE CARGUE EXITOSAMENTE
-      const res = await postAltaAlumno(data);
-      if (res == "recibido") {
-        e.target.reset();
-        return alert("Alumno cargado exitosamente");
+      if (data) {
+        const res = await postAltaAlumno(data);
+        if (res == "recibido") {
+          e.target.reset();
+          return alert("Alumno cargado exitosamente");
+        }else{
+          return alert("Error al carga el alumno")
+        }
       }
     }
   }
@@ -423,7 +427,7 @@ export default function AltaAlumno() {
                                   key={e.id_curso}
                                   className="text-black text-xs flex "
                                 >
-                                  {"•" + e.nombre_curso}
+                                  {"•" + e.nombre_curso.toUpperCase()}
                                 </li>
                               ))}
                         </ul>
@@ -510,9 +514,9 @@ export default function AltaAlumno() {
             </form>
 
             {/* TODO:BOTON DE GENERAR QR */}
-            <Link to={"/app/generador-qr"}>
+            {/* <Link to={"/app/generador-qr"}>
               <button className="text-blue-600 ">GENERAR QR</button>
-            </Link>
+            </Link> */}
           </div>
         </div>
       </div>

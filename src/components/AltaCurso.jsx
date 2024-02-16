@@ -125,7 +125,7 @@ function AltaCurso() {
                       ? dataDocentes.map((e) => {
                           return (
                             <option key={e.id_docente} value={e.id_docente}>
-                              {e.nombre}
+                              {e.nombre.toUpperCase() + " " + e.apellido.toUpperCase()}
                             </option>
                           );
                         })
@@ -166,7 +166,7 @@ function AltaCurso() {
                           ? false
                           : diasSeleccionados.map((e) => (
                               <li key={e.id_dia} className="text-black text-xs">
-                                {e.nombre}
+                                {e.nombre.toUpperCase()}
                               </li>
                             ))}
                       </ul>
