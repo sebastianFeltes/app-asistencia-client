@@ -14,7 +14,7 @@ export default function HomeAdmin() {
     e.preventDefault();
     const id_curso = e.target.idCurso.value;
     window.localStorage.setItem("id_curso", id_curso);
-    console.log(id_curso);
+    //console.log(id_curso);
     return navigate("/app/asistencia-alumnos");
   }
 
@@ -25,7 +25,7 @@ export default function HomeAdmin() {
   const [cursos, setCursos] = useState();
   //console.log(data);
   useEffect(() => {
-    console.log(data);
+    //console.log(data);
     data ? setCursos(data.dataCursos) : false;
   }, [data]);
 

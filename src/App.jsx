@@ -5,7 +5,6 @@ import { AppLayout } from "./components/AppLayout";
 import HomeAdmin from "./components/HomeAdmin";
 import { DatosDocentes } from "./components/DatosDocentes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
 import DataCursos from "./components/DatosCursos";
 import AsistenciaAlumnos from "./components/AsistenciaAlumnos";
 import AltaAlumno from "./components/AltaAlumno";

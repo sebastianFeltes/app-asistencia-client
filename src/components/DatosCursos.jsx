@@ -26,7 +26,7 @@ function DataCursos() {
   async function getCursos() {
     const res = await getMostrarCursos();
     res.dias.length > 0 ? setDiasCursos(res.dias) : false;
-    console.log(res);
+    //console.log(res);
     res.dataCursos.length > 0 ? setCursos(res.dataCursos) : false;
   }
 
@@ -75,6 +75,7 @@ function DataCursos() {
     const diasCursos = diasSeleccionados.map((e) => e.id_dia);
     const fechaInicio = e.target.fechaInicio.value;
     const fechaFinalizacion = e.target.fechaFinalizacion.value;
+    const hrsCatedra = e.target.horasCatedra.value;
     const data = {
       id_curso: parseInt(idCurso),
       nombre: nombre,
@@ -85,8 +86,9 @@ function DataCursos() {
       id_dia: diasCursos,
       fecha_inicio: fechaInicio,
       fecha_final: fechaFinalizacion,
+      horas_catedra: hrsCatedra,
     };
-    console.log(data);
+    //console.log(data);
     const res = await postCursoModificado(data);
     if (res.message == "Curso modificado") {
       alert(res.message);
@@ -165,7 +167,7 @@ function DataCursos() {
                               return d.id_curso == e.id_curso;
                             })
                             .map((d) => {
-                              console.log(d);
+                              //console.log(d);
                               return (
                                 <span key={e.id_relacion}>
                                   {d.nombre.toUpperCase()}
@@ -322,6 +324,21 @@ function DataCursos() {
                                             </ul>
                                           }
                                         </div>
+                                      </div>
+                                      <div
+                                        id="contenedor1"
+                                        className=" border-black flex flex-col m-2 "
+                                      >
+                                        <label className="label">
+                                          <span className="label-text text-black">
+                                            HORAS CÁTEDRA:
+                                          </span>
+                                        </label>
+                                        <input
+                                          id="horasCatedra"
+                                          type="number"
+                                          className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
+                                        />
                                       </div>
                                     </div>
 
