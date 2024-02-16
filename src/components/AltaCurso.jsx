@@ -51,7 +51,7 @@ function AltaCurso() {
     const horarioFinal = `${e.target.horaFinal.value}:${minFinal}:00 `;
     const fechaInicio = e.target.fechaInicio.value;
     const fechaFinalizacion = e.target.fechaFinalizacion.value;
-    const hrsCatedra = e.target.horasCatedra.value;
+    const hrsCatedra = parseInt(e.target.horasCatedra.value);
     const data = {
       nombre: nombreCurso,
       id_docente: nombreDocente,

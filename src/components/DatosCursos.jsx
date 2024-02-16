@@ -63,6 +63,7 @@ function DataCursos() {
   // funcion que modifica los datos
   async function modificarDatosCursos(e) {
     e.preventDefault();
+    console.log("submit form modificar curso")
     !modal ? e.target.reset() : true;
     const nombre = e.target.nvoNombreCurso.value;
     const nvoDocente = e.target.nvoDocente.value;
@@ -86,9 +87,9 @@ function DataCursos() {
       id_dia: diasCursos,
       fecha_inicio: fechaInicio,
       fecha_final: fechaFinalizacion,
-      horas_catedra: hrsCatedra,
+      horas_catedra: parseInt(hrsCatedra),
     };
-    //console.log(data);
+    console.log(data);
     const res = await postCursoModificado(data);
     if (res.message == "Curso modificado") {
       alert(res.message);
@@ -145,6 +146,7 @@ function DataCursos() {
                 <th>HORARIO FINAL</th>
                 <th>FECHA INICIO</th>
                 <th>FECHA FINALIZACION</th>
+                <th>HORAS CÁTEDRA</th>
                 <th>ACTIVO</th>
                 <th></th>
               </tr>
@@ -181,6 +183,7 @@ function DataCursos() {
                     <td>{e.horario_final}</td>
                     <td>{e.fecha_inicio}</td>
                     <td>{e.fecha_final}</td>
+                    <td>{e.horas_catedra}</td>
                     <td>
                       <input
                         id="activo"
@@ -275,13 +278,13 @@ function DataCursos() {
                                             })
                                           : false}
                                       </select>
-                                      <label className="label">
+                                      {/* <label className="label">
                                         <span className="label-text text-black">
                                           NUEVO DIA:
                                         </span>
-                                      </label>
+                                      </label> */}
                                       <div className="flex m-0">
-                                        <select
+                                        {/* <select
                                           id="nvoDia"
                                           className="select w-full max-w-xs bg-transparent rounded-full border-black"
                                         >
@@ -299,15 +302,15 @@ function DataCursos() {
                                                 );
                                               })
                                             : false}
-                                        </select>
+                                        </select> */}
                                         {/*  BOTON PARA AGREGAR MAS DE UN DIA */}
-                                        <button
+                                        {/* <button
                                           onClick={(e) => agregarDia(e)}
                                           type="button"
                                           className="btn ml-2 bg-blue-600 text-black rounded-full w-12 border-none"
                                         >
                                           +
-                                        </button>
+                                        </button> */}
                                         <div className="ml-2">
                                           {
                                             <ul className="grid grid-cols-1 gap-2">
@@ -338,6 +341,7 @@ function DataCursos() {
                                           id="horasCatedra"
                                           type="number"
                                           className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
+                                          defaultValue={e.horas_catedra}
                                         />
                                       </div>
                                     </div>
@@ -361,7 +365,6 @@ function DataCursos() {
                                           </p>
                                         </label>
                                       </div>
-
                                       <div className="form-control flex flex-row">
                                         <input
                                           defaultValue={
