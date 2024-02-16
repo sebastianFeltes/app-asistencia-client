@@ -27,7 +27,7 @@ export default function LectorQR() {
           setRelectura(true);
           setTimeout(()=>{
             setRelectura(false)
-          }, 1000)
+          }, 2000)
         }
         setAlumno(await res);
 
@@ -36,7 +36,7 @@ export default function LectorQR() {
         setTimeout(() => {
           setMostrarData(false);
           setInputValue("");
-        }, 6000);
+        }, 6500);
       }
     }
   };

@@ -36,20 +36,28 @@ export default function HomeAdmin() {
           onSubmit={(e) => mostrarAsistenciaDelCurso(e)}
           className="max-w-md flex flex-col align-middle"
         >
-          {rol !== 1 ? (
+          {rol == 3 ? (
             <h1 className="text-3xl my-1 font-bold text-black ">
               Inicio Docente
             </h1>
-          ) : (
+          ) : rol == 2 ? (
             <h1 className="text-3xl font-bold my-1  text-black">
               Inicio Administrador
             </h1>
+          ) : (
+            <h1 className="text-3xl font-bold my-1  text-black">
+              Inicio Super-Administrador
+            </h1>
           )}
-          <Link to={"/app/datos-alumnos"}>
-            <button className="btn my-1 bg-blue-600 text-white w-full hover:bg-blue-300 hover:text-black ">
-              Alumnos
-            </button>
-          </Link>
+          {rol != 3 ? (
+            <Link to={"/app/datos-alumnos"}>
+              <button className="btn my-1 bg-blue-600 text-white w-full hover:bg-blue-300 hover:text-black ">
+                Alumnos
+              </button>
+            </Link>
+          ) : (
+            false
+          )}
           <div className=" my-1 border-2 border-blue-300  rounded-sm p-1 hover:border-2 hover:border-blue-600">
             <h2 className="text-black text-md underline decoration-blue-600">
               Asistencia
@@ -74,11 +82,15 @@ export default function HomeAdmin() {
             </button>
           </div>
           {/* 					</Link> */}
-          <Link to={"/app/datos-cursos"}>
-            <button className="btn my-1 bg-blue-600 text-white w-full hover:bg-blue-300 hover:text-black ">
-              Cursos
-            </button>
-          </Link>
+          {rol != 3 ? (
+            <Link to={"/app/datos-cursos"}>
+              <button className="btn my-1 bg-blue-600 text-white w-full hover:bg-blue-300 hover:text-black ">
+                Cursos
+              </button>
+            </Link>
+          ) : (
+            false
+          )}
           {rol == 1 ? (
             <Link to={"/app/datos-docentes"}>
               <button className="btn my-1 bg-blue-600 text-white w-full hover:bg-blue-300 hover:text-black ">

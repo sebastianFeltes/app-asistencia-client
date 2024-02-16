@@ -14,10 +14,10 @@ function DatosAlumnos() {
   //state del qr
   const [modalQR, setModalQR] = useState(false);
 
-  function mostrarQR(e){
-	e.preventDefault();
-	const id_alumno = e.target.id
-	setModalQR(`codigo_qr${id_alumno}`)
+  function mostrarQR(e) {
+    e.preventDefault();
+    const id_alumno = e.target.id;
+    setModalQR(`codigo_qr${id_alumno}`);
   }
   //
   //const userContext=useContext(UserContext);
@@ -62,7 +62,7 @@ function DatosAlumnos() {
     } else {
       valorABuscar = value;
     }
-    console.log(valorABuscar);
+    //console.log(valorABuscar);
 
     if (tipoDeFiltro == "nombre") {
       const dataFiltrada = dataFetch.filter((alumno) =>
@@ -146,7 +146,7 @@ function DatosAlumnos() {
     return setModal("modal");
   }
 
-  function filtrar(e, tipoDeFiltro) {
+  /*   function filtrar(e, tipoDeFiltro) {
     e.preventDefault();
     const value = e.target.value;
     let valorABuscar;
@@ -162,7 +162,7 @@ function DatosAlumnos() {
     }
 
     console.log(valorABuscar);
-    /*  isNaN(e.target.value) ? e.target.value.toUpperCase() : e.target.value; */
+    
     if (tipoDeFiltro == "nombre") {
       const dataFiltrada = dataFetch.filter((alumno) =>
         String(alumno.nombre.toUpperCase()).includes(valorABuscar)
@@ -184,13 +184,13 @@ function DatosAlumnos() {
       );
       setData(dataFiltrada);
     }
-  }
+  } */
 
   return (
     <div className="bg-white pt-4 min-h-screen">
       <div className="max-w-full">
         <div className="flex flex-row justify-between px-8">
-          {usuario.id_rol == 1 ? (
+          {usuario.id_rol != 3 || usuario.id_rol == 2 ? (
             <Link to="/app/alta-alumno">
               <button className="btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black">
                 Nuevo Alumno
@@ -202,12 +202,15 @@ function DatosAlumnos() {
           <h1 className="text-5xl text-center text-black font-bold">
             DATOS ALUMNOS
           </h1>
-
-          <Link to="/app/historial-alumnos">
-            <button className="btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black">
-              Historial Alumnos
-            </button>
-          </Link>
+          {usuario.id_rol != 3 || usuario.id_rol == 2 ? (
+            <Link to="/app/historial-alumnos">
+              <button className="btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black">
+                Historial Alumnos
+              </button>
+            </Link>
+          ) : (
+            false
+          )}
         </div>
         <div className="flex flex-row px-16 pt-8">
           <input
@@ -365,7 +368,7 @@ function DatosAlumnos() {
                           </div>
                           <div
                             className={
-                              modalQR==`codigo_qr${e.id_alumno}`
+                              modalQR == `codigo_qr${e.id_alumno}`
                                 ? `fixed top-0 overflow-scroll left-0 z-50 w-full h-screen bg-blue-600`
                                 : `hidden`
                             }
