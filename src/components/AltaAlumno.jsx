@@ -54,7 +54,7 @@ export default function AltaAlumno() {
     const fechaNacFormateada = fechaNac.split("-").reverse().join("/");
     const nacionalidad = e.target.nacionalidad.value;
     const lugarNacimiento = e.target.lugarNac.value;
-
+    
     //PAQUETE DE DATOS PARA EL POST
     const data = {
       nombre: nombreAlumno.toUpperCase(),
@@ -78,6 +78,7 @@ export default function AltaAlumno() {
       cursos: cursoAlumno,
       activo: true,
     };
+    console.log(data)
 
     //CONDICIONAL DE SI EL ALUMNO EXISTE EN LA DB MODIFIQUE LOS DATOS Y SI ES NUEVO LO CREE
     if (!alumnoNuevo) {

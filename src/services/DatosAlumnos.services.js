@@ -8,10 +8,10 @@ export async function getAlumnos() {
 
 // Example POST method implementation:
 export async function postAlumnosModificado(data) {
-  const url = `${url}/datos-alumnos`;
+
 
   // Default options are marked with *
-  const response = await fetch(url, {
+  const response = await fetch(`${url}/datos-alumnos`, {
     method: "POST", // *GET, POST, PUT, DELETE, etc.
     mode: "cors", // no-cors, *cors, same-origin
     cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
