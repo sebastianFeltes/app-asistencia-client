@@ -524,11 +524,7 @@ function DatosAlumnos() {
                                               }
                                             />
                                           </span>
-                                        </div>
 
-                                        {/* DIV DERECHO */}
-
-                                        <div className=" border-black flex flex-col m-2 ">
                                           <label className="label">
                                             <span className="label-text text-black">
                                               FECHA DE NACIMIENTO:
@@ -541,6 +537,37 @@ function DatosAlumnos() {
                                             defaultValue={e.fecha_nac}
                                             className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
                                           />
+                                        </div>
+
+                                        {/* DIV DERECHO */}
+
+                                        <div className=" border-black flex flex-col m-2 ">
+                                          <label className="label">
+                                            <span className="label-text text-black">
+                                              LUGAR DE NACIMIENTO:
+                                            </span>
+                                          </label>
+                                          <input
+                                            id="lugarNac"
+                                            defaultValue={e.lugar_nacimiento}
+                                            type="text"
+                                            placeholder="Ingrese lugar de nacimiento"
+                                            className="rounded-full input text-black  input-bordered input-info w-full max-w-xs bg-white border-black"
+                                          />
+
+                                          <label className="label">
+                                            <span className="label-text text-black">
+                                              NACIONALIDAD:
+                                            </span>
+                                          </label>
+                                          <input
+                                            id="nacionalidad"
+                                            defaultValue={e.nacionalidad}
+                                            type="text"
+                                            placeholder="Ingrese nacionalidad"
+                                            className="rounded-full input text-black  input-bordered input-info w-full max-w-xs bg-white border-black"
+                                          />
+
                                           <label className="label">
                                             <span className="label-text text-black">
                                               DIRECCION:

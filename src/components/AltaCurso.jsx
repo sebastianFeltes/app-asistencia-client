@@ -52,6 +52,7 @@ function AltaCurso() {
     const fechaInicio = e.target.fechaInicio.value;
     const fechaFinalizacion = e.target.fechaFinalizacion.value;
     const hrsCatedra = parseInt(e.target.horasCatedra.value);
+    const cantClases= parseInt(e.target.cantClases.value)
     const data = {
       nombre: nombreCurso,
       id_docente: nombreDocente,
@@ -61,6 +62,7 @@ function AltaCurso() {
       fecha_inicio: fechaInicio,
       fecha_final: fechaFinalizacion,
       horas_catedra: hrsCatedra,
+      cantidad_clases: cantClases,
       activo: 1,
     };
     //console.log(data);
@@ -113,7 +115,7 @@ function AltaCurso() {
 
                   <label className="label">
                     <span className="label-text text-black">
-                      NOMBRE DEL DOCENTE:
+                      DOCENTE A CARGO:
                     </span>
                   </label>
                   <span className="label-text text-black"></span>
@@ -125,7 +127,9 @@ function AltaCurso() {
                       ? dataDocentes.map((e) => {
                           return (
                             <option key={e.id_docente} value={e.id_docente}>
-                              {e.nombre.toUpperCase() + " " + e.apellido.toUpperCase()}
+                              {e.nombre.toUpperCase() +
+                                " " +
+                                e.apellido.toUpperCase()}
                             </option>
                           );
                         })
@@ -174,18 +178,32 @@ function AltaCurso() {
                   </div>
                   <div
                     id="contenedor1"
-                    className=" border-black flex flex-col m-2 "
+                    className="w-1/2 flex flex-row m-2 "
                   >
-                    <label className="label">
-                      <span className="label-text text-black">
-                        HORAS CÁTEDRA:
-                      </span>
-                    </label>
-                    <input
-                      id="horasCatedra"
-                      type="number"
-                      className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
-                    />
+                    <div>
+                      <label className="label">
+                        <span className="label-text text-black">
+                          HORAS RELOJ:
+                        </span>
+                      </label>
+                      <input
+                        id="horasCatedra"
+                        type="number"
+                        className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
+                      />
+                    </div>
+                    <div>
+                      <label className="label">
+                        <span className="label-text text-black">
+                          CANT DE CLASES:
+                        </span>
+                      </label>
+                      <input
+                        id="cantClases"
+                        type="number"
+                        className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
+                      />
+                    </div>
                   </div>
                 </div>
 

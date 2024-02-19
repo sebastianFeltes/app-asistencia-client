@@ -52,6 +52,8 @@ export default function AltaAlumno() {
     const docAnalitico = e.target.docAnalitico.checked;
     const cursoAlumno = cursosSeleccionados.map((e) => e.id_curso);
     const fechaNacFormateada = fechaNac.split("-").reverse().join("/");
+    const nacionalidad = e.target.nacionalidad.value;
+    const lugarNacimiento = e.target.lugarNac.value;
 
     //PAQUETE DE DATOS PARA EL POST
     const data = {
@@ -62,6 +64,8 @@ export default function AltaAlumno() {
       direccion: direccionAlumno.toUpperCase(),
       localidad: localidadAlumno.toUpperCase(),
       fecha_nac: fechaNacFormateada,
+      lugar_nacimiento: lugarNacimiento,
+      nacionalidad: nacionalidad,
       email: emailAlumno,
       telefono: parseInt(telAlumno),
       car_telefono: parseInt(telCaracteristica),
@@ -97,8 +101,8 @@ export default function AltaAlumno() {
         if (res == "recibido") {
           e.target.reset();
           return alert("Alumno cargado exitosamente");
-        }else{
-          return alert("Error al carga el alumno")
+        } else {
+          return alert("Error al carga el alumno");
         }
       }
     }
@@ -226,22 +230,55 @@ export default function AltaAlumno() {
                     placeholder="Ingrese apellido del alumno"
                     className="rounded-full text-black  input input-bordered input-info w-full max-w-xs bg-white border-black"
                   />
-
+                  <div className="flex flex-row">
+                    <div>
+                      <label className="label">
+                        <span className="label-text text-black">
+                          FECHA NAC:
+                        </span>
+                      </label>
+                      <input
+                        id="fechaNac"
+                        defaultValue={
+                          alumnoExistente
+                            ? alumnoExistente.fecha_nac
+                                .split("/")
+                                .reverse()
+                                .join("-")
+                            : ""
+                        }
+                        type="date"
+                        placeholder="Ingrese fecha de nacimiento"
+                        className="rounded-full input text-black  input-bordered input-info w-full max-w-xs bg-white border-black"
+                      />
+                    </div>
+                    <div>
+                      <label className="label">
+                        <span className="label-text text-black">
+                          LUGAR DE NACIMIENTO:
+                        </span>
+                      </label>
+                      <input
+                        id="lugarNac"
+                        defaultValue={
+                          alumnoExistente ? alumnoExistente.lugar_nacimiento : ""
+                        }
+                        type="text"
+                        placeholder="Ingrese lugar de nacimiento"
+                        className="rounded-full input text-black  input-bordered input-info w-full max-w-xs bg-white border-black"
+                      />
+                    </div>
+                  </div>
                   <label className="label">
-                    <span className="label-text text-black">FECHA NAC:</span>
+                    <span className="label-text text-black">NACIONALIDAD:</span>
                   </label>
                   <input
-                    id="fechaNac"
+                    id="nacionalidad"
                     defaultValue={
-                      alumnoExistente
-                        ? alumnoExistente.fecha_nac
-                            .split("/")
-                            .reverse()
-                            .join("-")
-                        : ""
+                      alumnoExistente ? alumnoExistente.nacionalidad : ""
                     }
-                    type="date"
-                    placeholder="Ingrese fecha de nacimiento"
+                    type="text"
+                    placeholder="Ingrese nacionalidad"
                     className="rounded-full input text-black  input-bordered input-info w-full max-w-xs bg-white border-black"
                   />
 

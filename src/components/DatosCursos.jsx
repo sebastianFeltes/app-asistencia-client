@@ -63,7 +63,7 @@ function DataCursos() {
   // funcion que modifica los datos
   async function modificarDatosCursos(e) {
     e.preventDefault();
-    console.log("submit form modificar curso")
+    console.log("submit form modificar curso");
     !modal ? e.target.reset() : true;
     const nombre = e.target.nvoNombreCurso.value;
     const nvoDocente = e.target.nvoDocente.value;
@@ -77,6 +77,7 @@ function DataCursos() {
     const fechaInicio = e.target.fechaInicio.value;
     const fechaFinalizacion = e.target.fechaFinalizacion.value;
     const hrsCatedra = e.target.horasCatedra.value;
+    const cantClases = e.target.cantClases.value;
     const data = {
       id_curso: parseInt(idCurso),
       nombre: nombre,
@@ -88,6 +89,7 @@ function DataCursos() {
       fecha_inicio: fechaInicio,
       fecha_final: fechaFinalizacion,
       horas_catedra: parseInt(hrsCatedra),
+      cantidad_clases: parseInt(cantClases),
     };
     console.log(data);
     const res = await postCursoModificado(data);
@@ -184,6 +186,7 @@ function DataCursos() {
                     <td>{e.fecha_inicio}</td>
                     <td>{e.fecha_final}</td>
                     <td>{e.horas_catedra}</td>
+                    <td>{e.cantidad_clases}</td>
                     <td>
                       <input
                         id="activo"
@@ -330,19 +333,34 @@ function DataCursos() {
                                       </div>
                                       <div
                                         id="contenedor1"
-                                        className=" border-black flex flex-col m-2 "
+                                        className=" border-black flex flex-row m-2 "
                                       >
-                                        <label className="label">
-                                          <span className="label-text text-black">
-                                            HORAS CÁTEDRA:
-                                          </span>
-                                        </label>
-                                        <input
-                                          id="horasCatedra"
-                                          type="number"
-                                          className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
-                                          defaultValue={e.horas_catedra}
-                                        />
+                                        <div className="flex flex-col">
+                                          <label className="label">
+                                            <span className="label-text text-black">
+                                              HORAS RELOJ:
+                                            </span>
+                                          </label>
+                                          <input
+                                            id="horasCatedra"
+                                            type="number"
+                                            className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
+                                            defaultValue={e.horas_catedra}
+                                          />
+                                        </div>
+                                        <div>
+                                          <label className="label">
+                                            <span className="label-text text-black">
+                                              CANT DE CLASES:
+                                            </span>
+                                          </label>
+                                          <input
+                                            id="cantClases"
+                                            type="number"
+                                            className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
+                                            defaultValue={e.cantidad_clases}
+                                          />
+                                        </div>
                                       </div>
                                     </div>
 

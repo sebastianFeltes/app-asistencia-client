@@ -1,7 +1,7 @@
 import { QRCodeSVG } from "qrcode.react";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
-
+import Logo from "../assets/logo-CFL404-color-no-texto.png";
 export default function GeneradorQR({ alumno }) {
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
@@ -12,44 +12,47 @@ export default function GeneradorQR({ alumno }) {
     <div>
       <div
         ref={componentRef}
-        className="w-1/2 h-1/2 p-4 ml-auto mr-auto mt-10 bg-white text-center flex flex-col rounded-3xl border border-black"
+        className="w-80 h-48 ml-auto mr-auto mt-10 bg-white text-center flex flex-row flex-wrap rounded-3xl border border-black"
       >
-        <div>
-          <h2 className="text-2xl font-semibold border-b w-full border-blue-700 rounded-3xl pb-2">
+        {/* <h2 className="text-2xl font-semibold border-b w-full border-blue-700 rounded-3xl pb-2">
             CENTRO DE FORMACIÓN LABORAL 404 BERISSO
+          </h2> */}
+        <div className="border-b-2 w-full flex flex-row items-center justify-center">
+          <img className="w-20 m-0 p-0" src={Logo} alt="" />
+          <h2 className="text-md font-semibold underline w-fit">
+            Centro de Formación Laboral 404
           </h2>
-          <h2 className="text-xl font-semibold underline ">
-            Datos del alumno:
-          </h2>
-          <div className=" w-1/2 text-lg font-normal my-2  ml-auto mr-auto  rounded-lg">
+        </div>
+        <div className="text-start px-2">
+          <h2 className="text-md font-semibold w-full">Datos del alumno:</h2>
+          <div className="text-sm font-normal ml-auto mr-auto  rounded-lg">
             Apellido:{" "}
+            <span className="italic">
+              {" "}
+              {alumno.apellido ? alumno.apellido.toUpperCase() : false}
+            </span>
           </div>
-          <div className=" w-1/2 text-lg my-2  ml-auto mr-auto font-bold rounded-lg">
-            {alumno.apellido ? alumno.apellido.toUpperCase() : false}
-          </div>
-
-          <div className=" w-1/2 text-lg my-2 font-normal  ml-auto mr-auto rounded-lg">
+          <div className="text-sm font-normal  ml-auto mr-auto rounded-lg">
             Nombre:{" "}
-          </div>
-          <div className=" w-1/2 text-lg my-2 font-bold  ml-auto mr-auto rounded-lg">
-            <span className="font-bold">
+            <span className="italic">
+              {" "}
               {alumno.nombre ? alumno.nombre.toUpperCase() : false}
             </span>
           </div>
-          <div className=" w-1/2 text-lg font-normal my-2  ml-auto mr-auto rounded-lg">
-            Nro de DNI:
+          <div className="text-sm font-normal  ml-auto mr-auto rounded-lg">
+            Nro de DNI: <span className="italic"> {alumno.nro_dni}</span>
           </div>
-          <div className=" w-1/2 text-lg my-2  ml-auto mr-auto rounded-lg font-bold">
-            {alumno.nro_dni}
-          </div>
-          <QRCodeSVG
-            size={128}
-            className="rounded-lg  m-2  ml-auto mr-auto border border-black"
-            value={`${alumno.id_alumno}.`}
-          />
         </div>
+        <QRCodeSVG
+          size={90}
+          className="rounded-lg border border-black m-auto"
+          value={`${alumno.id_alumno}.`}
+        />
       </div>
-      <button onClick={handlePrint} className="btn btn-info bg-blue-400 text-white hover:text-black hover:bg-blue-100 border border-white m-4 absolute top-0 left-0">
+      <button
+        onClick={handlePrint}
+        className="btn btn-info bg-blue-400 text-white hover:text-black hover:bg-blue-100 border border-white m-4 absolute top-0 left-0"
+      >
         Descargar
       </button>
     </div>
