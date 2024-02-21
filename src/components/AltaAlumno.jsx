@@ -78,8 +78,8 @@ export default function AltaAlumno() {
       cursos: cursoAlumno,
       activo: true,
     };
-    console.log(data)
-
+    
+    //console.log(data)
     //CONDICIONAL DE SI EL ALUMNO EXISTE EN LA DB MODIFIQUE LOS DATOS Y SI ES NUEVO LO CREE
     if (!alumnoNuevo) {
       const id_alumno = alumnoExistente.id_alumno

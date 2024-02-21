@@ -20,30 +20,30 @@ export default function GeneradorQR({ alumno }) {
             CENTRO DE FORMACIÓN LABORAL 404 BERISSO
           </h2> */}
 
-        <h2 className="text-md text-blue-600 font-bold underline w-full text-center mt-2">
+        <h2 className="text-md text-[#176094] font-bold italic w-full text-center pt-2 h-fit">
           CREDENCIAL DE ALUMNO
         </h2>
-        <div className="w-2/3 flex flex-col justify-around items-start p-4 z-30">
-          <div className="text-start flex flex-col">
+        <div className="w-2/3 flex flex-col justify-between items-start p-2 px-4 z-30">
+          <div className="text-start flex flex-col ">
             <span className="font-bold italic">
               {alumno.apellido ? alumno.apellido.toUpperCase() : false},{" "}
               {alumno.nombre ? alumno.nombre.toUpperCase() : false}
             </span>
-            <span>DNI: {alumno.nro_dni}</span>
+            <span className="italic">DNI: {alumno.nro_dni}</span>
           </div>
           <div className=""></div>
           <QRCodeSVG
-            size={90}
+            size={72}
             className="rounded-sm"
             value={`${alumno.id_alumno}.`}
           />
         </div>
         <div>
-          <img src={Detalle} alt="" className="absolute w-80 top-10 right-0" />
+          <img src={Detalle} alt="" className="absolute w-86 top-10 right-0" />
         </div>
-        <div className="w-1/3 flex flex-col justify-around items-center">
-          <img className=" w-24 m-0 p-0" src={Logo} alt="" />
-          <span className="text-blue-600 font-semibold italic">cfl404.ar</span>
+        <div className="w-1/3 flex flex-col justify-between items-center z-30">
+          <img className=" w-28 absolute top-6 right-0" src={Logo} alt="" />
+          <span className="text-[#176094] font-semibold italic mb-2 mt-auto">cfl404.ar</span>
         </div>
       </div>
       <button

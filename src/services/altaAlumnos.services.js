@@ -8,9 +8,9 @@ export default async function postAltaAlumno(data) {
     alert("Seleccione un tipo de Documento");
   } else if (`${data.nro_dni}`.length < 7) {
     alert("DNI incompleto");
-  } else if (data.nombre.length < 4) {
+  } else if (data.nombre.length <= 3) {
     alert("Nombre invalido");
-  } else if (data.apellido.length < 4) {
+  } else if (data.apellido.length <= 3) {
     alert("Apellido invalido");
   } else if (!data.fecha_nac) {
     alert("Complete el campo fecha nac");
@@ -18,13 +18,13 @@ export default async function postAltaAlumno(data) {
     alert("Complete el campo en localidad");
   } else if (data.direccion.length < 1) {
     alert("Complete el campo en dirección");
-  } else if (`${data.car_telefono}`.length < 3) {
+  } else if (`${data.car_telefono}`.length < 2) {
     alert("Complete el codigo de area en teléfono");
-  } else if (`${data.telefono}`.length < 7) {
-    alert("Teléfono incompleto");
-  } else if (`${data.car_tel_extra}`.length < 3) {
+  } else if (`${data.telefono}`.length <= 6) {
+    alert("Teléfono incompleto")
+  } else if (`${data.car_tel_extra}`.length < 2) {
     alert("Complete el codigo de area en teleExt");
-  } else if (`${data.telefono_extra}`.length < 7) {
+  } else if (`${data.telefono_extra}`.length <= 6) {
     alert("TelEtx incompleto");
   } else if (`${data.nro_legajo}`.length < 4) {
     alert("Legajo invalido");
