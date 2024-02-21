@@ -8,9 +8,9 @@ export default async function postAltaAlumno(data) {
     alert("Seleccione un tipo de Documento");
   } else if (`${data.nro_dni}`.length < 7) {
     alert("DNI incompleto");
-  } else if (data.nombre.length <= 3) {
+  } else if (data.nombre.length < 2) {
     alert("Nombre invalido");
-  } else if (data.apellido.length <= 3) {
+  } else if (data.apellido.length < 2) {
     alert("Apellido invalido");
   } else if (!data.fecha_nac) {
     alert("Complete el campo fecha nac");
