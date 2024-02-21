@@ -1,7 +1,9 @@
 import { QRCodeSVG } from "qrcode.react";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
-import Logo from "../assets/logo-CFL404-color-no-texto.png";
+import Logo from "../assets/logo-CFL404-color.png";
+import Detalle from "../assets/detalle-bandera-credencial.png"
+
 export default function GeneradorQR({ alumno }) {
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
@@ -12,42 +14,37 @@ export default function GeneradorQR({ alumno }) {
     <div>
       <div
         ref={componentRef}
-        className="w-80 h-48 ml-auto mr-auto mt-10 bg-white text-center flex flex-row flex-wrap rounded-3xl border border-black"
+        className="relative w-80 h-48 ml-auto mr-auto mt-10 bg-white text-center flex flex-row flex-wrap rounded-3xl border border-black"
       >
         {/* <h2 className="text-2xl font-semibold border-b w-full border-blue-700 rounded-3xl pb-2">
             CENTRO DE FORMACIÓN LABORAL 404 BERISSO
           </h2> */}
-        <div className="border-b-2 w-full flex flex-row items-center justify-center">
-          <img className="w-20 m-0 p-0" src={Logo} alt="" />
-          <h2 className="text-md font-semibold underline w-fit">
-            Centro de Formación Laboral 404
-          </h2>
-        </div>
-        <div className="text-start px-2">
-          <h2 className="text-md font-semibold w-full">Datos del alumno:</h2>
-          <div className="text-sm font-normal ml-auto mr-auto  rounded-lg">
-            Apellido:{" "}
-            <span className="italic">
-              {" "}
-              {alumno.apellido ? alumno.apellido.toUpperCase() : false}
-            </span>
-          </div>
-          <div className="text-sm font-normal  ml-auto mr-auto rounded-lg">
-            Nombre:{" "}
-            <span className="italic">
-              {" "}
+
+        <h2 className="text-md text-blue-600 font-bold underline w-full text-center mt-2">
+          CREDENCIAL DE ALUMNO
+        </h2>
+        <div className="w-2/3 flex flex-col justify-around items-start p-4 z-30">
+          <div className="text-start flex flex-col">
+            <span className="font-bold italic">
+              {alumno.apellido ? alumno.apellido.toUpperCase() : false},{" "}
               {alumno.nombre ? alumno.nombre.toUpperCase() : false}
             </span>
+            <span>DNI: {alumno.nro_dni}</span>
           </div>
-          <div className="text-sm font-normal  ml-auto mr-auto rounded-lg">
-            Nro de DNI: <span className="italic"> {alumno.nro_dni}</span>
-          </div>
+          <div className=""></div>
+          <QRCodeSVG
+            size={90}
+            className="rounded-sm"
+            value={`${alumno.id_alumno}.`}
+          />
         </div>
-        <QRCodeSVG
-          size={90}
-          className="rounded-lg border border-black m-auto"
-          value={`${alumno.id_alumno}.`}
-        />
+        <div>
+          <img src={Detalle} alt="" className="absolute w-80 top-10 right-0" />
+        </div>
+        <div className="w-1/3 flex flex-col justify-around items-center">
+          <img className=" w-24 m-0 p-0" src={Logo} alt="" />
+          <span className="text-blue-600 font-semibold italic">cfl404.ar</span>
+        </div>
       </div>
       <button
         onClick={handlePrint}

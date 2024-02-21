@@ -148,9 +148,9 @@ function DataCursos() {
                 <th>HORARIO FINAL</th>
                 <th>FECHA INICIO</th>
                 <th>FECHA FINALIZACION</th>
-                <th>HORAS CÁTEDRA</th>
+                <th>HORAS RELOJ</th>
+                <th>CANT. CLASES</th>
                 <th>ACTIVO</th>
-                <th></th>
               </tr>
             </thead>
             {/* SE AUTO RELLENA CON LOS DATOS DE LOS CURSOS CARGADOS */}
