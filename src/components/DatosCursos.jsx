@@ -78,6 +78,7 @@ function DataCursos() {
     const fechaFinalizacion = e.target.fechaFinalizacion.value;
     const hrsCatedra = e.target.horasCatedra.value;
     const cantClases = e.target.cantClases.value;
+    const cantInasistencias = Math.round(cantClases * 0.2);
     const data = {
       id_curso: parseInt(idCurso),
       nombre: nombre,
@@ -90,6 +91,7 @@ function DataCursos() {
       fecha_final: fechaFinalizacion,
       horas_catedra: parseInt(hrsCatedra),
       cantidad_clases: parseInt(cantClases),
+      cantidad_inasistencias : parseInt(cantInasistencias),
     };
     console.log(data);
     const res = await postCursoModificado(data);

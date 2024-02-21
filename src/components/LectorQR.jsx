@@ -21,13 +21,13 @@ export default function LectorQR() {
         setTimeout(() => {
           setMostrarError(false);
           setInputValue("");
-        }, 5000);
+        }, 7000);
       } else {
         if (res.detalle) {
           setRelectura(true);
           setTimeout(()=>{
             setRelectura(false)
-          }, 2000)
+          }, 6000)
         }
         setAlumno(await res);
 
@@ -36,7 +36,7 @@ export default function LectorQR() {
         setTimeout(() => {
           setMostrarData(false);
           setInputValue("");
-        }, 6500);
+        }, 10000);
       }
     }
   };
@@ -170,7 +170,7 @@ export default function LectorQR() {
             <div className="block">
               <div className="fixed top-0 left-0 w-screen h-screen ml-auto mr-auto bg-white flex flex-col justify-center align-middle border border-cyan-400">
                 <span className="border border-red-500 text-red-600 text-3xl p-8 ">
-                  Ud ya a cargado su asistencia el día de hoy...
+                  Ud ya ha cargado su asistencia el día de hoy...
                 </span>
               </div>
             </div>

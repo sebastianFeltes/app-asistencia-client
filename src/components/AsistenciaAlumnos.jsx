@@ -10,6 +10,7 @@ function AsistenciaAlumnos() {
 		const id_curso = window.localStorage.id_curso;
 		const res = await getAsistencia(id_curso);
 		const cursoRes = await getCurso(id_curso);
+		console.log(cursoRes)
 		cursoRes ? setDataCurso(cursoRes) : false;
 		res.length > 0 ? setData(res) : false;
 		//console.log(data);
@@ -56,16 +57,16 @@ function AsistenciaAlumnos() {
 				<div className="w-full">
 					<div className="flex flex-row w-full justify-between text-black m-2">
 						<h1 className="p-3  font-normal border-b border-blue-600 rounded-lg ">
-							Nombre del curso:{" "}
+							Curso:{" "}
 							<span className="underline decoration-blue-500 font-semibold">
 								{dataCurso.data ? dataCurso.data.nombre.toUpperCase() : false}
 							</span>
 						</h1>
 						<h2 className=" p-3 font-normal  border-b border-blue-600 rounded-lg">
-							Nombre del profesor:{" "}
+							Docente:{" "}
 							<span className="underline decoration-blue-500 font-semibold">
 								{dataCurso.data
-									? `${dataCurso.data.nombre_docente.toUpperCase()} ${dataCurso.data.apellido_docente.toUpperCase()} `
+									? `${dataCurso.data.apellido_docente.toUpperCase()} ${dataCurso.data.nombre_docente.toUpperCase().split("")[0]}.`
 									: false}
 							</span>
 						</h2>
@@ -91,6 +92,11 @@ function AsistenciaAlumnos() {
 							Cantidad de alumnos:{" "}
 							<span className="underline decoration-blue-500 font-semibold">{uniqueStudents.length}</span>
 						</h2>
+
+						<h2 className=" p-3 font-normal   border-b border-blue-600 rounded-lg">
+							Inasistencias permitidas:{" "}
+							<span className="underline decoration-blue-500 font-semibold">{dataCurso.data.cantidad_inasistencias}</span>
+						</h2>
 					</div>
 					<div className="overflow-x-scroll">
 						<table>
@@ -104,6 +110,9 @@ function AsistenciaAlumnos() {
 									</th>
 									<th className="sticky left-48 bg-white">
 										<div className="w-24 p-1 border border-black">Ausencias</div>
+									</th>
+									<th className="sticky left-48 bg-white">
+										<div className="w-24 p-1 border border-black">Restantes</div>
 									</th>
 									{uniqueDates.map((date, index) => (
 										<th key={index}>
@@ -132,6 +141,11 @@ function AsistenciaAlumnos() {
 										<td className="sticky left-48 bg-white">
 											<div className="w-24 text-red-600 bg-white border border-black italic font-semibold">
 												{countAbsences(student.id_alumno)}
+											</div>
+										</td>
+										<td className="sticky left-48 bg-white">
+											<div className="w-24 text-black bg-white border border-black italic font-bold">
+												{dataCurso.data.cantidad_inasistencias- countAbsences(student.id_alumno)}
 											</div>
 										</td>
 										{uniqueDates.map((date, index) => {

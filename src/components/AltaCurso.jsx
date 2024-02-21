@@ -52,7 +52,8 @@ function AltaCurso() {
     const fechaInicio = e.target.fechaInicio.value;
     const fechaFinalizacion = e.target.fechaFinalizacion.value;
     const hrsCatedra = parseInt(e.target.horasCatedra.value);
-    const cantClases= parseInt(e.target.cantClases.value)
+    const cantClases= parseInt(e.target.cantClases.value);
+    const cantInasistencias = Math.round(cantClases * 0.2);
     const data = {
       nombre: nombreCurso,
       id_docente: nombreDocente,
@@ -63,6 +64,7 @@ function AltaCurso() {
       fecha_final: fechaFinalizacion,
       horas_catedra: hrsCatedra,
       cantidad_clases: cantClases,
+      cantidad_inasistencias : parseInt(cantInasistencias),
       activo: 1,
     };
     //console.log(data);

@@ -14,7 +14,7 @@ export default function GeneradorQR({ alumno }) {
     <div>
       <div
         ref={componentRef}
-        className="relative w-80 h-48 ml-auto mr-auto mt-10 bg-white text-center flex flex-row flex-wrap rounded-3xl border border-black"
+        className="relative w-80 h-48 ml-auto mr-auto mt-10 bg-white text-center flex flex-row flex-wrap rounded-md border border-black"
       >
         {/* <h2 className="text-2xl font-semibold border-b w-full border-blue-700 rounded-3xl pb-2">
             CENTRO DE FORMACIÓN LABORAL 404 BERISSO
@@ -43,7 +43,7 @@ export default function GeneradorQR({ alumno }) {
         </div>
         <div className="w-1/3 flex flex-col justify-between items-center z-30">
           <img className=" w-28 absolute top-6 right-0" src={Logo} alt="" />
-          <span className="text-[#176094] font-semibold italic mb-2 mt-auto">cfl404.ar</span>
+          <span className="text-[#176094] font-semibold italic mb-2 mt-auto ml-6 text-center">cfl404.ar</span>
         </div>
       </div>
       <button
