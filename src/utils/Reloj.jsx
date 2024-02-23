@@ -20,8 +20,8 @@ function Reloj() {
     .padStart(2, "0")}/${time.getFullYear()}`;
 
   return (
-    <div className="border w-1/3 rounded-lg shadow-md shadow-blue-600 p-4">
-      <p className="text-2xl text-blue-800">{formattedDate}</p>
+    <div className="">
+      <p className="text-3xl text-blue-800">{formattedDate}</p>
       <div className="text-5xl text-blue-600">
         <span className="hour-animation">{time.getHours().toString().padStart(2, "0")}:</span>
         <span className="minute-animation">{time.getMinutes().toString().padStart(2, "0")}:</span>

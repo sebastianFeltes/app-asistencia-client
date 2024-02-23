@@ -182,7 +182,7 @@ export default function LectorQR() {
             false
           )}
         </div>
-        <div className="w-full flex flex-row justify-center">
+        <div className="w-full flex flex-row justify-center absolute top-3/4">
           <Reloj/>
         </div>
       </div>
