@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { buscarAlumnoPorID } from "../services/GestionQR.services";
 import Logo from "../assets/logo-CFL404-color.png";
+import Reloj from "../utils/Reloj";
 
 export default function LectorQR() {
   const [mostrarData, setMostrarData] = useState(false);
@@ -45,9 +46,12 @@ export default function LectorQR() {
     inputRef.current.focus();
   }, [mostrarData, mostrarError]);
 
+
+
+
   return (
     <div className="hero min-h-screen bg-white ">
-      <div className="hero-content w-full text-center">
+      <div className="hero-content w-full text-center flex flex-col">
         <div className="w-full flex flex-col ">
           <div className="absolute flex flex-row z-50 top-0 left-0 w-full bg-[#132841]">
             <img src={Logo} className="w-32 rounded-full m-2 inline" />
@@ -177,6 +181,9 @@ export default function LectorQR() {
           ) : (
             false
           )}
+        </div>
+        <div className="w-full flex flex-row justify-center">
+          <Reloj/>
         </div>
       </div>
     </div>
