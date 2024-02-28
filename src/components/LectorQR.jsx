@@ -117,7 +117,7 @@ export default function LectorQR() {
                   : false}
               </span>
               <label className="label">
-                <span className="label-text">Horario de Ingreso</span>
+                <span className="label-text">Horario de Escaneo</span>
                 <span className="label-text-alt"></span>
               </label>
               <span className=" w-full font-normal my-2  text-black  ml-auto mr-auto  border-b border-blue-600 rounded-lg">

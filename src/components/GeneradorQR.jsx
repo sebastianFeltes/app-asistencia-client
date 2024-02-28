@@ -1,30 +1,53 @@
-import { QRCodeSVG } from "qrcode.react";
 import { useRef } from "react";
-import { useReactToPrint } from "react-to-print";
+import html2canvas from "html2canvas";
+import { saveAs } from "file-saver";
+import jsPDF from "jspdf";
+
+import { QRCodeSVG } from "qrcode.react";
 import Logo from "../assets/logo-CFL404-color.png";
 import Detalle from "../assets/detalle-bandera-credencial.png";
-import {
-  exportComponentAsJPEG,
-  exportComponentAsPNG,
-} from "react-component-export-image";
 
 export default function GeneradorQR({ alumno }) {
   const componentRef = useRef();
-  /*   const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-  }); */
+
+  const exportAsPNG = () => {
+    const node = componentRef.current;
+
+    html2canvas(node)
+      .then(function (canvas) {
+        canvas.toBlob(function (blob) {
+          saveAs(blob, "credencial.png");
+        });
+      })
+      .catch(function (error) {
+        console.error("Error al exportar como PNG:", error);
+      });
+  };
+
+  const exportAsPDF = () => {
+    const node = componentRef.current;
+
+    html2canvas(node)
+      .then((canvas) => {
+        const imgData = canvas.toDataURL("image/png");
+        const pdf = new jsPDF();
+        const imgWidth = 100; // Establece el ancho de la imagen en mm
+        const imgHeight = (canvas.height * imgWidth) / canvas.width; // Calcula la altura proporcional
+        pdf.addImage(imgData, "PNG", 10, 10, imgWidth, imgHeight); // Agrega la imagen al PDF
+        pdf.save("credencial.pdf"); // Guarda el PDF
+      })
+      .catch(function (error) {
+        console.error("Error al exportar como PDF:", error);
+      });
+  };
 
   return (
     <div>
       <div
         ref={componentRef}
-        className="w-[360px] h-56 border p-2 mt-10 mx-auto flex flex-row justify-center items-center"
+        className="w-[360px] h-auto mt-10 mx-auto flex flex-row justify-center items-center"
       >
-        <div className="relative w-[350px] h-52 bg-white text-center flex flex-row flex-wrap rounded-md border border-black">
-          {/* <h2 className="text-2xl font-semibold border-b w-full border-blue-700 rounded-3xl pb-2">
-            CENTRO DE FORMACIÓN LABORAL 404 BERISSO
-          </h2> */}
-
+        <div className="relative w-[320px] h-48 bg-white text-center flex flex-row flex-wrap rounded-md border border-black">
           <h2 className="text-md text-[#176094] font-bold italic w-full text-center pt-2 h-fit">
             CREDENCIAL DE ALUMNO
           </h2>
@@ -47,7 +70,7 @@ export default function GeneradorQR({ alumno }) {
             <img
               src={Detalle}
               alt=""
-              className="absolute w-86 top-8 right-0"
+              className="absolute w-86 top-12 right-0"
             />
           </div>
           <div className="w-1/3 flex flex-col justify-between items-center z-30">
@@ -58,19 +81,21 @@ export default function GeneradorQR({ alumno }) {
           </div>
         </div>
       </div>
+      <div className="absolute z-50 top-0">
+        <button
+          onClick={exportAsPNG}
+          className="btn btn-info bg-blue-400 text-white hover:text-black hover:bg-blue-100 border border-white m-4"
+        >
+          Descargar PNG
+        </button>
 
-      <button
-        onClick={() => exportComponentAsJPEG(componentRef)}
-        className="btn btn-info bg-blue-400 text-white hover:text-black hover:bg-blue-100 border border-white m-4 absolute top-0 left-0"
-      >
-        Descargar JPEG
-      </button>
-      <button
-        onClick={() => exportComponentAsPNG(componentRef)}
-        className="btn btn-info bg-blue-400 text-white hover:text-black hover:bg-blue-100 border border-white m-4 absolute top-20 left-0"
-      >
-        Descargar PNG
-      </button>
+        <button
+          onClick={exportAsPDF}
+          className="btn btn-info bg-blue-400 text-white hover:text-black hover:bg-blue-100 border border-white m-4"
+        >
+          Descargar PDF
+        </button>
+      </div>
     </div>
   );
 }

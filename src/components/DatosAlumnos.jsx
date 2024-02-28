@@ -3,6 +3,7 @@ import {
   getAlumnos,
   postAlumnosModificado,
 } from "../services/DatosAlumnos.services.js";
+import { getMostrarCursos } from "../services/homeAdmin.services";
 import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import UserContext from "../context/user.context";
@@ -13,11 +14,19 @@ function DatosAlumnos() {
   const usuario = userContext.userData;
   //state del qr
   const [modalQR, setModalQR] = useState(false);
+  const [dataCursos, setDataCursos] = useState([]);
 
   function mostrarQR(e) {
     e.preventDefault();
     const id_alumno = e.target.id;
     setModalQR(`codigo_qr${id_alumno}`);
+  }
+
+  async function getCursos() {
+    const res = await getMostrarCursos();
+    //res.dias.length > 0 ? setDiasCursos(res.dias) : false;
+    /* console.log(res.dataCursos); */
+    res.dataCursos.length > 0 ? setDataCursos(res.dataCursos) : false;
   }
   //
   //const userContext=useContext(UserContext);
@@ -31,20 +40,21 @@ function DatosAlumnos() {
 
   async function getDataAlumnos() {
     const res = await getAlumnos();
-    console.log(res);
+    /* console.log(res); */
     setDataFetch(res);
     return setData(res);
   }
 
   useEffect(() => {
     getDataAlumnos();
+    getCursos();
   }, []);
   function mostrarModal(e) {
     //funcion que muestra el modal
     e.preventDefault();
     const id = e.target.id;
 
-    console.log(id);
+    /*  console.log(id); */
     setModal("modal" + id);
   }
 
@@ -113,6 +123,7 @@ function DatosAlumnos() {
     const fotocDni = e.target.docDni.checked;
     const planillaIns = e.target.docPlanilla.checked;
     const id_alumno = e.target.id;
+    const curso = e.target.nuevoCurso.value;
 
     const data = {
       activo: activo,
@@ -133,11 +144,12 @@ function DatosAlumnos() {
       fotoc_dni: fotocDni ? 1 : 0,
       planilla_ins: planillaIns ? 1 : 0,
       id_alumno: parseInt(id_alumno),
+      curso: curso,
     };
-    console.log(data);
+    //console.log(data);
     const res = await postAlumnosModificado(data);
 
-    console.log(res);
+    //console.log(res);
     if (res.message) {
       alert(res.message.toUpperCase());
       getDataAlumnos();
@@ -307,6 +319,7 @@ function DatosAlumnos() {
                 </th>
                 <th>DOCUMENTACIÓN</th>
                 <th>ACTIVO</th>
+                <th>CURSOS</th>
                 <th>ACCIONES</th>
               </tr>
             </thead>
@@ -347,7 +360,24 @@ function DatosAlumnos() {
                           </div>
                         </td>
                         <td>{e.activo == "1" ? "ACTIVO" : "INACTIVO"}</td>
-
+                        <td>
+                          <details className="dropdown">
+                            <summary className="m-1 btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black">
+                              Cursos
+                            </summary>
+                            <ul className="p-2 shadow menu dropdown-content bg-white rounded-box w-52">
+                              {e.cursos.length > 0 ? (
+                                e.cursos.map((curso) => (
+                                  <li>
+                                    {curso ? curso.nombre_curso : "Sin curso"}
+                                  </li>
+                                ))
+                              ) : (
+                                <li>Sin curso</li>
+                              )}
+                            </ul>
+                          </details>
+                        </td>
                         {/* boton Editar del HISTORIAL ALUMNO */}
                         <td>
                           <div className="flex flex-col">
@@ -385,7 +415,7 @@ function DatosAlumnos() {
                             id={`modal${e.id_alumno}`}
                             className={
                               modal == `modal${e.id_alumno}`
-                                ? "visible fixed w-full max-h-screen overflow-scroll  m-0 p-0 top-0 left-0  flex flex-row justify-center bg-white border"
+                                ? "visible z-50 fixed w-full max-h-screen overflow-scroll  m-0 p-0 top-0 left-0  flex flex-row justify-center bg-white border"
                                 : "hidden"
                             }
                           >
@@ -537,6 +567,40 @@ function DatosAlumnos() {
                                             defaultValue={e.fecha_nac}
                                             className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
                                           />
+
+                                          <label className="label">
+                                            <span className="label-text text-black">
+                                              CURSOS ASIGNADOS:
+                                            </span>
+                                          </label>
+                                          <ul
+                                            /*                                             className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
+                                             */ 
+                                            className="list list-disc ml-8"
+                                            name=""
+                                            id="cursos"
+                                          >
+                                            {e.cursos.length > 0 ? (
+                                              e.cursos.map((curso) => (
+                                                <li
+                                                className="text-left italic"
+                                                  value={
+                                                    curso
+                                                      ? curso.id_curso
+                                                      : false
+                                                  }
+                                                >
+                                                  {curso
+                                                    ? curso.id_curso +
+                                                      " " +
+                                                      curso.nombre_curso
+                                                    : "Sin curso"}
+                                                </li>
+                                              ))
+                                            ) : (
+                                              <li>Sin curso</li>
+                                            )}
+                                          </ul>
                                         </div>
 
                                         {/* DIV DERECHO */}
@@ -664,7 +728,37 @@ function DatosAlumnos() {
                                               className="ms-0.5 rounded-full input input-bordered input-info w-40 max-w-xs  bg-white border-black"
                                             />
                                           </div>
-
+                                          <label className="label">
+                                            <span className="label-text text-black">
+                                              ASIGNAR NUEVO CURSO:
+                                            </span>
+                                          </label>
+                                          <select
+                                            className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
+                                            name=""
+                                            id="nuevoCurso"
+                                          >
+                                            <option value="">Seleccione...</option>
+                                            {dataCursos.length > 0 ? (
+                                              dataCursos.map((curso) => (
+                                                <option
+                                                  value={
+                                                    curso
+                                                      ? curso.id_curso
+                                                      : false
+                                                  }
+                                                >
+                                                  {curso
+                                                    ? curso.id_curso +
+                                                      " " +
+                                                      curso.nombre.toUpperCase()
+                                                    : "Sin curso"}
+                                                </option>
+                                              ))
+                                            ) : (
+                                              <option>Sin curso</option>
+                                            )}
+                                          </select>
                                           {/*   DIV DOCUMENTACION */}
                                           <div className="form-control flex flex-row">
                                             <label className="label">

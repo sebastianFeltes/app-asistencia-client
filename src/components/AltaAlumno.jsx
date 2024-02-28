@@ -50,11 +50,12 @@ export default function AltaAlumno() {
     const docDni = e.target.docDni.checked;
     const docPlanilla = e.target.docPlanilla.checked;
     const docAnalitico = e.target.docAnalitico.checked;
-    const cursoAlumno = cursosSeleccionados.map((e) => e.id_curso);
+    /*  const cursoAlumno = cursosSeleccionados.map((e) => e.id_curso); */
+    const cursoAlumno = e.target.cursoAlumno.value;
     const fechaNacFormateada = fechaNac.split("-").reverse().join("/");
     const nacionalidad = e.target.nacionalidad.value;
     const lugarNacimiento = e.target.lugarNac.value;
-    
+
     //PAQUETE DE DATOS PARA EL POST
     const data = {
       nombre: nombreAlumno.toUpperCase(),
@@ -75,11 +76,11 @@ export default function AltaAlumno() {
       fotoc_dni: docDni ? 1 : 0,
       planilla_ins: docPlanilla ? 1 : 0,
       fotoc_analitico: docAnalitico ? 1 : 0,
-      cursos: cursoAlumno,
+      cursos: [cursoAlumno],
       activo: true,
     };
-    
-    //console.log(data)
+
+   // console.log(data)
     //CONDICIONAL DE SI EL ALUMNO EXISTE EN LA DB MODIFIQUE LOS DATOS Y SI ES NUEVO LO CREE
     if (!alumnoNuevo) {
       const id_alumno = alumnoExistente.id_alumno
@@ -116,7 +117,7 @@ export default function AltaAlumno() {
 
   //TODO:FUNCION BUSCAR ALUMNO(GET)
   async function getBuscarAlumno(e) {
-    e.preventDefault();
+/*     e.preventDefault();
     const dni = e.target.value;
 
     const res = await getAltaAlumno(dni);
@@ -124,20 +125,20 @@ export default function AltaAlumno() {
       setAlumnoExistente(res);
       setAlumnoNuevo(false);
     }
-    return res;
+    return res; */
   }
 
   //TODO:FUNCION SELECCIONAR MAS DE UN CURSO
   function agregarCurso(e) {
     e.preventDefault();
     const cursoSeleccionado = e.target.form.cursoAlumno.value;
-    const idCursoSeleccionado = cursoSeleccionado.split("-")[0];
-    const nombreCursoSeleccionado = cursoSeleccionado.split("-")[1];
-    const dataCursoSeleccionado = {
+    /*  const idCursoSeleccionado = cursoSeleccionado.value; */
+    /* const nombreCursoSeleccionado = cursoSeleccionado.split("-")[1]; */
+    /*     const dataCursoSeleccionado = {
       id_curso: idCursoSeleccionado,
-      nombre_curso: nombreCursoSeleccionado,
-    };
-    setCursosSeleccionados([...cursosSeleccionados, dataCursoSeleccionado]);
+      /* nombre_curso: nombreCursoSeleccionado,} */
+
+    setCursosSeleccionados([...cursosSeleccionados, cursoSeleccionado]);
   }
 
   return usuario.id_rol == 1 || usuario.id_rol == 2 ? (
@@ -262,7 +263,9 @@ export default function AltaAlumno() {
                       <input
                         id="lugarNac"
                         defaultValue={
-                          alumnoExistente ? alumnoExistente.lugar_nacimiento : ""
+                          alumnoExistente
+                            ? alumnoExistente.lugar_nacimiento
+                            : ""
                         }
                         type="text"
                         placeholder="Ingrese lugar de nacimiento"
@@ -428,33 +431,28 @@ export default function AltaAlumno() {
                     <div className="flex m-0">
                       <select
                         id="cursoAlumno"
-                        className="select w-full max-w-xs text-black bg-transparent rounded-full border-black"
+                        className={"select w-full max-w-xs text-black bg-transparent rounded-full border-black"}
                       >
-                        <option disabled selected>
-                          Curso
+                        <option value={false} disabled selected>
+                          Seleccione Curso
                         </option>
                         {/*TODO: MAPEO DE CURSOS */}
                         {!data
                           ? false
                           : data.map((e) => (
-                              <option
-                                key={e.id_curso}
-                                value={
-                                  e.id_curso + "-" + e.nombre.toUpperCase()
-                                }
-                              >
+                              <option key={e.id_curso} value={e.id_curso}>
                                 {e.nombre.toUpperCase()}
                               </option>
                             ))}
                       </select>
                       {/* TODO: BOTON PARA AGREGAR MAS DE UN CURSO */}
-                      <button
+                      {/* <button
                         onClick={(e) => agregarCurso(e)}
                         type="button"
                         className="btn ml-2 bg-blue-600 text-white rounded-full w-12 border-none hover:bg-blue-300 hover:text-black "
                       >
                         +
-                      </button>
+                      </button> */}
                       <div className="ml-2 w-10">
                         <ul className="grid grid-cols-1 gap-2">
                           {/* TODO:MAP PARA AGREGAR MAS DE UN CURSO */}
