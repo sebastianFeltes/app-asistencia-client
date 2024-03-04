@@ -45,10 +45,10 @@ export default function GeneradorQR({ alumno }) {
     <div>
       <div
         ref={componentRef}
-        className="w-[360px] h-auto mt-10 mx-auto flex flex-row justify-center items-center"
+        className="bg-white w-fit mt-10 mx-auto flex flex-row justify-center items-center"
       >
-        <div className="relative w-[320px] h-48 bg-white text-center flex flex-row flex-wrap rounded-md border border-black">
-          <h2 className="text-md text-[#176094] font-bold italic w-full text-center pt-2 h-fit">
+        <div className="relative w-[400px] h-[220px] bg-white text-center flex flex-row flex-wrap rounded-md border border-black">
+          <h2 className="text-md text-[#176094] font-bold italic w-full pr-[100px] pt-2 h-fit">
             CREDENCIAL DE ALUMNO
           </h2>
           <div className="w-2/3 flex flex-col justify-between items-start p-2 px-4 z-30">
@@ -61,7 +61,7 @@ export default function GeneradorQR({ alumno }) {
             </div>
             <div className=""></div>
             <QRCodeSVG
-              size={72}
+              size={86}
               className="relative rounded-sm z-50"
               value={`${alumno.id_alumno}.`}
             />
@@ -70,12 +70,12 @@ export default function GeneradorQR({ alumno }) {
             <img
               src={Detalle}
               alt=""
-              className="absolute w-86 top-12 right-0"
+              className="absolute w-86 top-[20px] right-0"
             />
           </div>
           <div className="w-1/3 flex flex-col justify-between items-center z-30">
-            <img className="w-28 absolute top-6 right-0" src={Logo} alt="" />
-            <span className="text-[#176094] font-semibold italic mb-2 mt-auto ml-6 text-center">
+            <img className="w-[140px] absolute top-1 right-0" src={Logo} alt="" />
+            <span className="text-[#176094] font-semibold italic mb-8 mt-auto ml-6 text-center">
               cfl404.ar
             </span>
           </div>
