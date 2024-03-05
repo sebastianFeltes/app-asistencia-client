@@ -94,7 +94,12 @@ function DatosAlumnos() {
         String(alumno.nro_dni).includes(valorABuscar)
       );
       setData(dataFiltrada);
-    }
+    } /*  else if (tipoDeFiltro == "curso") {
+      const dataFiltrada = dataFetch.filter((alumno) =>
+        String(alumno.curso).includes(valorABuscar)
+      );
+      setData(dataFiltrada);
+    } */
   }
 
   /*function limpiarFormulario(e) {
@@ -260,6 +265,15 @@ function DatosAlumnos() {
             type="number"
             className="rounded-full input input-bordered input-info mx-1 w-full max-w-xs bg-white border-black"
           />
+
+          <input
+            onChange={(e) => filtrar(e, "curso")}
+            id="curso"
+            placeholder={"FILTRAR POR CURSO"}
+            defaultValue={""}
+            type="text"
+            className="rounded-full input input-bordered input-info mx-1 w-full max-w-xs bg-white border-black"
+          />
         </div>
 
         <div className="overflow-x-auto">
@@ -367,8 +381,8 @@ function DatosAlumnos() {
                             </summary>
                             <ul className="p-2 shadow menu dropdown-content bg-white rounded-box w-52">
                               {e.cursos.length > 0 ? (
-                                e.cursos.map((curso) => (
-                                  <li>
+                                e.cursos.map((curso, index) => (
+                                  <li key={index}>
                                     {curso ? curso.nombre_curso : "Sin curso"}
                                   </li>
                                 ))
@@ -575,15 +589,16 @@ function DatosAlumnos() {
                                           </label>
                                           <ul
                                             /*                                             className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
-                                             */ 
+                                             */
                                             className="list list-disc ml-8"
                                             name=""
                                             id="cursos"
                                           >
                                             {e.cursos.length > 0 ? (
-                                              e.cursos.map((curso) => (
+                                              e.cursos.map((curso, index) => (
                                                 <li
-                                                className="text-left italic"
+                                                  key={index}
+                                                  className="text-left italic"
                                                   value={
                                                     curso
                                                       ? curso.id_curso
@@ -738,10 +753,13 @@ function DatosAlumnos() {
                                             name=""
                                             id="nuevoCurso"
                                           >
-                                            <option value="">Seleccione...</option>
+                                            <option value="">
+                                              Seleccione...
+                                            </option>
                                             {dataCursos.length > 0 ? (
-                                              dataCursos.map((curso) => (
+                                              dataCursos.map((curso, index) => (
                                                 <option
+                                                  key={index}
                                                   value={
                                                     curso
                                                       ? curso.id_curso
