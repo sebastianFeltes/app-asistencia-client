@@ -13,7 +13,7 @@ export default function GeneradorQR({ alumno }) {
   const exportAsPNG = () => {
     const node = componentRef.current;
 
-    html2canvas(node)
+    html2canvas(node, { scale: 2 })
       .then(function (canvas) {
         canvas.toBlob(function (blob) {
           saveAs(blob, "credencial.png");
@@ -31,7 +31,7 @@ export default function GeneradorQR({ alumno }) {
       .then((canvas) => {
         const imgData = canvas.toDataURL("image/png");
         const pdf = new jsPDF();
-        const imgWidth = 100; // Establece el ancho de la imagen en mm
+        const imgWidth = 600; // Establece el ancho de la imagen en mm
         const imgHeight = (canvas.height * imgWidth) / canvas.width; // Calcula la altura proporcional
         pdf.addImage(imgData, "PNG", 10, 10, imgWidth, imgHeight); // Agrega la imagen al PDF
         pdf.save("credencial.pdf"); // Guarda el PDF
@@ -74,7 +74,11 @@ export default function GeneradorQR({ alumno }) {
             />
           </div>
           <div className="w-1/3 flex flex-col justify-between items-center z-30">
-            <img className="w-[140px] absolute top-1 right-0" src={Logo} alt="" />
+            <img
+              className="w-[140px] absolute top-1 right-0"
+              src={Logo}
+              alt=""
+            />
             <span className="text-[#176094] font-semibold italic mb-8 mt-auto ml-6 text-center">
               cfl404.ar
             </span>
