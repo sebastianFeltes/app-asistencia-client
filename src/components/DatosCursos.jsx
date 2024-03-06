@@ -26,7 +26,7 @@ function DataCursos() {
   async function getCursos() {
     const res = await getMostrarCursos();
     res.dias.length > 0 ? setDiasCursos(res.dias) : false;
-    //console.log(res);
+    console.log(res);
     res.dataCursos.length > 0 ? setCursos(res.dataCursos) : false;
   }
 
@@ -91,7 +91,7 @@ function DataCursos() {
       fecha_final: fechaFinalizacion,
       horas_catedra: parseInt(hrsCatedra),
       cantidad_clases: parseInt(cantClases),
-      cantidad_inasistencias : parseInt(cantInasistencias),
+      cantidad_inasistencias: parseInt(cantInasistencias),
     };
     console.log(data);
     const res = await postCursoModificado(data);
@@ -363,6 +363,45 @@ function DataCursos() {
                                             defaultValue={e.cantidad_clases}
                                           />
                                         </div>
+                                      </div>
+                                      <div className="flex flex-row justify-around items-center">
+                                        <div>
+                                          <label className="label">
+                                            <span className="label-text text-black">
+                                              DÍAS:
+                                            </span>
+                                          </label>
+                                          {/* <input
+                                          id="cantClases"
+                                          type="number"
+                                          className="rounded-full input input-bordered input-info w-full max-w-xs bg-white border-black"
+                                          defaultValue=
+                                        /> */}
+                                          <ul className="list list-disc ml-8">
+                                            {diasCursos
+                                              ? diasCursos
+                                                  .filter((d) => {
+                                                    return (
+                                                      d.id_curso == e.id_curso
+                                                    );
+                                                  })
+                                                  .map((d) => {
+                                                    //console.log(d);
+                                                    return (
+                                                      <li
+                                                        className="text-left italic"
+                                                        key={e.id_relacion}
+                                                      >
+                                                        {d.nombre.toUpperCase()}
+                                                      </li>
+                                                    );
+                                                  })
+                                              : false}
+                                          </ul>
+                                        </div>
+                                        <button className="btn  bg-blue-600 text-white hover:bg-blue-300  hover:text-black">
+                                          Editar
+                                        </button>
                                       </div>
                                     </div>
 

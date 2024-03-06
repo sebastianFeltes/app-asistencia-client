@@ -40,7 +40,7 @@ function DatosAlumnos() {
 
   async function getDataAlumnos() {
     const res = await getAlumnos();
-    /* console.log(res); */
+    console.log(res);
     setDataFetch(res);
     return setData(res);
   }
@@ -62,6 +62,8 @@ function DatosAlumnos() {
     e.preventDefault();
     const value = e.target.value;
     let valorABuscar;
+    //console.log(value);
+    //console.log(tipoDeFiltro);
 
     if (isNaN(value)) {
       if (!value) {
@@ -94,12 +96,22 @@ function DatosAlumnos() {
         String(alumno.nro_dni).includes(valorABuscar)
       );
       setData(dataFiltrada);
-    } /*  else if (tipoDeFiltro == "curso") {
-      const dataFiltrada = dataFetch.filter((alumno) =>
-        String(alumno.curso).includes(valorABuscar)
-      );
+    } else if (tipoDeFiltro == "curso") {
+      const dataFiltrada = dataFetch.filter((alumno) => {
+        const cursosAlumno = alumno.cursos;
+        for (let i = 0; i < cursosAlumno.length; i++) {
+          const nombreCurso = cursosAlumno[i].nombre_curso; // Accede al nombre del curso
+          if (
+            nombreCurso &&
+            nombreCurso.toUpperCase().includes(valorABuscar.toUpperCase())
+          ) {
+            return true; // Si se encuentra una coincidencia, devolvemos true
+          }
+        }
+        return false; // Si no se encuentra ninguna coincidencia, devolvemos false
+      });
       setData(dataFiltrada);
-    } */
+    }
   }
 
   /*function limpiarFormulario(e) {
@@ -275,6 +287,11 @@ function DatosAlumnos() {
             className="rounded-full input input-bordered input-info mx-1 w-full max-w-xs bg-white border-black"
           />
         </div>
+        <div className="text-center text-2xl m-2">
+          <div className="border text-black">
+            Cantidad de alumnos: <span className="text-blue-700 font-extrabold"> {data.length}</span>
+          </div>
+        </div>
 
         <div className="overflow-x-auto">
           <table className="table text-center text-black  bg-white">
@@ -332,7 +349,7 @@ function DatosAlumnos() {
                   <p>TEL. EXTRA</p> <p>ALUMNO</p>
                 </th>
                 <th>DOCUMENTACIÓN</th>
-                <th>ACTIVO</th>
+                {/*                 <th>ACTIVO</th> */}
                 <th>CURSOS</th>
                 <th>ACCIONES</th>
               </tr>
@@ -344,7 +361,17 @@ function DatosAlumnos() {
                     .filter((e) => e.activo == "1")
                     .map((e) => (
                       <tr key={e.id_alumno} className="hover:bg-slate-200">
-                        <td></td>
+                        <td>
+                          {e.activo == "1" ? (
+                            <div className="w-4 h-4 border-2 border-blue-400 bg-blue-600 rounded-full m-auto">
+                              {" "}
+                            </div>
+                          ) : (
+                            <div className="w-4 h-4 border-2 border-red-400 bg-red-600 rounded-full m-auto">
+                              {" "}
+                            </div>
+                          )}
+                        </td>
                         <td>{e.nro_legajo}</td>
                         <td>{e.nombre.toUpperCase()}</td>
                         <td>{e.apellido.toUpperCase()}</td>
@@ -373,9 +400,20 @@ function DatosAlumnos() {
                               : "ANALITICO: NO"}
                           </div>
                         </td>
-                        <td>{e.activo == "1" ? "ACTIVO" : "INACTIVO"}</td>
+                        {/* <td>{e.activo == "1" ? "ACTIVO" : "INACTIVO"}</td> */}
                         <td>
-                          <details className="dropdown">
+                          <ul className="list list-disc ml-8">
+                            {e.cursos.length > 0 ? (
+                              e.cursos.map((curso, index) => (
+                                <li key={index}>
+                                  {curso ? curso.nombre_curso : "Sin curso"}
+                                </li>
+                              ))
+                            ) : (
+                              <li>Sin curso</li>
+                            )}
+                          </ul>
+                          {/* <details className="dropdown">
                             <summary className="m-1 btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black">
                               Cursos
                             </summary>
@@ -390,7 +428,7 @@ function DatosAlumnos() {
                                 <li>Sin curso</li>
                               )}
                             </ul>
-                          </details>
+                          </details> */}
                         </td>
                         {/* boton Editar del HISTORIAL ALUMNO */}
                         <td>
@@ -553,7 +591,7 @@ function DatosAlumnos() {
                                             className="rounded-full input input-info w-full max-w-xs  bg-white border-black"
                                           />
 
-                                          <span className="flex flex-row">
+                                          {/* <span className="flex flex-row">
                                             <label className="label cursor-pointer">
                                               <span className="label-text text-black">
                                                 Activo
@@ -567,7 +605,7 @@ function DatosAlumnos() {
                                                 e.activo == "1" ? true : false
                                               }
                                             />
-                                          </span>
+                                          </span> */}
 
                                           <label className="label">
                                             <span className="label-text text-black">
