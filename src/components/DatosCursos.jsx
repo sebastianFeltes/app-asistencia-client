@@ -399,9 +399,6 @@ function DataCursos() {
                                               : false}
                                           </ul>
                                         </div>
-                                        <button className="btn  bg-blue-600 text-white hover:bg-blue-300  hover:text-black">
-                                          Editar
-                                        </button>
                                       </div>
                                     </div>
 

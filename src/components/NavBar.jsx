@@ -29,6 +29,11 @@ export default function NavBar() {
               Cursos
             </button>
           </Link>
+          <Link to={"/app/datos-docentes"}>
+            <button className="btn btn-primary rounded-full bg-blue-600 hover:bg-[#274c6d] hover:text-white border-none px-24 ">
+              Docentes
+            </button>
+          </Link>
           <Link to={"/app/datos-alumnos"}>
             <button className="btn btn-primary rounded-full bg-blue-600 hover:bg-[#274c6d] hover:text-white px-24 border-none">
               Alumnos

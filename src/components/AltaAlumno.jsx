@@ -76,11 +76,11 @@ export default function AltaAlumno() {
       fotoc_dni: docDni ? 1 : 0,
       planilla_ins: docPlanilla ? 1 : 0,
       fotoc_analitico: docAnalitico ? 1 : 0,
-      cursos: [cursoAlumno],
+      cursos: cursosSeleccionados,
       activo: true,
     };
 
-   // console.log(data)
+    console.log(data)
     //CONDICIONAL DE SI EL ALUMNO EXISTE EN LA DB MODIFIQUE LOS DATOS Y SI ES NUEVO LO CREE
     if (!alumnoNuevo) {
       const id_alumno = alumnoExistente.id_alumno
@@ -116,8 +116,8 @@ export default function AltaAlumno() {
   }
 
   //TODO:FUNCION BUSCAR ALUMNO(GET)
-  async function getBuscarAlumno(e) {
-/*     e.preventDefault();
+/*   async function getBuscarAlumno(e) {
+         e.preventDefault();
     const dni = e.target.value;
 
     const res = await getAltaAlumno(dni);
@@ -125,20 +125,24 @@ export default function AltaAlumno() {
       setAlumnoExistente(res);
       setAlumnoNuevo(false);
     }
-    return res; */
-  }
+    return res; 
+  } */
 
   //TODO:FUNCION SELECCIONAR MAS DE UN CURSO
   function agregarCurso(e) {
     e.preventDefault();
-    const cursoSeleccionado = e.target.form.cursoAlumno.value;
-    /*  const idCursoSeleccionado = cursoSeleccionado.value; */
-    /* const nombreCursoSeleccionado = cursoSeleccionado.split("-")[1]; */
-    /*     const dataCursoSeleccionado = {
-      id_curso: idCursoSeleccionado,
-      /* nombre_curso: nombreCursoSeleccionado,} */
+    const cursoSeleccionadoId = parseInt(e.target.value);
+    // console.log(cursoSeleccionadoId);
+    // console.log(data.filter(curso=>curso.id_curso==cursoSeleccionadoId)[0].nombre);
+    setCursosSeleccionados([...cursosSeleccionados, cursoSeleccionadoId]);
+    // console.log(cursosSeleccionados);
+  }
 
-    setCursosSeleccionados([...cursosSeleccionados, cursoSeleccionado]);
+  //TODO:FUNCION ELIMINAR CURSO DE LA LISTA
+  function eliminarCursoDeLista(ev,e){
+    ev.preventDefault();
+    console.log(e)
+    setCursosSeleccionados(prevCursos => prevCursos.filter(id_curso => id_curso !== e));
   }
 
   return usuario.id_rol == 1 || usuario.id_rol == 2 ? (
@@ -428,10 +432,13 @@ export default function AltaAlumno() {
                     <label className="label">
                       <span className="label-text text-black">CURSO:</span>
                     </label>
-                    <div className="flex m-0">
+                    <div className="flex flex-col m-0">
                       <select
+                        onChange={(e) => agregarCurso(e)}
                         id="cursoAlumno"
-                        className={"select w-full max-w-xs text-black bg-transparent rounded-full border-black"}
+                        className={
+                          "select w-full max-w-xs text-black bg-transparent rounded-full border-black"
+                        }
                       >
                         <option value={false} disabled selected>
                           Seleccione Curso
@@ -453,17 +460,17 @@ export default function AltaAlumno() {
                       >
                         +
                       </button> */}
-                      <div className="ml-2 w-10">
-                        <ul className="grid grid-cols-1 gap-2">
+                      <div className="">
+                        <ul className="list list-disc text-start ml-8">
                           {/* TODO:MAP PARA AGREGAR MAS DE UN CURSO */}
                           {!cursosSeleccionados
                             ? false
-                            : cursosSeleccionados.map((e) => (
+                            : cursosSeleccionados.map((e, index) => (
                                 <li
-                                  key={e.id_curso}
-                                  className="text-black text-xs flex "
+                                  key={index}
+                                  className="text-black text-md m-4"
                                 >
-                                  {"•" + e.nombre_curso.toUpperCase()}
+                                 {data?data.filter(curso=>curso.id_curso==e)[0].nombre.toUpperCase():false} <span onClick={ev=>eliminarCursoDeLista(ev,e)} className="m-0 p-0 px-2 cursor-pointer border border-red-700 rounded-full hover:bg-red-600">X</span>
                                 </li>
                               ))}
                         </ul>
