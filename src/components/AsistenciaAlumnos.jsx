@@ -20,7 +20,7 @@ function AsistenciaAlumnos() {
     // console.log(cursoRes);
     cursoRes ? setDataCurso(cursoRes) : false;
     res.length > 0 ? setData(res) : false;
-    //console.log(data);
+    console.log(data);
     //console.log(cursoRes);
     //dataCurso.dias.map((e) => console.log(e.nombre_dia));
   }
@@ -60,6 +60,21 @@ function AsistenciaAlumnos() {
         item.id_alumno === studentId &&
         item.descripcion.split("")[0].toUpperCase() === "A"
     ).length;
+  }
+
+  function getColorClass(letter) {
+    switch (letter) {
+      case "A":
+        return "text-red-600 font-bold";
+      case "J":
+        return "text-orange-500 font-bold";
+      case "P":
+        return "text-blue-600 font-bold";
+      case "T":
+        return "text-green-600 font-bold";
+      default:
+        return "";
+    }
   }
 
   return (
@@ -186,55 +201,44 @@ function AsistenciaAlumnos() {
                           item.id_alumno === student.id_alumno
                       );
                       return (
-                        <td
-                          className={
-                            attendanceRecord
-                              ? attendanceRecord.descripcion
-                                  .split("")[0]
-                                  .toUpperCase() == "P"
-                                ? "text-blue-600 font-bold"
-                                : attendanceRecord.descripcion
-                                    .split("")[0]
-                                    .toUpperCase() == "A"
-                                ? "text-red-600 font-bold"
-                                : attendanceRecord.descripcion
-                                    .split("")[0]
-                                    .toUpperCase() == "J"
-                                ? "text-orange-400 font-bold"
-                                : attendanceRecord.descripcion
-                                    .split("")[0]
-                                    .toUpperCase() == "M"
-                                ? "text-green-400 font-bold"
-                                : false
-                              : false
-                          }
-                          key={index}
-                        >
-                          {/* TODO: QUE SE PUEDA CAMBIAR TAMBIEN EL JUSTIFICADO */}
-                          <div className="border border-black">
+                        <td key={index}>
+                          <div
+                            className={`border border-black ${
+                              attendanceRecord
+                                ? getColorClass(
+                                    attendanceRecord.descripcion
+                                      .split("")[0]
+                                      .toUpperCase()
+                                  )
+                                : ""
+                            }`}
+                          >
                             {attendanceRecord ? (
                               attendanceRecord.descripcion
                                 .split("")[0]
-                                .toUpperCase() == "A" ? (
+                                .toUpperCase() === "A" ? (
                                 <select
                                   id={attendanceRecord.id_asistencia}
                                   onChange={(e) => changeAttendance(e)}
+                                  value={attendanceRecord.descripcion
+                                    .split("")[0]
+                                    .toUpperCase()}
                                   className="bg-transparent"
                                 >
                                   <option
-                                    className="bg-transparent font-bold"
+                                    className="font-bold text-red-500"
                                     value={4}
                                   >
                                     A
                                   </option>
                                   <option
-                                    className="text-orange-400 font-bold"
+                                    className="font-bold text-orange-500"
                                     value={5}
                                   >
                                     J
                                   </option>
                                   <option
-                                    className="text-blue-600 font-bold"
+                                    className="font-bold text-blue-600"
                                     value={1}
                                   >
                                     P
@@ -242,26 +246,32 @@ function AsistenciaAlumnos() {
                                 </select>
                               ) : attendanceRecord.descripcion
                                   .split("")[0]
-                                  .toUpperCase() == "P" &&
+                                  .toUpperCase() === "P" &&
                                 usuario.id_rol <= 2 ? (
                                 <select
                                   id={attendanceRecord.id_asistencia}
                                   onChange={(e) => changeAttendance(e)}
                                   className="bg-transparent"
                                 >
-                                  <option value={1} className="text-blue-600 font-bold">P</option>
                                   <option
-                                    className="text-red-600 font-bold"
-
+                                    value={1}
+                                    className="text-blue-600 font-bold"
+                                  >
+                                    P
+                                  </option>
+                                  <option
                                     value={4}
+                                    className="text-red-600 font-bold"
                                   >
                                     A
                                   </option>
                                 </select>
                               ) : (
-                                attendanceRecord.descripcion
-                                  .split("")[0]
-                                  .toUpperCase()
+                                <span>
+                                  {attendanceRecord.descripcion
+                                    .split("")[0]
+                                    .toUpperCase()}
+                                </span>
                               )
                             ) : (
                               "N/A"

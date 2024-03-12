@@ -70,7 +70,7 @@ function DataCursos() {
     const minInicio = e.target.minInicio.value;
     const nvoHorarioInicio = `${e.target.nvoHorarioInicio.value}:${minInicio}:00`;
     const minFinal = e.target.minFinal.value;
-    const nvoHorarioFinal = `${e.target.nvoHorarioFinal.value}:${minFinal}.00 `;
+    const nvoHorarioFinal = `${e.target.nvoHorarioFinal.value}:${minFinal}:00`;
     const nvoCheck = e.target.nvoCheck.value;
     const idCurso = e.target.idCurso.value;
     const diasCursos = diasSeleccionados.map((e) => e.id_dia);
