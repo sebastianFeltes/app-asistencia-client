@@ -156,7 +156,7 @@ function AsistenciaAlumnos() {
                     <th key={index}>
                       <div className="p-1 border border-black">
                         {date
-                          ? date.split("/")[0] + "/" + date.split("/")[1]
+                          ? date.split("-")[0] + "-" + date.split("-")[1]
                           : false}
                       </div>
                     </th>
@@ -164,10 +164,10 @@ function AsistenciaAlumnos() {
                 </tr>
               </thead>
               <tbody>
-                {uniqueStudents.map((student) => (
+                {uniqueStudents.map((student, index) => (
                   <tr
                     className="text-black hover:bg-blue-100"
-                    key={student.id_alumno}
+                    key={index}
                   >
                     <td className="sticky left-0 hover:bg-blue-100">
                       <div className="w-24 bg-white border border-black italic">
