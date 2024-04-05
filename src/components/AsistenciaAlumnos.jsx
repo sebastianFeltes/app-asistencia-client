@@ -20,7 +20,7 @@ function AsistenciaAlumnos() {
     // console.log(cursoRes);
     cursoRes ? setDataCurso(cursoRes) : false;
     res.length > 0 ? setData(res) : false;
-    console.log(data);
+    // console.log(data);
     //console.log(cursoRes);
     //dataCurso.dias.map((e) => console.log(e.nombre_dia));
   }
@@ -152,23 +152,30 @@ function AsistenciaAlumnos() {
                       Restantes
                     </div>
                   </th>
-                  {uniqueDates.map((date, index) => (
-                    <th key={index}>
-                      <div className="p-1 border border-black">
-                        {date
-                          ? date.split("-")[0] + "-" + date.split("-")[1]
-                          : false}
-                      </div>
-                    </th>
-                  ))}
+                  {console.log(uniqueDates)}
+                  {uniqueDates
+                    .sort((a, b) => {
+                      const [dayA, monthA, yearA] = a.split("-").map(Number);
+                      const [dayB, monthB, yearB] = b.split("-").map(Number);
+                      return (
+                        new Date(yearA, monthA - 1, dayA) -
+                        new Date(yearB, monthB - 1, dayB)
+                      );
+                    })
+                    .map((date, index) => (
+                      <th key={index}>
+                        <div className="p-1 border border-black">
+                          {date
+                            ? date.split("-")[0] + "-" + date.split("-")[1]
+                            : false}
+                        </div>
+                      </th>
+                    ))}
                 </tr>
               </thead>
               <tbody>
                 {uniqueStudents.map((student, index) => (
-                  <tr
-                    className="text-black hover:bg-blue-100"
-                    key={index}
-                  >
+                  <tr className="text-black hover:bg-blue-100" key={index}>
                     <td className="sticky left-0 hover:bg-blue-100">
                       <div className="w-24 bg-white border border-black italic">
                         {student.apellido

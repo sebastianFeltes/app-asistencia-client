@@ -4,6 +4,6 @@ export async function buscarAlumnoPorID(id) {
 	// Default options are marked with *
 	const response = await fetch(`${alumnoUrl}/${id}`);
 	const res = await response.json(); // parses JSON response into native JavaScript objects
-	console.log(res);
+	// console.log(res);
 	return await res;
 }
