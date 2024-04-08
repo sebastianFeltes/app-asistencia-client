@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { buscarAlumnoPorID } from "../services/GestionQR.services";
 import Logo from "../assets/logo-CFL404-color.png";
 import Reloj from "../utils/Reloj";
+import Anuncio from "./Anuncio";
 
 export default function LectorQR() {
   const [mostrarData, setMostrarData] = useState(false);
@@ -29,6 +30,7 @@ export default function LectorQR() {
       let findedNum = parseInt(e.target.value.split(".")[0]);
       //TODO: enviar findedNum al servidor para traer los datos del alumno
       const res = await buscarAlumnoPorID(findedNum);
+      console.log(res)
       if (res.error) {
         setMostrarError(!mostrarError);
         console.log(!res.error);
@@ -85,6 +87,9 @@ export default function LectorQR() {
                 Centro de Formación Laboral 404 - Berisso
               </span>
             </div>
+          </div>
+          <div>
+            <Anuncio/>
           </div>
           <div className="flex flex-col h-full w-full">
             <div className=" w-full">
