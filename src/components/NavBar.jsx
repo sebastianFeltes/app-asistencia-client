@@ -7,7 +7,9 @@ export default function NavBar() {
   const navigate = useNavigate();
   const userContext = useContext(UserContext);
   const userData = userContext.userData;
-  const avatar = `${userData.nombre.split("")[0]}${userData.apellido.split("")[0]}`;
+  const avatar = `${userData.nombre.split("")[0]}${
+    userData.apellido.split("")[0]
+  }`;
   //const apellido = userContext.apellidoUsuario.toUpperCase().split("", 1);
   function logOut(e) {
     e.preventDefault();
@@ -19,26 +21,42 @@ export default function NavBar() {
     <div className={"flex flex-row justify-around navbar  bg-[#132841] "}>
       <div className="">
         <Link to={"/app/home-admin"}>
-          <img src={Logo} className="w-24 m-0 p-0 rounded-full hover:bg-[#132852]" />
+          <img
+            src={Logo}
+            className="w-24 m-0 p-0 rounded-full hover:bg-[#132852]"
+          />
         </Link>
       </div>
       <div className="flex-1 gap-2">
         <form className="w-full flex flex-row justify-evenly my-2">
           <Link to={"/app/datos-cursos"}>
-            <button className="btn btn-primary rounded-full bg-blue-600 hover:bg-[#274c6d] hover:text-white border-none px-24 ">
+            <button className="btn btn-primary w-56 rounded-full bg-blue-600 hover:bg-[#274c6d] hover:text-white border-none ">
               Cursos
             </button>
           </Link>
-          <Link to={"/app/datos-docentes"}>
-            <button className="btn btn-primary rounded-full bg-blue-600 hover:bg-[#274c6d] hover:text-white border-none px-24 ">
-              Docentes
-            </button>
-          </Link>
+          {userData.id_rol == 1 ? (
+            <Link to={"/app/datos-docentes"}>
+              <button className="btn btn-primary w-56 rounded-full bg-blue-600 hover:bg-[#274c6d] hover:text-white border-none  ">
+                Docentes
+              </button>
+            </Link>
+          ) : (
+            false
+          )}
           <Link to={"/app/datos-alumnos"}>
-            <button className="btn btn-primary rounded-full bg-blue-600 hover:bg-[#274c6d] hover:text-white px-24 border-none">
+            <button className="btn btn-primary w-56 rounded-full bg-blue-600 hover:bg-[#274c6d] hover:text-white border-none">
               Alumnos
             </button>
           </Link>
+          {userData.id_rol == 1 ? (
+            <Link to={"/app/registro-asistencia"}>
+              <button className="btn btn-primary w-56 rounded-full bg-blue-600 hover:bg-[#274c6d] hover:text-white  border-none">
+                Registro de Asistencia
+              </button>
+            </Link>
+          ) : (
+            false
+          )}
         </form>
         <div className="dropdown dropdown-end">
           <label tabIndex={0} className="">
