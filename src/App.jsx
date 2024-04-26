@@ -18,37 +18,51 @@ import AltaCurso from "./components/altaCurso";
 
 import HistorialAlumnos from "./components/HistorialAlumnos";
 import { HistorialDocentes } from "./components/HistorialDocente";
+import RegistroAsistencia from "./components/RegistroAsistencia";
 
 function App() {
-	const queryClient = new QueryClient();
-	return (
-		<UserState>
-			<QueryClientProvider client={queryClient}>
-				<BrowserRouter>
-					<Routes>
-						<Route path="/" element={<Layout />}>
-							<Route index element={<Login />} />
-							<Route path="/qr" element={<LectorQR />} />
-						</Route>
+  const queryClient = new QueryClient();
+  return (
+    <UserState>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Login />} />
+              <Route path="/qr" element={<LectorQR />} />
+            </Route>
 
-						<Route path="/app" element={<AppLayout />}>
-							<Route path="/app/generador-qr" element={<GeneradorQR />} />
-							<Route path="/app/home-admin" element={<HomeAdmin />} />
-							<Route path="/app/alta-alumno" element={<AltaAlumno />} />
-							<Route path="/app/alta-curso" element={<AltaCurso />} />
-							<Route path="/app/datos-docentes" element={<DatosDocentes />} />
-							<Route path="/app/historial-docente" element={<HistorialDocentes />} />
-							<Route path="/app/datos-cursos" element={<DataCursos />} />
-							<Route path="/app/asistencia-alumnos" element={<AsistenciaAlumnos />} />
-							<Route path="/app/alta-docente" element={<AltaDocente />} />
-							<Route path="/app/datos-alumnos" element={<DatosAlumnos />} />
-							<Route path="/app/historial-alumnos" element={<HistorialAlumnos />} />
-						</Route>
-					</Routes>
-				</BrowserRouter>
-			</QueryClientProvider>
-		</UserState>
-	);
+            <Route path="/app" element={<AppLayout />}>
+              <Route path="/app/generador-qr" element={<GeneradorQR />} />
+              <Route path="/app/home-admin" element={<HomeAdmin />} />
+              <Route path="/app/alta-alumno" element={<AltaAlumno />} />
+              <Route path="/app/alta-curso" element={<AltaCurso />} />
+              <Route path="/app/datos-docentes" element={<DatosDocentes />} />
+              <Route
+                path="/app/historial-docente"
+                element={<HistorialDocentes />}
+              />
+              <Route path="/app/datos-cursos" element={<DataCursos />} />
+              <Route
+                path="/app/asistencia-alumnos"
+                element={<AsistenciaAlumnos />}
+              />
+              <Route path="/app/alta-docente" element={<AltaDocente />} />
+              <Route path="/app/datos-alumnos" element={<DatosAlumnos />} />
+              <Route
+                path="/app/historial-alumnos"
+                element={<HistorialAlumnos />}
+              />
+              <Route
+                path="/app/registro-asistencia"
+                element={<RegistroAsistencia />}
+              />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </QueryClientProvider>
+    </UserState>
+  );
 }
 
 export default App;
