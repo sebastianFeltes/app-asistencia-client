@@ -48,6 +48,7 @@ export default function LectorQR() {
       //TODO: enviar findedNum al servidor para traer los datos del alumno
       const res = await buscarAlumnoPorID(findedNum);
       // console.log(res)
+      console.log(res);
       if (res.error) {
         setMostrarError(!mostrarError);
         setRelectura(false);
@@ -61,6 +62,12 @@ export default function LectorQR() {
           // console.log(res.detalle);
           setRelectura(true);
           setMostrarError(false);
+          setTimeout(() => {
+            setRelectura(false);
+          }, 3000);
+        } else {
+          // console.log(res);
+          setRelectura(false);
           setTimeout(() => {
             setRelectura(false);
           }, 3000);
@@ -108,6 +115,7 @@ export default function LectorQR() {
             </div>
           </div>
           <div>
+            <Anuncio />
             <Anuncio />
           </div>
           <div className="flex flex-col h-full w-full">
