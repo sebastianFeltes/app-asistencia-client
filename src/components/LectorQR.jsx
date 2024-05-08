@@ -10,38 +10,57 @@ export default function LectorQR() {
   const [relectura, setRelectura] = useState(false);
   const [alumno, setAlumno] = useState({
     data_alumno_curso: {
-      apellido_alumno: "apellido",
-      nombre_alumno: "nombre",
+      apellido_alumno: "--------",
+      nombre_alumno: "-------",
       dni_alumno: 12222333,
-      nombre_curso: "curso al que ingresa",
-      clases_totales: 10,
+      nombre_curso: "---------",
+      clases_totales: 0,
     },
-    cantidad_inasistencias: 1,
-    hora_ingreso: "17:00:00",
-    cod_asistencia: { descripcion: "Tipo de asistencia" },
+    cantidad_inasistencias: 0,
+    hora_ingreso: "--:--:--",
+    cod_asistencia: { descripcion: "--------------" },
   });
+
   const [inputValue, setInputValue] = useState("");
   const inputRef = useRef(null);
 
   const sendInfo = async (e) => {
     e.preventDefault();
+    setAlumno({
+      data_alumno_curso: {
+        apellido_alumno: "--------",
+        nombre_alumno: "-------",
+        dni_alumno: 12222333,
+        nombre_curso: "---------",
+        clases_totales: 0,
+      },
+      cantidad_inasistencias: 0,
+      hora_ingreso: "--:--:--",
+      cod_asistencia: { descripcion: "------------" },
+    });
+    setMostrarData(false);
+    setMostrarError(false)
+    setRelectura(false)
+
     let currentValue = e.target.value;
     if (currentValue.includes(".")) {
       let findedNum = parseInt(e.target.value.split(".")[0]);
       //TODO: enviar findedNum al servidor para traer los datos del alumno
       const res = await buscarAlumnoPorID(findedNum);
-      console.log(res)
+      // console.log(res)
       if (res.error) {
         setMostrarError(!mostrarError);
-        console.log(!res.error);
+        setRelectura(false);
+        // console.log(!res.error);
         setTimeout(() => {
           setMostrarError(false);
           setInputValue("");
-        }, 7000);
+        }, 3000);
       } else {
-        if (res.detalle) {
-          console.log(res.detalle);
+        if (res.cod_asistencia.re_scaned) {
+          // console.log(res.detalle);
           setRelectura(true);
+          setMostrarError(false);
           setTimeout(() => {
             setRelectura(false);
           }, 3000);
@@ -52,26 +71,26 @@ export default function LectorQR() {
         setTimeout(() => {
           setAlumno({
             data_alumno_curso: {
-              apellido_alumno: "apellido",
-              nombre_alumno: "nombre",
+              apellido_alumno: "--------",
+              nombre_alumno: "-------",
               dni_alumno: 12222333,
-              nombre_curso: "curso al que ingresa",
-              clases_totales: 10,
+              nombre_curso: "---------",
+              clases_totales: 0,
             },
-            cantidad_inasistencias: 1,
-            hora_ingreso: "17:00:00",
-            cod_asistencia: { descripcion: "Tipo de asistencia" },
+            cantidad_inasistencias: 0,
+            hora_ingreso: "--:--:--",
+            cod_asistencia: { descripcion: "------------" },
           });
           setMostrarData(false);
-          setInputValue("");
+          // setInputValue("");
         }, 6000);
       }
     }
-  };
-  useEffect(() => {
+
     setInputValue(""); // Limpia el input cuando se monta el componente
     inputRef.current.focus();
-  }, [mostrarData, mostrarError]);
+  };
+  // useEffect(() => {}, [mostrarData, mostrarError, relectura]);
 
   return (
     <div className="hero min-h-screen bg-white ">
@@ -89,7 +108,7 @@ export default function LectorQR() {
             </div>
           </div>
           <div>
-            <Anuncio/>
+            <Anuncio />
           </div>
           <div className="flex flex-col h-full w-full">
             <div className=" w-full">
@@ -181,16 +200,18 @@ export default function LectorQR() {
                   </span>
                 </div>
               </div>
+
               <div>
-                {mostrarError || relectura ? (
-                  <div className="w-full h-full flex flex-col justify-center text-red-600 text-3xl bg-white bg-opacity-90 absolute top-0 left-0 z-50">
-                    {mostrarError
-                      ? "ERROR AL BUSCAR ALUMNO O CARGAR ASISTENCIA, POR FAVOR INFORME EN SECRETARÍA..."
-                      : false}
-                    {relectura
-                      ? "UD YA HA CARGADO SU ASISTENCIA EL DÍA DE HOY..."
-                      : false}
-                  </div>
+                {mostrarError ? (
+                  <span>
+                    ERROR AL BUSCAR ALUMNO O CARGAR ASISTENCIA, POR FAVOR
+                    INFORME EN SECRETARÍA...
+                  </span>
+                ) : (
+                  false
+                )}
+                {relectura ? (
+                  <span>UD YA HA CARGADO SU ASISTENCIA EL DÍA DE HOY...</span>
                 ) : (
                   false
                 )}
