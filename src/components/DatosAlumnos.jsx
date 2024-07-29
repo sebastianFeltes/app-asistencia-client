@@ -1,214 +1,136 @@
-//import { useQuery } from "@tanstack/react-query";
+import { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import UserContext from "../context/user.context";
 import {
+  deleteAlumno,
   getAlumnos,
   postAlumnosModificado,
 } from "../services/DatosAlumnos.services.js";
 import { getMostrarCursos } from "../services/homeAdmin.services";
-import { Link } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
-import UserContext from "../context/user.context";
 import GeneradorQR from "./GeneradorQR.jsx";
 
 function DatosAlumnos() {
   const userContext = useContext(UserContext);
-  const usuario = userContext.userData;
-  const [cursosSeleccionados, setCursosSeleccionados] = useState([]); //TODO:useState para guardar mas de un curso
+  const [cursosSeleccionados, setCursosSeleccionados] = useState([]);
   const [data, setData] = useState(undefined);
-  const [dataFetch, setDataFetch] = useState(undefined);
-  //const { data /*isLoading, error*/ } = useQuery({queryKey:"getAlumnos", queryFn:getAlumnos});
-  const [modal, setModal] = useState("modal");
-
-  //state del qr
-  const [modalQR, setModalQR] = useState(false);
+  const [alumnos, setAlumnos] = useState([]);
   const [dataCursos, setDataCursos] = useState([]);
-  const [dataIsLoad, setDataIsLoad] = useState(false);
-  const [loadProgress, setLoadProgress] = useState("0%");
+  const [alumnosFetch, setAlumnosFetch] = useState([]);
+  const [modal, setModal] = useState("modal");
+  const [modalQR, setModalQR] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(10);
+  const [total, setTotal] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
-  /*   useEffect(() => {
-    if (data) setDataIsLoad(false);
-    console.log("data load!");
-  }, [data]); */
-
-  function mostrarQR(e) {
-    e.preventDefault();
-    const id_alumno = e.target.id;
-    setModalQR(`codigo_qr${id_alumno}`);
-  }
-
-  async function getCursos() {
-    const res = await getMostrarCursos();
-    //res.dias.length > 0 ? setDiasCursos(res.dias) : false;
-    // console.log(res.dataCursos);
-    // res.dataCursos.length > 0 ? setDataCursos(res.dataCursos) : false;
-    res ? setDataCursos(res.dataCursos) : false;
-  }
-  //
-  //const userContext=useContext(UserContext);
-  //const rol =  userContext.userData.id_rol;
-  //console.log(rol)
-
-  async function getDataAlumnos() {
-    const res = await getAlumnos();
-    console.log(res);
-    console.log("data load!");
-    setDataFetch(res); //TODO:ESTO TRAE TODOS LOS ALUMNOS, COME TODA LA RAM!!! PAGINARRRRRR!!!!!!!!!!!!!!!!!!!!
-    return setData(res);
-  }
+  const fetchAlumnos = async () => {
+    setLoading(true);
+    try {
+      const data = await getAlumnos(page, size);
+      // console.log(data.data);
+      setAlumnos(data.data);
+      setTotal(data.total);
+      setTotalPages(data.totalPages);
+    } catch (error) {
+      console.error("Error al obtener alumnos:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    getDataAlumnos();
-    getCursos();
-  }, []);
+    fetchAlumnos();
+  }, [page, size]);
 
-  function mostrarModal(ev, e) {
-    //funcion que muestra el modal
-    // console.log(e)
-    let alumnoCursos = e.cursos.map((cursos) => cursos.id_curso);
-    ev.preventDefault();
-    const id = ev.target.id;
-    /*  console.log(id); */
-    setModal("modal" + id);
-    setCursosSeleccionados(alumnoCursos);
-    // console.log(cursosSeleccionados)
-  }
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+  };
 
-  const [isTyping, setIsTyping] = useState(false);
+  const handleSizeChange = (newSize) => {
+    setSize(newSize);
+    setPage(1); // Reiniciar a la primera página cuando cambie el tamaño
+  };
 
-  function filtrar(e, tipoDeFiltro) {
-    e.preventDefault();
-    const value = e.target.value;
-    let valorABuscar;
-    setIsTyping(true);
-    //console.log(value);
-    //console.log(tipoDeFiltro);
-
-    setTimeout(() => {
-      setIsTyping(false);
-      // Aplicar el filtro después de 300ms
-      if (!isTyping) {
-        if (isNaN(value)) {
-          if (!value) {
-            valorABuscar = "";
-          } else {
-            valorABuscar = value.toUpperCase();
-          }
-        } else {
-          valorABuscar = value;
-        }
-        //console.log(valorABuscar);
-
-        if (tipoDeFiltro == "nombre") {
-          const dataFiltrada = dataFetch.filter((alumno) =>
-            String(alumno.nombre.toUpperCase()).includes(valorABuscar)
-          );
-          setData(dataFiltrada);
-        } else if (tipoDeFiltro == "nroLegajo") {
-          const dataFiltrada = dataFetch.filter((alumno) =>
-            String(alumno.nro_legajo).includes(valorABuscar)
-          );
-          setData(dataFiltrada);
-        } else if (tipoDeFiltro == "apellido") {
-          const dataFiltrada = dataFetch.filter((alumno) =>
-            String(alumno.apellido.toUpperCase()).includes(valorABuscar)
-          );
-          setData(dataFiltrada);
-        } else if (tipoDeFiltro == "dni") {
-          const dataFiltrada = dataFetch.filter((alumno) =>
-            String(alumno.nro_dni).includes(valorABuscar)
-          );
-          setData(dataFiltrada);
-        } else if (tipoDeFiltro == "curso") {
-          const dataFiltrada = dataFetch.filter((alumno) => {
-            const cursosAlumno = alumno.cursos;
-            for (let i = 0; i < cursosAlumno.length; i++) {
-              const nombreCurso = cursosAlumno[i].nombre_curso; // Accede al nombre del curso
-              if (
-                nombreCurso &&
-                nombreCurso.toUpperCase().includes(valorABuscar.toUpperCase())
-              ) {
-                return true; // Si se encuentra una coincidencia, devolvemos true
-              }
-            }
-            return false; // Si no se encuentra ninguna coincidencia, devolvemos false
-          });
-          setData(dataFiltrada);
-        }
-      }
-    }, 300);
-  }
-
-  /*function limpiarFormulario(e) {
-    e.target.reset();
-  }*/
-
-  async function modificarDatosAlumnos(e) {
-    //funcion modifica los datos del alumno una vez cambiados
-    e.preventDefault();
-    !modal ? e.target.reset() : true;
-    // const activo = e.target.activo.checked ? "1" : "0";
-    const nombre = e.target.nombreAlumno.value;
-    const apellido = e.target.apellidoAlumno.value;
-    const tipoDNI = e.target.tipoDocumento.value;
-    const dni = e.target.dniAlumno.value;
-    const fechaNac = e.target.fechaNacimiento.value;
-    const codAreaTel = e.target.telCaracteristica.value;
-    const telefono = e.target.telAlumno.value;
-    const direccion = e.target.direccionAlumno.value;
-    const email = e.target.emailAlumno.value;
-    const lugar_nacimiento = e.target.lugarNacimiento.value;
-    const nacionalidad = e.target.nacionalidad.value;
-    const carTelefonoExtra = e.target.telCaracterExtra.value;
-    const telefonoExtra = e.target.telExtra.value;
-    const legajo = e.target.nroLegajoAlumno.value;
-    const localidad = e.target.localidadAlumno.value;
-    const fotocAnalitico = e.target.docAnalitico.checked;
-    const fotocDni = e.target.docDni.checked;
-    const planillaIns = e.target.docPlanilla.checked;
-    const id_alumno = e.target.id;
-    // const cursos = e.target.nuevoCurso.value;
-    let activo = "0";
-
-    if (fotocAnalitico && fotocDni && planillaIns) {
-      activo = "1";
+  const getCursos = async () => {
+    try {
+      const res = await getMostrarCursos();
+      setDataCursos(res.dataCursos || []);
+    } catch (error) {
+      console.error("Error al obtener cursos:", error);
     }
+  };
 
+  useEffect(()=>{getCursos()},[])
+  const eliminarAlumno = async (id_alumno) => {
+    const confirmDelete = window.confirm(
+      "ATENCIÓN AL ELIMINAR UN ALUMNO: Esta acción no se puede revertir. ¿Está seguro?"
+    );
+
+    if (confirmDelete) {
+      try {
+        const res = await deleteAlumno(id_alumno);
+        if (res.success) {
+          alert(res.success);
+          fetchAlumnos(); // Refrescar la lista de alumnos
+        } else {
+          alert("Error al eliminar alumno");
+        }
+      } catch (error) {
+        console.log(error);
+        alert("Error al eliminar alumno");
+      }
+    }
+  };
+
+  const modificarDatosAlumnos = async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    // console.log(form.id);
     const data = {
-      activo: activo,
-      nombre: nombre.toUpperCase(),
-      apellido: apellido.toUpperCase(),
-      tipo_dni: tipoDNI,
-      nro_dni: parseInt(dni),
-      fecha_nac: fechaNac,
-      car_telefono: parseInt(codAreaTel),
-      telefono: parseInt(telefono),
-      direccion: direccion.toUpperCase(),
-      email: email,
-      lugar_nacimiento: lugar_nacimiento.toUpperCase(),
-      nacionalidad: nacionalidad.toUpperCase(),
-      nro_legajo: parseInt(legajo),
-      localidad: localidad.toUpperCase(),
-      car_tel_extra: parseInt(carTelefonoExtra),
-      telefono_extra: parseInt(telefonoExtra),
-      fotoc_analitico: fotocAnalitico ? 1 : 0,
-      fotoc_dni: fotocDni ? 1 : 0,
-      planilla_ins: planillaIns ? 1 : 0,
-      id_alumno: parseInt(id_alumno),
+      activo:
+        form.analitico.checked &&
+        form.dni.checked &&
+        form.inscripcion.checked
+          ? "1"
+          : "0",
+      nombre: form.nombreAlumno.value.toUpperCase(),
+      apellido: form.apellidoAlumno.value.toUpperCase(),
+      tipo_dni: form.tipoDocumento.value,
+      nro_dni: parseInt(form.dniAlumno.value),
+      fecha_nac: form.fechaNacimiento.value,
+      car_telefono: parseInt(form.telCaracteristica.value),
+      telefono: parseInt(form.telAlumno.value),
+      direccion: form.direccionAlumno.value.toUpperCase(),
+      email: form.emailAlumno.value,
+      lugar_nacimiento: form.lugarNacimiento.value.toUpperCase(),
+      nacionalidad: form.nacionalidad.value.toUpperCase(),
+      nro_legajo: parseInt(form.nroLegajoAlumno.value),
+      localidad: form.localidadAlumno.value.toUpperCase(),
+      car_tel_extra: parseInt(form.telCaracterExtra.value),
+      telefono_extra: parseInt(form.telExtra.value),
+      fotoc_analitico: form.analitico.checked ? 1 : 0,
+      fotoc_dni: form.dni.checked ? 1 : 0,
+      planilla_ins: form.inscripcion.checked ? 1 : 0,
+      id_alumno: parseInt(form.id),
       cursos: cursosSeleccionados,
     };
-    console.log(data);
-    const res = await postAlumnosModificado(data);
 
-    //console.log(res);
-    if (res.message) {
-      alert(res.message.toUpperCase());
-      getDataAlumnos();
-      return setModal("modal");
+    try {
+      // console.log(data);
+      const res = await postAlumnosModificado(data);
+      if (res.message) {
+        alert(res.message.toUpperCase());
+        fetchAlumnos(); // Refrescar la lista de alumnos
+        setModal("modal");
+        setCursosSeleccionados([]);
+      }
+    } catch (error) {
+      alert("Error al modificar alumnos")
+      console.error("Error al modificar alumno:", error);
     }
-    setCursosSeleccionados([]);
-    return setModal("modal");
-  }
+  };
 
-  //TODO:FUNCION SELECCIONAR MAS DE UN CURSO
   function agregarCurso(e) {
     e.preventDefault();
     const cursoSeleccionadoId = parseInt(e.target.value);
@@ -227,11 +149,29 @@ function DatosAlumnos() {
     );
   }
 
+  function mostrarModal(ev, e) {
+    //funcion que muestra el modal
+    // console.log(e)
+    let alumnoCursos = e.cursos.map((cursos) => cursos.id_curso);
+    ev.preventDefault();
+    const id = ev.target.id;
+    /*  console.log(id); */
+    setModal("modal" + id);
+    setCursosSeleccionados(alumnoCursos);
+    // console.log(cursosSeleccionados)
+  }
+  
+
+  function mostrarQR(e) {
+    e.preventDefault();
+    const id_alumno = e.target.id;
+    setModalQR(`codigo_qr${id_alumno}`);
+  }
   return (
     <div className="bg-white pt-4 min-h-screen">
       <div className="max-w-full">
         <div className="flex flex-row justify-between px-8">
-          {usuario.id_rol != 3 || usuario.id_rol == 2 ? (
+          {userContext.id_rol != 3 || userContext.id_rol == 2 ? (
             <Link to="/app/alta-alumno">
               <button className="btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black">
                 Nuevo Alumno
@@ -243,7 +183,7 @@ function DatosAlumnos() {
           <h1 className="text-5xl text-center text-black font-bold">
             DATOS ALUMNOS
           </h1>
-          {usuario.id_rol != 3 || usuario.id_rol == 2 ? (
+          {userContext.id_rol != 3 || userContext.id_rol == 2 ? (
             <Link to="/app/historial-alumnos">
               <button className="btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black">
                 Historial Alumnos
@@ -304,24 +244,24 @@ function DatosAlumnos() {
             Cantidad de alumnos:{" "}
             <span className="text-blue-700 font-extrabold">
               {" "}
-              {data ? data.length : false}
+              {alumnos ? alumnos.length : false}
             </span>
           </div>
         </div>
 
         <div className="overflow-x-auto">
-          {dataIsLoad ? (
+          {loading ? (
             <>
               <div
                 className="radial-progress bg-blue-700"
                 style={{
-                  "--value": { loadProgress },
+                  "--value": { loading },
                   "--size": "12rem",
                   "--thickness": "2px",
                 }}
                 role="progressbar"
               >
-                {loadProgress}
+                {loading}
               </div>
             </>
           ) : (
@@ -386,9 +326,9 @@ function DatosAlumnos() {
                 </tr>
               </thead>
               <tbody>
-                {!data
+                {!alumnos
                   ? false
-                  : data.map((e) => (
+                  : alumnos.map((e) => (
                       <tr key={e.id_alumno} className="hover:bg-slate-200">
                         <td>
                           {e.activo == "1" ? (
@@ -402,13 +342,13 @@ function DatosAlumnos() {
                           )}
                         </td>
                         <td>{e.nro_legajo}</td>
-                        <td>{e.nombre.toUpperCase()}</td>
-                        <td>{e.apellido.toUpperCase()}</td>
-                        <td>{e.tipo_dni.toUpperCase()}</td>
+                        <td>{e.nombre}</td>
+                        <td>{e.apellido}</td>
+                        <td>{e.tipo_dni}</td>
                         <td>{e.nro_dni}</td>
                         <td>{e.fecha_nac}</td>
-                        <td>{e.direccion.toUpperCase()}</td>
-                        <td>{e.localidad.toUpperCase()}</td>
+                        <td>{e.direccion}</td>
+                        <td>{e.localidad}</td>
                         <td>{e.car_telefono}</td>
                         <td>{e.telefono}</td>
                         <td>{e.email}</td>
@@ -454,6 +394,12 @@ function DatosAlumnos() {
                               onClick={(ev) => mostrarModal(ev, e)}
                             >
                               Editar
+                            </button>
+                            <button
+                              onClick={() => eliminarAlumno(e.id_alumno)}
+                              className="btn bg-red-600 text-white hover:bg-blue-300  hover:text-black"
+                            >
+                              Eliminar
                             </button>
                             <button
                               className="btn bg-blue-600 text-white hover:bg-blue-300  hover:text-black"
@@ -828,7 +774,7 @@ function DatosAlumnos() {
                                                 DNI
                                               </span>
                                               <input
-                                                id="docDni"
+                                                id="dni"
                                                 type="checkbox"
                                                 className="checkbox border-black m-2 "
                                                 defaultChecked={
@@ -844,7 +790,7 @@ function DatosAlumnos() {
                                                 Planilla
                                               </span>
                                               <input
-                                                id="docPlanilla"
+                                                id="inscripcion"
                                                 type="checkbox"
                                                 className="checkbox  border-black m-2"
                                                 defaultChecked={
@@ -860,7 +806,7 @@ function DatosAlumnos() {
                                                 Analitico
                                               </span>
                                               <input
-                                                id="docAnalitico"
+                                                id="analitico"
                                                 type="checkbox"
                                                 className="checkbox  border-black m-2"
                                                 defaultChecked={
@@ -905,6 +851,49 @@ function DatosAlumnos() {
               </tbody>
             </table>
           )}
+        </div>
+      </div>
+      {/* botones de paginacion */}
+      <div className="p-2 w-full sticky bottom-0 z-30 flex flex-col gap-4 justify-center items-center bg-white text-black">
+        <div className="flex gap-2 items-center text-xs">
+          <label>
+            Tamaño de página:
+            <select
+              className="w-14 bg-white border rounded-lg"
+              value={size}
+              onChange={(e) => handleSizeChange(Number(e.target.value))}
+            >
+              <option value={10}>10</option>
+              <option value={20}>20</option>
+              <option value={50}>50</option>
+            </select>
+          </label>
+        </div>
+        <div className="flex gap-2 items-center text-md">
+          <button
+            className={
+              page === 1
+                ? "btn btn-xs btn-disabled"
+                : "btn btn-xs max-w-xs bg-blue-600 text-white hover:bg-blue-300  hover:text-black"
+            }
+            onClick={() => handlePageChange(page - 1)}
+            // disabled={page === 1}
+          >
+            Anterior
+          </button>
+          <span>
+            Página {page} de {totalPages}
+          </span>
+          <button
+            className={
+              page === totalPages
+                ? "btn btn-xs btn-disabled"
+                : "btn btn-xs max-w-xs bg-blue-600 text-white hover:bg-blue-300  hover:text-black"
+            }
+            onClick={() => handlePageChange(page + 1)}
+          >
+            Siguiente
+          </button>
         </div>
       </div>
     </div>
