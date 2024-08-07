@@ -4,6 +4,7 @@ import UserContext from "../context/user.context";
 import {
   deleteAlumno,
   getAlumnos,
+  getAlumnosPorFiltro,
   postAlumnosModificado,
 } from "../services/DatosAlumnos.services.js";
 import { getMostrarCursos } from "../services/homeAdmin.services";
@@ -61,7 +62,10 @@ function DatosAlumnos() {
     }
   };
 
-  useEffect(()=>{getCursos()},[])
+  useEffect(() => {
+    getCursos();
+  }, []);
+
   const eliminarAlumno = async (id_alumno) => {
     const confirmDelete = window.confirm(
       "ATENCIÓN AL ELIMINAR UN ALUMNO: Esta acción no se puede revertir. ¿Está seguro?"
@@ -89,9 +93,7 @@ function DatosAlumnos() {
     // console.log(form.id);
     const data = {
       activo:
-        form.analitico.checked &&
-        form.dni.checked &&
-        form.inscripcion.checked
+        form.analitico.checked && form.dni.checked && form.inscripcion.checked
           ? "1"
           : "0",
       nombre: form.nombreAlumno.value.toUpperCase(),
@@ -126,7 +128,7 @@ function DatosAlumnos() {
         setCursosSeleccionados([]);
       }
     } catch (error) {
-      alert("Error al modificar alumnos")
+      alert("Error al modificar alumnos");
       console.error("Error al modificar alumno:", error);
     }
   };
@@ -160,12 +162,53 @@ function DatosAlumnos() {
     setCursosSeleccionados(alumnoCursos);
     // console.log(cursosSeleccionados)
   }
-  
 
   function mostrarQR(e) {
     e.preventDefault();
     const id_alumno = e.target.id;
     setModalQR(`codigo_qr${id_alumno}`);
+  }
+
+  /*   async function buscarAlumnos(e) {
+    e.preventDefault();
+    const busqueda = e.target.value.toLowerCase();
+    if (!busqueda){
+      return
+    }
+    try {
+      const data = await getAlumnosPorFiltro(busqueda);
+      console.log(data);
+      // setAlumnosFetch(data);
+    } catch (error) {
+      console.error("Error al buscar alumnos:", error);
+    }
+  }
+ */
+
+  let timeoutId;
+
+  async function buscarAlumnos(e) {
+    e.preventDefault();
+    const busqueda = e.target.value.toLowerCase();
+
+    // Clear the previous timeout
+    clearTimeout(timeoutId);
+
+    if (!busqueda) {
+      return;
+    }
+
+    // Set a new timeout to call the API after 300 milliseconds
+    timeoutId = setTimeout(async () => {
+      try {
+        const data = await getAlumnosPorFiltro(busqueda);
+        console.log(data);
+        setAlumnos(data.data);
+        setTotal(data.total);
+      } catch (error) {
+        console.error("Error al buscar alumnos:", error);
+      }
+    }, 300);
   }
   return (
     <div className="bg-white pt-4 min-h-screen">
@@ -193,7 +236,15 @@ function DatosAlumnos() {
             false
           )}
         </div>
-        <div className="flex flex-row px-16 pt-8">
+        <div className="w-full flex p-2 justify-center">
+          <input
+            className="w-1/2 rounded-full input input-bordered input-info mx-1 bg-white border-black"
+            type="text"
+            onChange={(e) => buscarAlumnos(e)}
+            placeholder={"BUSCAR ALUMNO POR NOMBRE, APELLIDO, DNI, LEGAJO"}
+          />
+        </div>
+        {/* <div className="flex flex-row px-16 pt-8">
           <input
             onChange={(e) => filtrar(e, "nroLegajo")}
             id="nroLegajo"
@@ -238,7 +289,7 @@ function DatosAlumnos() {
             type="text"
             className="rounded-full input input-bordered input-info mx-1 w-full max-w-xs bg-white border-black"
           />
-        </div>
+        </div> */}
         <div className="text-center text-2xl m-2">
           <div className="border text-black">
             Cantidad de alumnos:{" "}

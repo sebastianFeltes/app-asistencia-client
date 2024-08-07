@@ -61,3 +61,20 @@ export async function deleteAlumno(id) {
   }); 
   return response.json()
 }
+export async function getAlumnosPorFiltro(parametros) {
+  // console.log(parametros);
+  try {
+    const response = await fetch(`${url}/alumno?query=${parametros}`);
+    
+    if (!response.ok) {
+      throw new Error('Error en la solicitud: ' + response.statusText);
+    }
+    
+    const alumnos = await response.json();
+    console.log(response);
+    return alumnos;
+  } catch (error) {
+    console.error('Error al obtener alumnos:', error);
+    throw error;
+  }
+}
