@@ -195,16 +195,16 @@ function DatosAlumnos() {
     clearTimeout(timeoutId);
 
     if (!busqueda) {
-      return;
+      return await fetchAlumnos();
     }
 
     // Set a new timeout to call the API after 300 milliseconds
     timeoutId = setTimeout(async () => {
       try {
         const data = await getAlumnosPorFiltro(busqueda);
-        console.log(data);
         setAlumnos(data.data);
         setTotal(data.total);
+        setTotalPages(data.totalPages);
       } catch (error) {
         console.error("Error al buscar alumnos:", error);
       }
@@ -244,52 +244,7 @@ function DatosAlumnos() {
             placeholder={"BUSCAR ALUMNO POR NOMBRE, APELLIDO, DNI, LEGAJO"}
           />
         </div>
-        {/* <div className="flex flex-row px-16 pt-8">
-          <input
-            onChange={(e) => filtrar(e, "nroLegajo")}
-            id="nroLegajo"
-            placeholder={"FILTRAR POR LEGAJO"}
-            defaultValue={""}
-            type="number"
-            className="rounded-full input input-bordered input-info mx-1 w-full max-w-xs bg-white border-black"
-          />
 
-          <input
-            onChange={(e) => filtrar(e, "nombre")}
-            id="nombre"
-            placeholder={"FILTRAR POR NOMBRE"}
-            defaultValue={""}
-            type="text"
-            className="rounded-full input input-bordered input-info mx-1 w-full max-w-xs bg-white border-black"
-          />
-
-          <input
-            onChange={(e) => filtrar(e, "apellido")}
-            id="apellido"
-            placeholder={"FILTRAR POR APELLIDO"}
-            defaultValue={""}
-            type="text"
-            className="rounded-full input input-bordered input-info mx-1 w-full max-w-xs bg-white border-black"
-          />
-
-          <input
-            onChange={(e) => filtrar(e, "dni")}
-            id="dni"
-            placeholder={"FILTRAR POR DNI"}
-            defaultValue={""}
-            type="number"
-            className="rounded-full input input-bordered input-info mx-1 w-full max-w-xs bg-white border-black"
-          />
-
-          <input
-            onChange={(e) => filtrar(e, "curso")}
-            id="curso"
-            placeholder={"FILTRAR POR CURSO"}
-            defaultValue={""}
-            type="text"
-            className="rounded-full input input-bordered input-info mx-1 w-full max-w-xs bg-white border-black"
-          />
-        </div> */}
         <div className="text-center text-2xl m-2">
           <div className="border text-black">
             Cantidad de alumnos:{" "}
@@ -300,21 +255,11 @@ function DatosAlumnos() {
           </div>
         </div>
 
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto flex">
           {loading ? (
-            <>
-              <div
-                className="radial-progress bg-blue-700"
-                style={{
-                  "--value": { loading },
-                  "--size": "12rem",
-                  "--thickness": "2px",
-                }}
-                role="progressbar"
-              >
-                {loading}
-              </div>
-            </>
+            <div className="w-screen flex items-center justify-center">
+              <span className="loading loading-spinner w-24 text-blue-700"></span>
+            </div>
           ) : (
             <table className="table text-center text-black  bg-white">
               {/* head */}
@@ -905,7 +850,7 @@ function DatosAlumnos() {
         </div>
       </div>
       {/* botones de paginacion */}
-      <div className="p-2 w-full sticky bottom-0 z-30 flex flex-col gap-4 justify-center items-center bg-white text-black">
+      {!loading?<div className="p-2 w-full sticky bottom-0 z-30 flex flex-col gap-4 justify-center items-center bg-white text-black">
         <div className="flex gap-2 items-center text-xs">
           <label>
             Tamaño de página:
@@ -933,7 +878,7 @@ function DatosAlumnos() {
             Anterior
           </button>
           <span>
-            Página {page} de {totalPages}
+            Página {page} de {totalPages|| 1}
           </span>
           <button
             className={
@@ -946,7 +891,7 @@ function DatosAlumnos() {
             Siguiente
           </button>
         </div>
-      </div>
+      </div>:false}
     </div>
   );
 }
